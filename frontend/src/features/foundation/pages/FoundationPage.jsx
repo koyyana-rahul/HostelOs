@@ -9,6 +9,7 @@ const stack = [
   ['Routing', 'React Router 7'],
   ['State', 'Redux Toolkit 2 · React Redux 9'],
   ['Data', 'RTK Query'],
+  ['Identity', 'Session · CSRF'],
   ['Quality', 'Vitest 5 · React Testing Library'],
   ['DOM environment', 'jsdom 29'],
   ['Lint', 'ESLint 10'],
@@ -22,6 +23,7 @@ const structure = [
   ['src/components/layout', 'Application shell and navigation'],
   ['src/components/feedback', 'Loading, error, and empty states'],
   ['src/features', 'Business capabilities, added incrementally'],
+  ['src/features/auth', 'Session identity, sign-in, and route access'],
   ['src/services/api', 'Shared RTK Query configuration'],
   ['src/hooks', 'Reusable React hooks'],
   ['src/lib', 'Environment and library configuration'],
@@ -41,7 +43,7 @@ const commands = [
 const handoffSteps = [
   'Create the capability under src/features.',
   'Inject endpoints into the shared RTK Query API.',
-  'Register the route in the application router.',
+  'Register the route behind the authenticated route boundary.',
   'Add the navigation entry to the layout.',
   'Cover the new behavior with tests.',
 ]
@@ -60,8 +62,8 @@ export default function FoundationPage() {
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
           The conventions below keep HostelOS predictable as the product grows.
-          This module stops at infrastructure: no authentication, no business
-          rules, and no speculative feature code.
+          The shell, design system, API boundary, and session-aware routing are
+          in place; business rules remain out of scope.
         </p>
       </header>
 

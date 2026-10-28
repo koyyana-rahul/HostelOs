@@ -1,5 +1,10 @@
 # HostelOS Module 0.1.2A Report
 
+> Repository correction (2026-10-28): the "no Git repository" statements in this
+> historical report were incorrect. Git exists at the HostelOS root. Module
+> 0.1.3A later added backend authentication; the limitations below describe this
+> module's original state.
+
 > Finalization: the security-test stabilization expanded the suite to 19 tests;
 > four clean builds at 19/19, 20 repeated security runs at 17/17, and five
 > isolated failing-path runs at 2/2 passed. The historical trigger remains
@@ -145,6 +150,8 @@ The existing `docs/HOSTELOS_MODULE_0.1.1_REPORT.md` was not modified.
 
 - The local `.env` still uses the local MySQL `root` account. Create a dedicated least-privilege application user before sharing or deployment.
 - IntelliJ may still run the project with Java 22. Set the project SDK to `ms-17` for parity with the verified build.
-- No authentication or tenancy exists yet.
-- No Git repository exists; nothing was committed.
+- No authentication or tenancy existed at the time of this module; Module 0.1.3A
+  later added backend authentication.
+- The historical "no Git repository" statement was incorrect; Git exists. No
+  module commit was created at the time.
 - `GET /api/v1/system/info` is intentionally the only application API endpoint in this module.

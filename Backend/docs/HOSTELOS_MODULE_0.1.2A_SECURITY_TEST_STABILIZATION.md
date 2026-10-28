@@ -172,8 +172,10 @@ The residual risk is that the exact historical trigger for the first QA failure 
 - No MySQL credential or permission was changed.
 - No `.env` content was printed or modified.
 - No frontend code was changed.
-- No Git repository was initialized and nothing was committed.
-- Module 0.1.3 was not started.
+- The historical "no Git repository" statement was incorrect; Git exists. No
+  commit was created during stabilization.
+- No Module 0.1.3 identity work was started during stabilization; Module 0.1.3A
+  later added the backend identity foundation.
 
 ## Evidence Locations
 

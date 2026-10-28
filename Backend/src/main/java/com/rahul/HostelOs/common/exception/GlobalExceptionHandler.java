@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,6 +48,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				.toList();
 		ApiError error = ApiError.validation("Validation failed", request.getRequestURI(), violations);
 		return ResponseEntity.badRequest().body(error);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ApiError> handleAccessDenied(AccessDeniedException exception, HttpServletRequest request) {
+		ApiError error = ApiError.of(
+				HttpStatus.FORBIDDEN,
+				"Access is denied",
+				request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
 	}
 
 	@ExceptionHandler(Exception.class)

@@ -1,0 +1,41 @@
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.*.example
+
+# Java and Maven
+**/target/
+**/build/
+*.class
+*.jar
+*.war
+
+# Node.js and frontend build output
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Temporary test output
+**/tmp_test_output.txt
+*.tmp
+*.temp
+
+# IDE and operating-system files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
+Desktop.ini

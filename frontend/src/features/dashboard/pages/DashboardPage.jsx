@@ -3,7 +3,7 @@ import {
   CheckCircle2,
   Database,
   LayoutDashboard,
-  Server,
+  LockKeyhole,
   ShieldCheck,
   Terminal,
 } from 'lucide-react'
@@ -19,6 +19,7 @@ const foundationItems = [
   'React Router 7 shell',
   'Redux Toolkit store',
   'RTK Query base API',
+  'Server-managed sessions',
   'Vitest + Testing Library',
   'Environment conventions',
   'Accessible feedback states',
@@ -57,15 +58,15 @@ export default function DashboardPage() {
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand">
-            Module 0.1.1
+            Module 0.1.3
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-4xl">
             Welcome to HostelOS
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-            A clean starting point for the hostel operations platform. The
-            shell, routing, state layer, and quality gates are in place so
-            feature modules can be added incrementally.
+            A secure starting point for the hostel operations platform. The
+            shell, routing, state layer, quality gates, and session identity are
+            in place so feature modules can be added incrementally.
           </p>
         </div>
         <Link
@@ -97,10 +98,10 @@ export default function DashboardPage() {
           status="Configured"
         />
         <StatusCard
-          icon={Server}
-          title="API boundary"
-          description="RTK Query is configured with no business endpoints yet."
-          status="Prepared"
+          icon={LockKeyhole}
+          title="Session access"
+          description="Server-issued sessions protect the workspace and current identity."
+          status="Enabled"
         />
       </div>
 
@@ -151,8 +152,9 @@ export default function DashboardPage() {
               Ready for feature delivery
             </h2>
             <p className="mt-2 max-w-sm text-sm leading-6 text-white/70">
-              The foundation is intentionally free of authentication and
-              business logic. Add capabilities without reworking the shell.
+              The workspace now has server-managed identity and protected
+              routing. Business capabilities can be added without reworking the
+              shell.
             </p>
             <div className="mt-auto pt-6">
               <div className="rounded-xl border border-white/15 bg-white/5 p-4">
