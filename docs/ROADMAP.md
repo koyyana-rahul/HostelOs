@@ -1,8 +1,14 @@
 # HostelOS Roadmap
 
 Last updated: 2026-10-28
-Basis: finalized Module 0.1.2 QA, backend stabilization evidence, and frontend
-release recheck
+Basis: finalized Module 0.1.2 QA, backend stabilization evidence, and the
+Module 0.1.3A/B plus 0.1.3A-R/0.1.3B-R backend-plus-frontend identity foundation
+
+> Repository correction: earlier roadmap revisions reported that no Git
+> repository existed. Git does exist at the HostelOS root, currently on branch
+> `feature/0.1.3-identity-authorization` with commits `577a2b2` and `8f7b72b`.
+> Module 0.1.3A/B, 0.1.3A-R, and 0.1.3B-R changes are uncommitted. There is still
+> no root `.gitignore`, no CI, and no complete committed-secret history audit.
 
 ## Guiding principles
 
@@ -28,7 +34,8 @@ Delivered and verified:
 
 Caveats:
 
-- No Git repository, so no diff, history, or commit exists.
+- The earlier "no Git repository" claim was incorrect; the repository and
+  commits exist, as recorded in the correction note above.
 - At 0.1.1 completion there was no business API and the frontend API client had
   no endpoints. Module 0.1.2 later added the read-only system-info endpoint.
 - No CORS configuration; only the Vite proxy path works.
@@ -57,8 +64,8 @@ The initial QA run's intermittent `405`/`404` security-test failure was
 investigated. Stabilization passed four clean builds with `19/19` tests, 20
 repeated security runs with `17/17` tests, and five isolated runs with `2/2`
 tests. The exact historical trigger remains unknown and is documented as a
-residual risk. Git, tracked-secret verification, CI, and the production
-same-origin proxy/CORS topology remain outstanding.
+residual risk. Tracked-secret verification, CI, and the production same-origin
+proxy/CORS topology remain outstanding; Git itself exists.
 
 Scope:
 
@@ -75,7 +82,8 @@ Scope:
    full frontend -> proxy -> backend path with real data.
 7. Add lint, test, and build automation in CI, or explicitly document why CI
    remains blocked.
-8. Initialize Git and establish the baseline commit after approval.
+8. Initialize Git and establish the baseline commit after approval. (Completed
+   subsequently; the repository exists and has a baseline commit.)
 
 Acceptance criteria:
 
@@ -107,39 +115,87 @@ reconstructable; CI log retention remains required.
 - Backend stabilization resolved the technical test-gate hold with four clean
   `19/19` builds, 20 repeated `17/17` security runs, and five isolated `2/2`
   runs. The historical trigger remains unknown.
-- Technical release criteria are satisfied. Git/tracked-secret verification and
-  CI are unresolved repository-governance items.
-- No Module 0.1.3 or identity work was started.
+- Technical release criteria are satisfied. Tracked-secret verification and CI
+  remain unresolved repository-governance items; Git exists.
+- No identity work was started during Module 0.1.2; Module 0.1.3A later added
+  the backend identity foundation and Module 0.1.3B added the frontend workflow.
 
 See `docs/INTEGRATION_QA_0.1.2.md` and
 `Backend/docs/HOSTELOS_MODULE_0.1.2A_SECURITY_TEST_STABILIZATION.md`.
 
-## Module 0.1.3 - Identity and Authorization Foundation (next, not started)
+## Module 0.1.3 - Identity and Authorization Foundation (completed)
 
-This was proposed by the backend foundation agent and is retained after the
-integration slice. Module 0.1.3 is technically unblocked, but no Module 0.1.3
-work has started. The project owner should resolve repository governance before
-starting shared development:
+Module 0.1.3A delivered the backend identity and authentication foundation:
 
-- initialize Git and complete the baseline, diff, and tracked-secret audit;
-- add CI that preserves failing logs and enforces the production-chain guard;
-- decide whether the production same-origin proxy/topology is required before
-  identity work or deferred to deployment.
+Module 0.1.3A delivered the backend identity and authentication foundation:
 
-Implementation scope for later:
+- Server-side Spring Security sessions with an HttpOnly `HOSTELOS_SESSION`
+  cookie; no JWT.
+- CSRF bootstrap and enforcement using `XSRF-TOKEN` and `X-XSRF-TOKEN`.
+- `GET /api/v1/auth/csrf`, `POST /api/v1/auth/login`,
+  `POST /api/v1/auth/logout`, and `GET /api/v1/auth/me`.
+- A non-destructive Flyway `V2__identity_foundation.sql` for users, roles, and
+  assignments.
+- BCrypt cost 12; normalized login identifiers; `ACTIVE`/`DISABLED` status;
+  server-side role assignments.
+- A bounded in-memory login throttle: five failures per fifteen minutes.
+- An optional environment-driven one-time administrator bootstrap; no seeded
+  account.
+- OpenAPI `sessionAuth` documentation and production Secure cookies.
+- Backend clean verify: 40/40 tests; fresh MySQL 8 migration, validation,
+  bootstrap, and auth flow verified.
 
-- Approve the authentication model (session or token) before implementation.
-- Add a non-destructive Flyway `V2` migration for users, roles, and authorities.
-- Use a supported password encoder; no plaintext or seeded default credentials.
-- Provide an approved bootstrap/admin mechanism using environment variables or
-  a one-time command.
-- Permit only explicitly reviewed authentication routes.
-- Add OpenAPI security documentation.
-- Test successful login, rejected login, disabled/locked users, unauthorized
-  access, and secret non-disclosure.
-- Validate the migration on H2 and on MySQL after database approval.
-- Create a least-privilege MySQL application user and remove `root` from local
-  configuration.
+Module 0.1.3A-R reconciled the role model:
+
+- `PLATFORM_ADMIN`, `ORGANIZATION_ADMIN`, and `STAFF` are distinct roles with no
+  implicit hierarchy.
+- Flyway `V3` renames the original `ADMIN` role to `PLATFORM_ADMIN` in place,
+  preserving role IDs and `user_roles` assignments, and seeds
+  `ORGANIZATION_ADMIN`.
+- Existing `ADMIN` accounts retain their original platform-wide meaning; the
+  bootstrap creates only `PLATFORM_ADMIN` when explicitly enabled.
+- Organization administration is a role definition only; membership, tenant
+  boundaries, and organization APIs remain deferred.
+- Backend clean verify: 44/44 tests, including a V2-to-V3 upgrade compatibility
+  test and explicit platform/organization/staff authorization boundaries.
+
+Decision record: `docs/ADR-0001-IDENTITY-AND-AUTHENTICATION.md`.
+
+Evidence: `Backend/docs/HOSTELOS_MODULE_0.1.3A_REPORT.md` and
+`Backend/docs/HOSTELOS_MODULE_0.1.3A-R_ROLE_RECONCILIATION_REPORT.md`.
+
+Module 0.1.3B delivered the frontend integration:
+
+- Public `/login` with CSRF-protected credential submission and safe errors.
+- `AuthGate` `/me` bootstrap and `RequireAuth` protected routes with intended
+  destination preservation.
+- Cookie-backed API requests, global `401` session clearing, and focus-based
+  revalidation.
+- Sidebar identity with informational server-provided role labels and
+  CSRF-protected logout with RTK Query/Redux reset. Roles do not control
+  navigation or actions.
+- Revision 0.1.3B-R aligned fixtures, display, tests, and docs with the final
+  `PLATFORM_ADMIN`, `ORGANIZATION_ADMIN`, and `STAFF` names without adding
+  permissions or admin screens.
+- No passwords or tokens in browser storage.
+- Frontend lint clean, 37/37 tests, production build successful.
+- Real browser login, session restore, `/system` reload, logout, and post-logout
+  `401` verified against a fresh MySQL schema.
+
+Evidence: `docs/MODULE_0.1.3B_FRONTEND_REPORT.md`.
+
+Still open in future modules:
+
+- Add an administrative user-management API; bootstrap is currently the only
+  account-creation path.
+- Add organization membership and tenant boundaries before enforcing any
+  organization-scoped authorization. `ORGANIZATION_ADMIN` currently grants no
+  organization API access.
+- Add MFA, password reset/account recovery, and audit logging.
+- Add a shared rate limiter or edge protection for multi-instance deployment.
+- Add a repeatable MySQL integration suite and a least-privilege application
+  database user.
+- Add CI and root ignore/secret governance.
 
 ## Later modules
 
@@ -169,8 +225,10 @@ These are directional and require their own approved scope:
 
 ## Open prerequisites
 
-1. Initialize Git and approve a baseline commit; add a root `.gitignore`.
-2. Complete tracked-secret verification once Git history/index exists.
+1. Add a root `.gitignore` and approve the current uncommitted Module
+   0.1.3A/B, 0.1.3A-R, and 0.1.3B-R change set before committing.
+2. Complete a full tracked-secret history audit; the current filename audit
+   found only templates/tests, but no CI or history scan exists.
 3. Add CI for frontend lint/test/build and backend `clean verify`; preserve
    failing Surefire logs and enforce the production-chain guard.
 4. Create a dedicated least-privilege MySQL user; rotate the current local
@@ -178,7 +236,64 @@ These are directional and require their own approved scope:
 5. Implement the production same-origin reverse-proxy topology; if separate
    origins are required, add a strict allowlist and preflight tests.
 6. Align the backend Maven version with the product/module version.
+7. Add a repeatable MySQL integration suite and checked-in browser auth
+   automation.
 
 Resolved during Module 0.1.2 finalization: the backend clean-verify flake was
 stabilized, the `AVAILABLE` contract was accepted, and the development proxy
 path was verified.
+
+Resolved during Module 0.1.3A: Git was confirmed to exist, the backend identity
+foundation and `V2` migration were implemented, the auth API was secured and
+tested, and a fresh MySQL runtime pass completed. Git governance was partial
+because the 0.1.3A/B changes were uncommitted and there was no root ignore/CI
+policy. These items were resolved during Module 0.1.3C closure.
+
+Resolved during Module 0.1.3B: the frontend now authenticates against the
+session/CSRF API, restores sessions, guards workspace routes, renders identity,
+and logs out; frontend gates and a real browser-to-backend flow passed.
+Revision 0.1.3B-R aligned frontend fixtures, display, tests, and documentation
+with the final `PLATFORM_ADMIN`, `ORGANIZATION_ADMIN`, and `STAFF` names without
+adding client-side permissions, role hierarchy, or admin screens. A
+final-contract live run against the V3 jar verified login, the
+`PLATFORM_ADMIN` label, session restore, logout, and post-logout `401`.
+
+Resolved during Module 0.1.3A-R: platform administration is now distinct from
+organization administration and staff operations; the legacy `ADMIN` role is
+migrated in place without losing assignments; the bootstrap assigns only
+`PLATFORM_ADMIN`; and authorization boundaries are covered by tests. The 0.1.3B-R
+frontend revision uses the same three finalized names in its fixtures, display,
+and regression tests.
+
+## Module 0.1.3C - Final closure (2026-10-29)
+
+Module 0.1.3C closed the identity and authorization foundation with a
+`PASS WITH GAPS` verdict. CI workflows were implemented:
+
+- **Backend CI**: `mvnw -B clean verify` on Java 17, 44/44 tests passed,
+  Flyway V1/V2/V3 verified on H2 and disposable MySQL 8 schemas.
+- **Frontend CI**: `npm ci`, `npm run lint`, `npm test -- --run`,
+  `npm run build` all pass (37/37 tests, lint clean, build successful).
+- **Repository governance**: root `.gitignore` added, excluding `Backend/.env`,
+  `frontend/.env*`, `target/`, `dist/`, `coverage/`, and temp files.
+
+Remaining gaps from Module 0.1.3 persist into future modules:
+- No repeatable MySQL integration suite (H2 tests only; MySQL verification
+  runtime one-off on disposable schemas)
+- Process-local login throttling (5 failures/15 min, bounded to 10,000 keys)
+- No distributed sessions or concurrent-session registry
+- Organization administration deferred (`ORGANIZATION_ADMIN` is a role
+  definition only; no membership model or tenant APIs)
+
+### Later modules
+
+These are directional and require their own approved scope:
+
+| Module | Focus |
+|---|---|
+| 0.1.4 | Hostel, building, floor, room, and bed inventory |
+| 0.1.5 | Residents, admissions, allocations, transfers, and vacating |
+| 0.1.6 | Billing, invoices, payments, dues, and receipts |
+| 0.1.7 | Operations: maintenance, complaints, visitors, and staff tasks |
+| 0.1.8 | Dashboard reporting, exports, and audit views |
+| 0.2.0 | Hardening: observability, backups, deployment, and performance |

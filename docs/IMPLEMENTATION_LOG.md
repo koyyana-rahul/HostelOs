@@ -1,8 +1,15 @@
 # HostelOS Shared Implementation Log
 
 This is the cross-stack implementation history. Backend-only details remain in
-`Backend/docs/IMPLEMENTATION_LOG.md`; frontend-only details remain in
-`docs/MODULE_0.1.2B_FRONTEND_REPORT.md`.
+`Backend/docs/IMPLEMENTATION_LOG.md`; frontend-only details remain in the
+frontend module reports, including `docs/MODULE_0.1.2B_FRONTEND_REPORT.md` and
+`docs/MODULE_0.1.3B_FRONTEND_REPORT.md`.
+
+> Repository correction (2026-10-28): earlier entries incorrectly reported that
+> no Git repository existed. Git exists at the HostelOS root, on branch
+> `feature/0.1.3-identity-authorization` with commits `577a2b2` and `8f7b72b`.
+> Module 0.1.3A, 0.1.3A-R, 0.1.3B, and 0.1.3B-R changes are uncommitted. There is
+> no root `.gitignore` and no CI.
 
 ## 2026-10-28 - Module 0.1.2A: System Information API
 
@@ -65,15 +72,17 @@ Verified independently:
 - Backend run 1 failed 2/9 tests (405/404 versus expected 401); run 2 passed
   9/9 and five subsequent test runs also passed. At that point the flake was
   unresolved; the finalization section below records the stabilization.
-- Git is not initialized; tracked-file, diff, and committed-secret checks are
-  blocked. No commit was created.
+- The historical claim that Git was not initialized was incorrect. A repository
+  exists; tracked-file and committed-secret checks were not completed for this
+  module. No commit was created.
 - No application source code was changed during QA; only documentation was
   updated, and mandated builds regenerated `Backend/target` and `frontend/dist`.
 
 Initial release-gate hold reasons (superseded by the finalization below):
 
 1. Backend test flake, later stabilized.
-2. No Git repository or secret-tracking verification; still unresolved.
+2. No verified repository governance or secret-tracking verification; the
+   no-Git claim was later corrected.
 3. `AVAILABLE` versus `UP` status contract, later accepted as `AVAILABLE`.
 4. Production same-origin proxy/CORS topology, still a deployment follow-up.
 
@@ -142,13 +151,15 @@ slice; production deployment is deferred:
 
 - Contract, security, backend stabilization, frontend gates, and real
   browser-to-backend flow are satisfied.
-- Git is still absent; tracked-file, diff, and committed-secret verification
-  remain blocked.
+- The earlier no-Git claim was incorrect; Git exists and the current worktree is
+  visible. Tracked-secret history verification remains incomplete.
 - No root `.gitignore` and no CI pipeline exist.
-- Repository-governance sign-off is unresolved and belongs to the project owner.
+- Repository-governance sign-off remains partial and belongs to the project
+  owner.
 
-Module 0.1.3 was not started. It is technically unblocked, but the project owner
-should resolve Git/CI governance before shared development begins.
+No identity work was started during Module 0.1.2. Module 0.1.3A later delivered
+the backend identity foundation, and Module 0.1.3B completed the frontend
+authentication integration.
 
 References:
 
@@ -158,8 +169,190 @@ References:
 - `docs/ARCHITECTURE.md`
 - `Backend/docs/HOSTELOS_MODULE_0.1.2A_SECURITY_TEST_STABILIZATION.md`
 
+## 2026-10-28 - Module 0.1.3A: Backend Identity and Authentication Foundation
+
+Status: Complete on the backend; frontend integration completed in Module
+0.1.3B below.
+
+### Delivered
+
+- Server-side Spring Security sessions with the HttpOnly `HOSTELOS_SESSION`
+  cookie; no JWT.
+- `GET /api/v1/auth/csrf`, `POST /api/v1/auth/login`,
+  `POST /api/v1/auth/logout`, and `GET /api/v1/auth/me`.
+- Flyway `V2__identity_foundation.sql` with `roles`, `user_accounts`, and
+  `user_roles`; seeded `ADMIN` and `STAFF`; no seeded user account.
+- BCrypt cost 12, normalized logins, `ACTIVE`/`DISABLED` status, and server-side
+  role authorities.
+- CSRF cookie/header protection, session rotation, logout invalidation, active
+  account filtering, and a bounded five-failures-per-fifteen-minutes limiter.
+- Optional environment-driven one-time administrator bootstrap with a
+  16-character minimum and no default account.
+- OpenAPI `sessionAuth` cookie scheme; Secure session and CSRF cookies under
+  `prod`.
+
+### Verification
+
+- `.\mvnw.cmd -B clean verify`: `BUILD SUCCESS`, 40/40 tests.
+  - `AuthIntegrationTests`: 13
+  - `ErrorHandlingIntegrationTests`: 2
+  - `HostelOsApplicationTests`: 12
+  - `AdminBootstrapRunnerTests`: 4
+  - `LoginIdentifierTests`: 2
+  - `ProductionDocumentationTests`: 7
+- JAR: `target/HostelOs-0.0.1-SNAPSHOT.jar`, 66,751,865 bytes.
+- Fresh MySQL 8.0.40 schema: Flyway V1+V2, Hibernate validation, bootstrap,
+  health/system/CSRF/login/me/logout flow passed; temporary schema dropped.
+- Existing public `GET /api/v1/system/info` contract unchanged.
+- No frontend source was changed; no browser auth workflow exists yet.
+- No commit was created; changes remain for review.
+
+### Remaining identity work
+
+- Administrative user management; password reset; MFA; audit logging.
+- Shared rate limiting for multi-instance deployment.
+- Repeatable MySQL integration suite and least-privilege database user.
+- CI, root `.gitignore`, and full committed-secret history audit.
+
+References:
+
+- `docs/ADR-0001-IDENTITY-AND-AUTHENTICATION.md`
+- `Backend/docs/HOSTELOS_MODULE_0.1.3A_REPORT.md`
+- `Backend/docs/API.md`
+- `Backend/docs/IMPLEMENTATION_LOG.md`
+
+## 2026-10-28 - Module 0.1.3B: Frontend Identity Integration
+
+Status: Complete; real browser-to-backend flow verified, with the role contract
+aligned in revision 0.1.3B-R below.
+
+### Delivered
+
+- Added the auth Redux slice, RTK Query auth endpoints, and credentialed API
+  requests with global `401` session clearing.
+- Added `/login`, `AuthGate` session bootstrap, `RequireAuth` protected routes,
+  intended-destination preservation, sidebar identity/roles, and logout.
+- Added CSRF bootstrap for login/logout, safe error handling, loading states,
+  focus-based session revalidation, and API cache reset on identity changes.
+- Kept passwords and session/CSRF tokens out of `localStorage` and
+  `sessionStorage`; the session remains an HttpOnly server cookie.
+- Added 20 identity tests plus four role-contract regressions, and added
+  platform-admin, organization-admin, and STAFF fixtures to the test harness;
+  frontend total is now 37/37 in 8 files.
+- Updated the frontend README and shared current-state, architecture, roadmap,
+  and module-report documentation.
+
+### Verification
+
+- `npm run lint`: exit 0, no ESLint errors.
+- `npm test`: 8 files, 37/37 tests passed.
+- `npm run build`: exit 0, 2012 modules transformed.
+- Real browser flow against a packaged backend and fresh temporary MySQL 8
+  schema: initial `/me` `401`, login `200`, protected shell and identity rendered,
+  `/system` reload restored the session, logout `204`, and post-logout `/me`
+  returned `401`.
+- `HOSTELOS_SESSION` was HttpOnly; `XSRF-TOKEN` was readable by same-origin
+  JavaScript; browser storage remained empty after login and logout.
+- Desktop and 390px mobile layouts rendered without horizontal overflow.
+- Temporary schema, credentials, servers, logs, and screenshots were removed
+  after verification. Existing environment services were not modified.
+
+### Revision 0.1.3B-R - Role contract alignment
+
+- Confirmed the reconciled backend identity contract returns the exact bare role
+  names `PLATFORM_ADMIN`, `ORGANIZATION_ADMIN`, and `STAFF`; the prefixed
+  `ROLE_*` forms remain internal Spring authorities. Flyway `V3` renames `ADMIN`
+  to `PLATFORM_ADMIN` in place and seeds `ORGANIZATION_ADMIN`.
+- Added fixtures for all three roles, a normalizer for role-label shape, and
+  tests for the direct role response, exact multi-role display, STAFF sign-in,
+  and role-independent navigation/actions.
+- The sidebar now groups exact server role names under `Roles` and states that
+  access is enforced by the backend. No permission, hierarchy, route,
+  navigation, or action is inferred from a role label, and no platform- or
+  organization-administration screen was added.
+- Session, CSRF, login, logout, session restoration, safe errors, and existing
+  routes were unchanged.
+- Final gates after this revision: lint clean, 37/37 tests in 8 files, production
+  build successful (2012 modules). A visual-only browser check confirmed exact
+  three-role rendering at desktop and mobile widths with no overflow or console
+  errors.
+- A final-contract live run used the current 0.1.3A-R jar, a disposable MySQL 8
+  schema with Flyway V3, and a dedicated Vite proxy. `/me` returned
+  `PLATFORM_ADMIN`, the sidebar rendered only that role with no admin navigation,
+  `/system` reload restored the session, logout produced a subsequent `401`, and
+  browser storage remained empty. Temporary resources were removed.
+
+### Remaining follow-up
+
+- Administrative user management, MFA, password reset, audit logging.
+- Checked-in browser auth automation, CI, and a repeatable MySQL suite.
+- Production same-origin proxy/CORS topology and session hardening.
+- No commit was created; frontend and documentation changes remain uncommitted.
+
+References:
+
+- `docs/MODULE_0.1.3B_FRONTEND_REPORT.md`
+- `frontend/README.md`
+- `docs/ADR-0001-IDENTITY-AND-AUTHENTICATION.md`
+
+## 2026-10-28 - Module 0.1.3A-R: Platform Administration Role Reconciliation
+
+Status: Complete on the backend.
+
+### Delivered
+
+- Replaced the legacy `ADMIN` role with distinct `PLATFORM_ADMIN`,
+  `ORGANIZATION_ADMIN`, and `STAFF` roles.
+- Kept `ADMIN`'s original platform-wide meaning: it was the bootstrap role and
+  existed before any organization or tenant model, so existing accounts map to
+  `PLATFORM_ADMIN`.
+- Added forward-only Flyway `V3__reconcile_platform_admin_role.sql`: rename
+  `ADMIN` in place, preserve role IDs and all `user_roles` assignments, seed
+  `ORGANIZATION_ADMIN`, keep `STAFF`, and replace the role-name check constraint.
+  No identity rows are deleted and `V2` is not edited.
+- Updated bootstrap to create only `PLATFORM_ADMIN`, still disabled unless all
+  `HOSTELOS_BOOTSTRAP_ADMIN_*` values are explicitly configured.
+- Kept roles server-controlled; login payload role fields are ignored and
+  covered by a regression test.
+- Added three-role seeding, bootstrap-role, V2-to-V3 upgrade, and
+  platform/organization/staff authorization-boundary tests.
+- Left session, CSRF, account-status, throttling, and deny-by-default behavior
+  unchanged. No implicit role hierarchy was introduced.
+- Organization membership, tenant boundaries, and organization APIs remain
+  deferred; `ORGANIZATION_ADMIN` is a role definition only.
+
+### Verification
+
+- `.\mvnw.cmd -B clean verify`: `BUILD SUCCESS`, 44/44 tests.
+  - `AuthIntegrationTests` 15, `ErrorHandlingIntegrationTests` 2,
+    `HostelOsApplicationTests` 12, `AdminBootstrapRunnerTests` 4,
+    `LoginIdentifierTests` 2, `RoleMigrationTests` 2,
+    `ProductionDocumentationTests` 7.
+- JAR: `Backend/target/HostelOs-0.0.1-SNAPSHOT.jar`, 66,752,614 bytes.
+- Disposable MySQL 8.0.40 schema: applied V1+V2, inserted a legacy `ADMIN`
+  user, applied V3, confirmed the assignment became `PLATFORM_ADMIN`, enabled
+  bootstrap and confirmed `PLATFORM_ADMIN` only, then dropped the schema.
+- Flyway V1/V2/V3 succeeded and Hibernate validation passed. The normal
+  `hostelos` database was not modified.
+- Frontend role alignment was completed separately by Module 0.1.3B-R; this
+  module did not edit frontend source.
+
+### Remaining risks
+
+- `ORGANIZATION_ADMIN` currently grants no tenant-scoped access.
+- Existing `ADMIN` accounts become platform administrators and need review.
+- Existing sessions retain old role names until re-login.
+- Automated tests use H2; the MySQL upgrade check was manual.
+- No role-management API, audit trail, CI, or repeatable MySQL suite exists.
+
+References:
+
+- `docs/INTEGRATION_QA_0.1.3C.md` - Module 0.1.3C final integration and release-readiness QA, PASS WITH GAPS verdict, CI workflows implemented.
+
 ## Next permitted work
 
-Module 0.1.2 is technically complete. Do not begin Module 0.1.3 or Identity and
-Authorization without project-owner direction; repository governance should be
-resolved first.
+Module 0.1.3A backend, Module 0.1.3A-R role reconciliation, Module 0.1.3B
+frontend, and 0.1.3B-R role-contract alignment are complete. Remaining identity
+hardening items above require their own approved scope. Do not commit the
+uncommitted backend, frontend, or documentation changes without explicit
+project-owner approval.
