@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import { renderApp } from '../test-utils.jsx'
@@ -20,8 +20,12 @@ describe('application shell', () => {
       'aria-current',
       'page',
     )
-    expect(screen.getByText('Frontend ready')).toBeInTheDocument()
-    expect(document.title).toBe('Overview · HostelOS')
+    expect(screen.getByText('Platform Administrator')).toBeInTheDocument()
+    expect(screen.getByText('platform-admin@example.com')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Sign out' })).toBeInTheDocument()
+    await waitFor(() => {
+      expect(document.title).toBe('Overview · HostelOS')
+    })
   })
 
   it('opens and closes the mobile navigation', async () => {
