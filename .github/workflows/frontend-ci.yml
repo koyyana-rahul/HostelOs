@@ -2,9 +2,11 @@ name: Frontend CI
 
 on:
   push:
-    branches: [feature/0.1.3-identity-authorization]
+    branches:
+      - feature/0.1.3-identity-authorization
   pull_request:
-    branches: [feature/0.1.3-identity-authorization]
+    branches:
+      - main
 
 jobs:
   build-and-test:
@@ -18,23 +20,24 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '^22.13.0'
-          cache: 'npm'
+          node-version: "22.13.0"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        working-dir: ./frontend
+        working-directory: ./frontend
         run: npm ci
 
       - name: Run lint
-        working-dir: ./frontend
+        working-directory: ./frontend
         run: npm run lint
 
       - name: Run test suite
-        working-dir: ./frontend
+        working-directory: ./frontend
         run: npm test -- --run
 
       - name: Run production build
-        working-dir: ./frontend
+        working-directory: ./frontend
         run: npm run build
 
       - name: Upload test artifacts
