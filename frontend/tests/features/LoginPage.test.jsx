@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import {
@@ -54,7 +54,9 @@ describe('sign-in page', () => {
     expect(
       screen.queryByRole('navigation', { name: /primary/i }),
     ).not.toBeInTheDocument()
-    expect(document.title).toBe('Sign in · HostelOS')
+    await waitFor(() => {
+      expect(document.title).toBe('Sign in · HostelOS')
+    })
   })
 
   it('creates a session and returns to the requested protected page', async () => {
