@@ -1,5 +1,9 @@
 # HostelOS Backend — Module 0.1.1 Required Report
 
+> Repository correction (2026-10-28): the inspection statement below that no Git
+> repository exists was incorrect. Git exists at the HostelOS root. This report
+> otherwise remains historical evidence for Module 0.1.1.
+
 ## Inspection Summary
 
 - Repository root: `D:\Downloads\HostelOs`

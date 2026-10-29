@@ -1,0 +1,56 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - feature/0.1.3-identity-authorization
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.13.0"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Run lint
+        working-directory: ./frontend
+        run: npm run lint
+
+      - name: Run test suite
+        working-directory: ./frontend
+        run: npm test -- --run
+
+      - name: Run production build
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-test-results
+          path: |
+            frontend/vitest*
+            frontend/coverage*/
+
+      - name: Fail on test failures
+        if: failure()
+        run: |
+          echo "Frontend tests failed. See test artifacts for details."
+          exit 1

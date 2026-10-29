@@ -1,12 +1,15 @@
 package com.rahul.HostelOs;
 
+import jakarta.servlet.SessionCookieConfig;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +20,9 @@ class ProductionDocumentationTests {
 
 	@LocalServerPort
 	private int port;
+
+	@Autowired
+	private ServletWebServerApplicationContext applicationContext;
 
 	private final HttpClient client = HttpClient.newHttpClient();
 
@@ -58,6 +64,28 @@ class ProductionDocumentationTests {
 
 		assertThat(response.statusCode()).isEqualTo(200);
 		assertThat(response.body()).contains("\"status\":\"UP\"");
+	}
+
+	@Test
+	void sessionCookieIsHardenedInProduction() {
+		SessionCookieConfig cookie = applicationContext.getServletContext().getSessionCookieConfig();
+
+		assertThat(cookie.getName()).isEqualTo("HOSTELOS_SESSION");
+		assertThat(cookie.isHttpOnly()).isTrue();
+		assertThat(cookie.isSecure()).isTrue();
+	}
+
+	@Test
+	void csrfCookieIsSecureInProduction() throws Exception {
+		HttpResponse<String> response = get("/api/v1/auth/csrf");
+
+		assertThat(response.statusCode()).isEqualTo(200);
+		String csrfCookie = response.headers().allValues("set-cookie").stream()
+				.filter(value -> value.startsWith("XSRF-TOKEN="))
+				.findFirst()
+				.orElseThrow();
+		assertThat(csrfCookie).contains("Secure");
+		assertThat(csrfCookie).contains("SameSite=Lax");
 	}
 
 	private HttpResponse<String> get(String path) throws Exception {

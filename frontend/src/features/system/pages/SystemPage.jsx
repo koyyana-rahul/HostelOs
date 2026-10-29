@@ -220,8 +220,7 @@ export default function SystemPage() {
               apiVersion, and status.
             </li>
             <li>
-              This check does not confirm authentication, database health, or
-              business modules.
+              This check does not confirm database health or business modules.
             </li>
           </ul>
           <div className="mt-5 rounded-xl border border-brand/10 bg-surface/80 p-4">

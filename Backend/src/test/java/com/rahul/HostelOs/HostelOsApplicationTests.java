@@ -56,8 +56,11 @@ class HostelOsApplicationTests {
 		HttpResponse<String> response = get("/v3/api-docs");
 
 		assertThat(response.statusCode()).isEqualTo(200);
-		assertThat(response.body()).contains("\"openapi\"");
-		assertThat(response.body()).contains("HostelOS API");
+		assertThat(response.body())
+				.contains("\"openapi\"")
+				.contains("HostelOS API")
+				.contains("sessionAuth")
+				.contains("/api/v1/auth/login");
 	}
 
 	@Test

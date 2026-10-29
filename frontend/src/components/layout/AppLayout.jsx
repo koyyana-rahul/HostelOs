@@ -6,6 +6,7 @@ import {
   openMobileNav,
   selectIsMobileNavOpen,
 } from '../../app/uiSlice.js'
+import { useSessionRevalidation } from '../../features/auth/hooks/useSessionRevalidation.js'
 import { useAppDispatch } from '../../hooks/useAppDispatch.js'
 import { useAppSelector } from '../../hooks/useAppSelector.js'
 import { env } from '../../lib/env.js'
@@ -16,6 +17,8 @@ export function AppLayout() {
   const dispatch = useAppDispatch()
   const isMobileNavOpen = useAppSelector(selectIsMobileNavOpen)
   const location = useLocation()
+
+  useSessionRevalidation()
   const menuButtonRef = useRef(null)
   const closeButtonRef = useRef(null)
   const wasMobileNavOpen = useRef(false)
@@ -150,7 +153,7 @@ export function AppLayout() {
         <footer className="border-t border-line/70">
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <p>
-              © {new Date().getFullYear()} {env.appName}. Frontend foundation.
+              © {new Date().getFullYear()} {env.appName}. Operations workspace.
             </p>
             <p>React · Vite · Tailwind CSS · RTK Query</p>
           </div>
