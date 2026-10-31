@@ -157,6 +157,10 @@ class AuthIntegrationTests {
 		private String csrfHeader;
 		private String csrfToken;
 
+		public String getCsrfToken() {
+			return csrfToken;
+		}
+
 		public void clearCookies() {
 			cookieManager.getCookieStore().getCookies().clear();
 		}

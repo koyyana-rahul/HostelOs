@@ -51,7 +51,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 	void unauthenticatedCreateOrganizationRejected() throws Exception {
 		Browser browser = new Browser();
 		browser.bootstrapCsrf();
-		HttpResponse<String> response = browser.postJson("/api/v1/organizations", organizationPayload("Test Org", "test-org-" + System.nanoTime()), browser.csrfToken);
+		HttpResponse<String> response = browser.postJson("/api/v1/organizations", organizationPayload("Test Org", "test-org-" + System.nanoTime()), browser.getCsrfToken());
 		assertThat(response.statusCode()).isIn(401, 403);
 	}
 
@@ -60,7 +60,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser browser = new Browser();
 		String login = "nocrsf-" + System.nanoTime() + "@example.com";
 		browser.bootstrapCsrf();
-		browser.postJson("/api/v1/auth/register", registerPayload(login, "NoCsrf", PASSWORD), browser.csrfToken);
+		browser.postJson("/api/v1/auth/register", registerPayload(login, "NoCsrf", PASSWORD), browser.getCsrfToken());
 		Browser authed = new Browser();
 		authed.bootstrapCsrf();
 		authed.login(login, PASSWORD);
@@ -74,7 +74,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser browser = new Browser();
 		browser.bootstrapCsrf();
 		String login = "orgcreator-" + System.nanoTime() + "@example.com";
-		HttpResponse<String> register = browser.postJson("/api/v1/auth/register", registerPayload(login, "Org Creator", PASSWORD), browser.csrfToken);
+		HttpResponse<String> register = browser.postJson("/api/v1/auth/register", registerPayload(login, "Org Creator", PASSWORD), browser.getCsrfToken());
 		assertThat(register.statusCode()).isEqualTo(201);
 		Browser authed = new Browser();
 		authed.bootstrapCsrf();
