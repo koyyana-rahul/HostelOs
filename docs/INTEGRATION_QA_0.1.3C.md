@@ -67,6 +67,13 @@ Module 0.1.3 delivers the identity and authorization foundation for HostelOS. Th
 - V2__identity_foundation.sql: creates `roles`, `user_accounts`, `user_roles`; seeds `ADMIN` and `STAFF`; check constraint `chk_roles_name CHECK (name IN ('ADMIN', 'STAFF'))`
 - V3__reconcile_platform_admin_role.sql: forward-only — drops `chk_roles_name`, renames `ADMIN` → `PLATFORM_ADMIN` in place, inserts `ORGANIZATION_ADMIN`, updates `STAFF` description, replaces constraint with `chk_roles_name CHECK (name IN ('PLATFORM_ADMIN', 'ORGANIZATION_ADMIN', 'STAFF'))` — preserves role IDs and all `user_roles` assignments
 
+**MySQL compatibility addendum (recorded 2026-10-30):**
+- Minimum supported server: MySQL 8.0.19+. V3 uses `ALTER TABLE roles DROP CONSTRAINT chk_roles_name`, which requires 8.0.19+; MySQL 8.0.16-8.0.18 supports only `DROP CHECK`, and earlier 8.0 releases parsed and ignored `CHECK` constraints.
+- The documented verified target is MySQL 8.0.40. V3 remains unchanged because it is published Flyway history.
+- H2 2.4.240 in MySQL mode supports `DROP CONSTRAINT`, not `DROP CHECK`; the existing H2 test profile remains unchanged. H2 compatibility-mode tests do not establish full MySQL/InnoDB compatibility.
+- Live MySQL verification for the current V1-V5 working tree is still pending. The evidence in this report covers V1-V3 only.
+- This addendum records a later compatibility decision; it does not change the historical QA evidence above.
+
 Property files: `application.properties` has bootstrap configuration with `hostelos.bootstrap.admin.*`; `application-prod.properties` has session/CSRF/Secure cookie settings.
 
 ## 5. Frontend evidence

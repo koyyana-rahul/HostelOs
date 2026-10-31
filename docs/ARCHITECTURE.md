@@ -35,7 +35,7 @@ Spring Boot backend :8080
   +-- Flyway
   |
   v
-MySQL 8.0 :3306 / database "hostelos"
+MySQL 8.0.19+ (verified 8.0.40) :3306 / database "hostelos"
 ```
 
 The verified public flow remains Browser -> relative `/api/v1/system/info` ->
@@ -250,6 +250,25 @@ violations, method-security denials to `403`, unexpected exceptions to a generic
   disposable schemas, including Hibernate validation and bootstrap; the
   temporary schemas were dropped.
 
+### MySQL compatibility
+
+Decision recorded 2026-10-30.
+
+- Minimum supported server: MySQL 8.0.19+. V3 uses
+  `ALTER TABLE roles DROP CONSTRAINT chk_roles_name`, which requires 8.0.19+.
+  MySQL 8.0.16-8.0.18 supports only `DROP CHECK`, while earlier 8.0 releases
+  parsed and ignored `CHECK` constraints.
+- The documented verified target is MySQL 8.0.40. V3 remains unchanged because
+  it is published Flyway history; it is valid on MySQL 8.0.19+ and H2.
+- H2 2.4.240 in MySQL mode supports `DROP CONSTRAINT`, not `DROP CHECK`. The
+  existing H2 test profile remains unchanged.
+- H2 compatibility-mode tests exercise migration sequencing and SQL behavior
+  only. They do not establish full MySQL/InnoDB compatibility, including
+  storage-engine, locking, collation, index, and optimizer behavior.
+- Live MySQL verification for the current V1-V5 working tree is still pending.
+  The earlier MySQL 8.0.40 evidence covers V1-V3 only and used disposable
+  schemas that were dropped.
+
 ## Configuration conventions
 
 ### Frontend (`frontend/`)
@@ -358,9 +377,10 @@ $env:Path = "C:\Users\RAHUL\.jdks\ms-17.0.16\bin;$env:Path"
 Current results:
 
 - Backend clean verify: 44/44 tests, `BUILD SUCCESS`.
-- MySQL 8.0.40: fresh V1+V2+V3 and V2-to-V3 upgrade paths, Hibernate validation,
-  a `PLATFORM_ADMIN` bootstrap, and the auth flow verified on disposable
-  schemas; those schemas were dropped afterward.
+- MySQL 8.0.40 (historical, V1-V3 only): fresh V1+V2+V3 and V2-to-V3 upgrade
+  paths, Hibernate validation, a `PLATFORM_ADMIN` bootstrap, and the auth flow
+  verified on disposable schemas; those schemas were dropped afterward. This
+  evidence does not cover V4-V5.
 - Frontend: lint clean, 37/37 tests in 8 files, and a successful production
   build; role-contract regressions use the finalized three-role names. A
   final-contract live run through the Vite proxy against the V3 jar confirmed a
