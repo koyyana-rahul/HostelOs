@@ -4,13 +4,9 @@ import { Card } from '../../../components/ui/Card.jsx'
 import { Button } from '../../../components/ui/Button.jsx'
 import { Badge } from '../../../components/ui/Badge.jsx'
 import { useGetMembershipsQuery } from '../../auth/api/authApi.js'
-import { useListOrganizationsQuery } from '../api/organizationApi.js'
 
 export default function OnboardingPage() {
   const { data: memberships = [], isLoading: membershipsLoading } = useGetMembershipsQuery()
-  const { data: organizations = [] } = useListOrganizationsQuery(undefined, {
-    skip: memberships.length === 0,
-  })
 
   const activeMemberships = memberships.filter((m) => m.status === 'ACTIVE')
   const isLoading = membershipsLoading

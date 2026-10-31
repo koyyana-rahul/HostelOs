@@ -35,9 +35,15 @@ describe('Public website pages', () => {
 
   it('has navigation links to public pages', async () => {
     renderApp({ route: '/', authStatus: 'anonymous', user: null })
-    expect(await screen.findByRole('link', { name: /discover/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /for owners/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /features/i })).toBeInTheDocument()
+    expect(
+      (await screen.findAllByRole('link', { name: /discover/i })).length,
+    ).toBeGreaterThan(0)
+    expect(
+      screen.getAllByRole('link', { name: /for owners/i }).length,
+    ).toBeGreaterThan(0)
+    expect(
+      screen.getAllByRole('link', { name: /^features$/i }).length,
+    ).toBeGreaterThan(0)
   })
 
   it('has CTA to find hostel and list property', async () => {

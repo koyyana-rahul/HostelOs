@@ -1,16 +1,18 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
+import { jsonResponse, stubFetch, systemInfoPayload } from '../helpers/api.js'
 import { renderApp } from '../test-utils.jsx'
 
 describe('application routing', () => {
   it('navigates to the foundation page', async () => {
     const user = userEvent.setup()
-    renderApp()
+    stubFetch(jsonResponse(systemInfoPayload))
+    renderApp({ route: '/system' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /system information/i,
     })
 
     await user.click(screen.getByRole('link', { name: 'Foundation' }))

@@ -5,7 +5,7 @@ import {
   csrfPayload,
   jsonResponse,
   staffUserPayload,
-  stubFetch,
+  stubFetchWithMemberships,
 } from '../helpers/api.js'
 import {
   authenticatedUser,
@@ -16,6 +16,7 @@ import {
 describe('finalized role contract', () => {
   it('renders exactly the platform, organization, and staff role names', async () => {
     renderApp({
+      route: '/foundation',
       user: {
         ...authenticatedUser,
         roles: ['PLATFORM_ADMIN', 'ORGANIZATION_ADMIN', 'STAFF'],
@@ -24,7 +25,7 @@ describe('finalized role contract', () => {
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const roles = screen.getByRole('list', {
@@ -46,11 +47,11 @@ describe('finalized role contract', () => {
   })
 
   it('does not derive navigation or actions from the STAFF role', async () => {
-    renderApp({ user: staffUser })
+    renderApp({ route: '/foundation', user: staffUser })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const navigation = screen.getByRole('navigation', { name: /primary/i })
@@ -66,8 +67,18 @@ describe('finalized role contract', () => {
   })
 
   it('preserves the sign-in flow for a STAFF identity', async () => {
-    stubFetch(
+    stubFetchWithMemberships(
+      [
+        {
+          id: 1,
+          organizationId: 10,
+          organizationName: 'Green Valley Hostel',
+          orgRole: 'ORG_STAFF',
+          status: 'ACTIVE',
+        },
+      ],
       jsonResponse(csrfPayload),
+      jsonResponse(staffUserPayload),
       jsonResponse(staffUserPayload),
     )
     const user = userEvent.setup()
@@ -87,7 +98,7 @@ describe('finalized role contract', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /welcome to hostelos/i,
+        name: /^overview$/i,
       }),
     ).toBeInTheDocument()
     expect(screen.getByText(staffUserPayload.displayName)).toBeInTheDocument()

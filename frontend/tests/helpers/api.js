@@ -47,7 +47,14 @@ export function networkError() {
   return () => Promise.reject(new TypeError('Failed to fetch'))
 }
 
-export function stubFetch(...responses) {
+const MEMBERSHIPS_PATH = '/v1/auth/me/memberships'
+
+function isMembershipsRequest(input) {
+  const url = typeof input === 'string' ? input : input?.url
+  return typeof url === 'string' && url.includes(MEMBERSHIPS_PATH)
+}
+
+function createFetchStub(memberships, responses) {
   const fetchMock = vi.fn()
 
   responses.forEach((response) => {
@@ -60,6 +67,26 @@ export function stubFetch(...responses) {
     }
   })
 
-  vi.stubGlobal('fetch', fetchMock)
+  fetchMock.mockResolvedValue(
+    jsonResponse({ status: 404, message: 'Not found' }, 404),
+  )
+
+  const fetchImplementation = (input, init) => {
+    if (isMembershipsRequest(input)) {
+      return Promise.resolve(jsonResponse(memberships))
+    }
+
+    return fetchMock(input, init)
+  }
+
+  vi.stubGlobal('fetch', fetchImplementation)
   return fetchMock
+}
+
+export function stubFetch(...responses) {
+  return createFetchStub([], responses)
+}
+
+export function stubFetchWithMemberships(memberships, ...responses) {
+  return createFetchStub(memberships, responses)
 }

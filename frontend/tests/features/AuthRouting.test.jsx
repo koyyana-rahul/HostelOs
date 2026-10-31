@@ -19,7 +19,7 @@ describe('authentication routing', () => {
     })
     const fetchMock = stubFetch(pendingSession)
 
-    renderApp({ route: '/', authStatus: 'checking' })
+    renderApp({ route: '/foundation', authStatus: 'checking' })
 
     expect(
       await screen.findByText(/checking your session/i),
@@ -32,7 +32,7 @@ describe('authentication routing', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /welcome to hostelos/i,
+        name: /a clear base for every module/i,
       }),
     ).toBeInTheDocument()
     expect(screen.getByText('Platform Administrator')).toBeInTheDocument()
@@ -47,7 +47,7 @@ describe('authentication routing', () => {
       jsonResponse({ status: 401, message: 'Authentication is required' }, 401),
     )
 
-    renderApp({ route: '/', authStatus: 'checking' })
+    renderApp({ route: '/foundation', authStatus: 'checking' })
 
     expect(
       await screen.findByRole('heading', {
@@ -64,7 +64,7 @@ describe('authentication routing', () => {
     )
     const user = userEvent.setup()
 
-    renderApp({ route: '/', authStatus: 'checking' })
+    renderApp({ route: '/foundation', authStatus: 'checking' })
 
     expect(
       await screen.findByRole('heading', {
@@ -78,7 +78,7 @@ describe('authentication routing', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /welcome to hostelos/i,
+        name: /a clear base for every module/i,
       }),
     ).toBeInTheDocument()
     expect(fetchMock).toHaveBeenCalledTimes(2)
@@ -91,11 +91,11 @@ describe('authentication routing', () => {
     )
     const user = userEvent.setup()
 
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
     await user.click(screen.getByRole('button', { name: /^sign out$/i }))
 
@@ -123,11 +123,11 @@ describe('authentication routing', () => {
       jsonResponse({ status: 401, message: 'Authentication is required' }, 401),
     )
 
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     fireEvent.focus(window)
