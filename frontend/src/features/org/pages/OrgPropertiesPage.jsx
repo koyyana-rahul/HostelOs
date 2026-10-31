@@ -1,4 +1,4 @@
-import { Building2, Construction } from 'lucide-react'
+import { Construction } from 'lucide-react'
 import { Card } from '../../../components/ui/Card.jsx'
 
 export default function OrgPropertiesPage() {

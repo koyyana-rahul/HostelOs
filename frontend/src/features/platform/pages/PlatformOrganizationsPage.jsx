@@ -27,7 +27,7 @@ export default function PlatformOrganizationsPage() {
     setPendingId(id)
     try {
       await suspendOrg(id).unwrap()
-    } catch (e) {
+    } catch {
       alert('Failed to suspend organization')
     } finally {
       setPendingId(null)
@@ -39,7 +39,7 @@ export default function PlatformOrganizationsPage() {
     setPendingId(id)
     try {
       await reactivateOrg(id).unwrap()
-    } catch (e) {
+    } catch {
       alert('Failed to reactivate organization')
     } finally {
       setPendingId(null)

@@ -80,7 +80,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		authed.bootstrapCsrf();
 		assertThat(authed.login(login, PASSWORD).statusCode()).isEqualTo(200);
 		String slug = "org-" + System.nanoTime();
-		HttpResponse<String> create = authed.postJson("/api/v1/organizations", organizationPayload("Test Organization", slug), authed.csrfToken);
+		HttpResponse<String> create = authed.postJson("/api/v1/organizations", organizationPayload("Test Organization", slug), authed.getCsrfToken());
 		assertThat(create.statusCode()).isEqualTo(201);
 		assertThat(create.body()).contains("\"name\":\"Test Organization\"");
 		assertThat(create.body()).contains("\"slug\":\"" + slug + "\"");
@@ -93,11 +93,11 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser browser = new Browser();
 		browser.bootstrapCsrf();
 		String login = "listuser-" + System.nanoTime() + "@example.com";
-		browser.postJson("/api/v1/auth/register", registerPayload(login, "List User", PASSWORD), browser.csrfToken);
+		browser.postJson("/api/v1/auth/register", registerPayload(login, "List User", PASSWORD), browser.getCsrfToken());
 		Browser authed = new Browser();
 		authed.bootstrapCsrf();
 		authed.login(login, PASSWORD);
-		HttpResponse<String> create = authed.postJson("/api/v1/organizations", organizationPayload("List Org", slug), authed.csrfToken);
+		HttpResponse<String> create = authed.postJson("/api/v1/organizations", organizationPayload("List Org", slug), authed.getCsrfToken());
 		assertThat(create.statusCode()).isEqualTo(201);
 
 		HttpResponse<String> list = authed.get("/api/v1/organizations");
@@ -110,12 +110,12 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "detail-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Detail Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Detail Org", slug), ownerAuthed.getCsrfToken());
 		assertThat(create.statusCode()).isEqualTo(201);
 		String orgId = orgIdFromBody(create.body());
 
@@ -129,18 +129,18 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "ownerx-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "OwnerX", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "OwnerX", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "cross-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Cross Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Cross Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		Browser other = new Browser();
 		other.bootstrapCsrf();
 		String otherLogin = "other-" + System.nanoTime() + "@example.com";
-		other.postJson("/api/v1/auth/register", registerPayload(otherLogin, "Other", PASSWORD), other.csrfToken);
+		other.postJson("/api/v1/auth/register", registerPayload(otherLogin, "Other", PASSWORD), other.getCsrfToken());
 		Browser otherAuthed = new Browser();
 		otherAuthed.bootstrapCsrf();
 		otherAuthed.login(otherLogin, PASSWORD);
@@ -153,12 +153,12 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner2-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner2", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner2", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "mem-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Mem Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Mem Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 		HttpResponse<String> members = ownerAuthed.get("/api/v1/organizations/" + orgId + "/memberships");
 		assertThat(members.statusCode()).isEqualTo(200);
@@ -169,20 +169,20 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner3-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner3", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner3", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "add-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Add Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Add Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		String newUser = "member-" + System.nanoTime() + "@example.com";
 		Browser tmp = new Browser();
 		tmp.bootstrapCsrf();
-		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "Member", PASSWORD), tmp.csrfToken);
+		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "Member", PASSWORD), tmp.getCsrfToken());
 
-		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.csrfToken);
+		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		assertThat(add.statusCode()).isEqualTo(201);
 		assertThat(add.body()).contains(newUser);
 	}
@@ -192,22 +192,22 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner4-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner4", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner4", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "dup-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Dup Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Dup Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		String newUser = "dup-" + System.nanoTime() + "@example.com";
 		Browser tmp = new Browser();
 		tmp.bootstrapCsrf();
-		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "Dup", PASSWORD), tmp.csrfToken);
+		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "Dup", PASSWORD), tmp.getCsrfToken());
 
-		HttpResponse<String> add1 = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.csrfToken);
+		HttpResponse<String> add1 = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		assertThat(add1.statusCode()).isEqualTo(201);
-		HttpResponse<String> add2 = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.csrfToken);
+		HttpResponse<String> add2 = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		assertThat(add2.statusCode()).isIn(409, 400);
 	}
 
@@ -216,22 +216,22 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner5-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner5", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner5", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "role-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Role Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Role Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		String newUser = "roleuser-" + System.nanoTime() + "@example.com";
 		Browser tmp = new Browser();
 		tmp.bootstrapCsrf();
-		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "RoleUser", PASSWORD), tmp.csrfToken);
-		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.csrfToken);
+		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "RoleUser", PASSWORD), tmp.getCsrfToken());
+		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		String mid = membershipIdFromBody(add.body());
 
-		HttpResponse<String> change = ownerAuthed.putJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/role", changeRolePayload("ORG_ADMIN"), ownerAuthed.csrfToken);
+		HttpResponse<String> change = ownerAuthed.putJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/role", changeRolePayload("ORG_ADMIN"), ownerAuthed.getCsrfToken());
 		assertThat(change.statusCode()).isEqualTo(200);
 		assertThat(change.body()).contains("\"orgRole\":\"ORG_ADMIN\"");
 	}
@@ -241,26 +241,26 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner6-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner6", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner6", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "susp-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Susp Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Susp Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		String newUser = "suspuser-" + System.nanoTime() + "@example.com";
 		Browser tmp = new Browser();
 		tmp.bootstrapCsrf();
-		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "SuspUser", PASSWORD), tmp.csrfToken);
-		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.csrfToken);
+		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "SuspUser", PASSWORD), tmp.getCsrfToken());
+		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		String mid = membershipIdFromBody(add.body());
 
-		HttpResponse<String> susp = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/suspend", "{}", ownerAuthed.csrfToken);
+		HttpResponse<String> susp = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/suspend", "{}", ownerAuthed.getCsrfToken());
 		assertThat(susp.statusCode()).isEqualTo(200);
 		assertThat(susp.body()).contains("\"status\":\"SUSPENDED\"");
 
-		HttpResponse<String> react = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/reactivate", reactivatePayload("ORG_STAFF"), ownerAuthed.csrfToken);
+		HttpResponse<String> react = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/reactivate", reactivatePayload("ORG_STAFF"), ownerAuthed.getCsrfToken());
 		assertThat(react.statusCode()).isEqualTo(200);
 		assertThat(react.body()).contains("\"status\":\"ACTIVE\"");
 	}
@@ -270,22 +270,22 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner7-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner7", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner7", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "revoke-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Revoke Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Revoke Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		String newUser = "revuser-" + System.nanoTime() + "@example.com";
 		Browser tmp = new Browser();
 		tmp.bootstrapCsrf();
-		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "RevUser", PASSWORD), tmp.csrfToken);
-		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.csrfToken);
+		tmp.postJson("/api/v1/auth/register", registerPayload(newUser, "RevUser", PASSWORD), tmp.getCsrfToken());
+		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		String mid = membershipIdFromBody(add.body());
 
-		HttpResponse<String> revoke = ownerAuthed.delete("/api/v1/organizations/" + orgId + "/members/" + mid, ownerAuthed.csrfToken);
+		HttpResponse<String> revoke = ownerAuthed.delete("/api/v1/organizations/" + orgId + "/members/" + mid, ownerAuthed.getCsrfToken());
 		assertThat(revoke.statusCode()).isEqualTo(200);
 		assertThat(revoke.body()).contains("\"status\":\"REVOKED\"");
 	}
@@ -295,20 +295,20 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner8-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner8", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner8", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "cust-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Cust Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("Cust Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		String cust = "custuser-" + System.nanoTime() + "@example.com";
 		Browser tmp = new Browser();
 		tmp.bootstrapCsrf();
-		tmp.postJson("/api/v1/auth/register", registerPayload(cust, "Cust", PASSWORD), tmp.csrfToken);
+		tmp.postJson("/api/v1/auth/register", registerPayload(cust, "Cust", PASSWORD), tmp.getCsrfToken());
 
-		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(cust, "ORG_STAFF"), ownerAuthed.csrfToken);
+		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(cust, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		assertThat(add.statusCode()).isEqualTo(201);
 	}
 
@@ -327,25 +327,25 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner9-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner9", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner9", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "staffm-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("StaffM Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("StaffM Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		String staff = "staffm-" + System.nanoTime() + "@example.com";
 		Browser tmp = new Browser();
 		tmp.bootstrapCsrf();
-		tmp.postJson("/api/v1/auth/register", registerPayload(staff, "StaffM", PASSWORD), tmp.csrfToken);
-		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(staff, "ORG_STAFF"), ownerAuthed.csrfToken);
+		tmp.postJson("/api/v1/auth/register", registerPayload(staff, "StaffM", PASSWORD), tmp.getCsrfToken());
+		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(staff, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		String mid = membershipIdFromBody(add.body());
 
 		Browser staffAuthed = new Browser();
 		staffAuthed.bootstrapCsrf();
 		staffAuthed.login(staff, PASSWORD);
-		HttpResponse<String> tryAdd = staffAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload("x@y.com", "ORG_STAFF"), staffAuthed.csrfToken);
+		HttpResponse<String> tryAdd = staffAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload("x@y.com", "ORG_STAFF"), staffAuthed.getCsrfToken());
 		assertThat(tryAdd.statusCode()).isIn(403, 401);
 	}
 
@@ -354,17 +354,17 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner10-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner10", PASSWORD), owner.csrfToken);
+		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner10", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
 		String slug = "lastadmin-" + System.nanoTime();
-		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("LastAdmin Org", slug), ownerAuthed.csrfToken);
+		HttpResponse<String> create = ownerAuthed.postJson("/api/v1/organizations", organizationPayload("LastAdmin Org", slug), ownerAuthed.getCsrfToken());
 		String orgId = orgIdFromBody(create.body());
 
 		HttpResponse<String> members = ownerAuthed.get("/api/v1/organizations/" + orgId + "/memberships");
 		String mid = membershipIdFromBody(members.body());
-		HttpResponse<String> revoke = ownerAuthed.delete("/api/v1/organizations/" + orgId + "/members/" + mid, ownerAuthed.csrfToken);
+		HttpResponse<String> revoke = ownerAuthed.delete("/api/v1/organizations/" + orgId + "/members/" + mid, ownerAuthed.getCsrfToken());
 		assertThat(revoke.statusCode()).isIn(409, 403);
 	}
 }

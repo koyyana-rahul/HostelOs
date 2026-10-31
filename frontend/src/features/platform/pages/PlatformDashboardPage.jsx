@@ -1,4 +1,4 @@
-import { Building2, UsersRound, Activity, RefreshCw } from 'lucide-react'
+import { Building2, UsersRound, RefreshCw } from 'lucide-react'
 import { Button } from '../../../components/ui/Button.jsx'
 import { useGetPlatformStatsQuery } from '../api/platformApi.js'
 
