@@ -28,10 +28,10 @@ public interface OrganizationMembershipRepository extends JpaRepository<Organiza
 	@EntityGraph(attributePaths = {"organization"})
 	List<OrganizationMembership> findByUserIdAndStatus(Long userId, MembershipStatus status);
 
-	@EntityGraph(attributePaths = {"user"})
+	@EntityGraph(attributePaths = {"organization", "user"})
 	List<OrganizationMembership> findByOrganizationId(Long organizationId);
 
-	@EntityGraph(attributePaths = {"user"})
+	@EntityGraph(attributePaths = {"organization", "user"})
 	List<OrganizationMembership> findByOrganizationIdAndStatus(Long organizationId, MembershipStatus status);
 
 	boolean existsByOrganizationIdAndUserId(Long organizationId, Long userId);
