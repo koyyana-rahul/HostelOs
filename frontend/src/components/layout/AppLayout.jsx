@@ -1,62 +1,56 @@
-import { Menu, X } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import {
   closeMobileNav,
-  openMobileNav,
   selectIsMobileNavOpen,
 } from '../../app/uiSlice.js'
 import { useSessionRevalidation } from '../../features/auth/hooks/useSessionRevalidation.js'
 import { useAppDispatch } from '../../hooks/useAppDispatch.js'
 import { useAppSelector } from '../../hooks/useAppSelector.js'
 import { env } from '../../lib/env.js'
-import { Badge } from '../ui/Badge.jsx'
+import { Header } from './Header.jsx'
+import { MobileNavDrawer } from './MobileNavDrawer.jsx'
 import { SidebarContent } from './SidebarContent.jsx'
+import { OrgSwitcher } from './OrgSwitcher.jsx'
 
 export function AppLayout() {
   const dispatch = useAppDispatch()
   const isMobileNavOpen = useAppSelector(selectIsMobileNavOpen)
   const location = useLocation()
+  const menuButtonRef = useRef(null)
 
   useSessionRevalidation()
-  const menuButtonRef = useRef(null)
-  const closeButtonRef = useRef(null)
-  const wasMobileNavOpen = useRef(false)
 
   useEffect(() => {
     dispatch(closeMobileNav())
   }, [location.pathname, dispatch])
 
   useEffect(() => {
-    if (isMobileNavOpen) {
-      wasMobileNavOpen.current = true
-      closeButtonRef.current?.focus()
-    } else if (wasMobileNavOpen.current) {
-      wasMobileNavOpen.current = false
-      menuButtonRef.current?.focus()
-    }
-  }, [isMobileNavOpen])
-
-  useEffect(() => {
-    if (!isMobileNavOpen) {
+    if (typeof window === 'undefined' || !window.matchMedia) {
       return undefined
     }
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
+    const mql = window.matchMedia('(min-width: 1024px)')
+    const handleMediaChange = (event) => {
+      if (event.matches) {
         dispatch(closeMobileNav())
       }
     }
 
-    const previousOverflow = document.body.style.overflow
-    document.addEventListener('keydown', handleKeyDown)
-    document.body.style.overflow = 'hidden'
+    if (mql.addEventListener) {
+      mql.addEventListener('change', handleMediaChange)
+    } else {
+      mql.addListener(handleMediaChange)
+    }
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = previousOverflow
+      if (mql.removeEventListener) {
+        mql.removeEventListener('change', handleMediaChange)
+      } else {
+        mql.removeListener(handleMediaChange)
+      }
     }
-  }, [isMobileNavOpen, dispatch])
+  }, [dispatch])
 
   return (
     <div className="min-h-dvh bg-canvas lg:grid lg:grid-cols-[272px_minmax(0,1fr)]">
@@ -71,78 +65,15 @@ export function AppLayout() {
         <SidebarContent />
       </aside>
 
-      {isMobileNavOpen ? (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <button
-            type="button"
-            aria-label="Dismiss navigation"
-            tabIndex={-1}
-            onClick={() => dispatch(closeMobileNav())}
-            className="absolute inset-0 bg-ink/35 backdrop-blur-[2px]"
-          />
-          <div
-            id="mobile-navigation"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Application navigation"
-            className="relative flex h-full w-[min(20rem,86vw)] flex-col border-r border-line bg-surface shadow-2xl"
-          >
-            <div className="absolute right-3 top-3 z-10">
-              <button
-                ref={closeButtonRef}
-                type="button"
-                aria-label="Close navigation"
-                onClick={() => dispatch(closeMobileNav())}
-                className="grid size-9 place-items-center rounded-lg text-muted transition-colors hover:bg-canvas hover:text-ink"
-              >
-                <X className="size-4" aria-hidden="true" />
-              </button>
-            </div>
-            <SidebarContent
-              onNavigate={() => dispatch(closeMobileNav())}
-            />
-          </div>
-        </div>
-      ) : null}
+      <MobileNavDrawer
+        open={isMobileNavOpen}
+        onClose={() => dispatch(closeMobileNav())}
+        triggerButtonRef={menuButtonRef}
+      />
 
       <div className="flex min-h-dvh min-w-0 flex-col">
-        <header className="sticky top-0 z-30 border-b border-line/70 bg-canvas/85 backdrop-blur-md">
-          <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-8">
-            <button
-              ref={menuButtonRef}
-              type="button"
-              aria-label="Open navigation"
-              aria-expanded={isMobileNavOpen}
-              aria-controls={
-                isMobileNavOpen ? 'mobile-navigation' : undefined
-              }
-              onClick={() => dispatch(openMobileNav())}
-              className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-surface text-ink transition-colors hover:bg-brand-soft lg:hidden"
-            >
-              <Menu className="size-4" aria-hidden="true" />
-            </button>
-
-            <div className="min-w-0">
-              <p className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-muted sm:block">
-                Operations workspace
-              </p>
-              <p className="truncate text-sm font-medium text-ink">
-                Hostel management console
-              </p>
-            </div>
-
-            <div className="ml-auto flex items-center gap-2">
-              <div className="hidden sm:block">
-                <Badge tone="success" dot>
-                  {env.environmentLabel}
-                </Badge>
-              </div>
-              <span className="hidden rounded-full border border-line bg-surface px-2.5 py-1 text-xs font-medium text-muted sm:inline-flex">
-                v{env.appVersion}
-              </span>
-            </div>
-          </div>
-        </header>
+        <Header menuButtonRef={menuButtonRef} />
+        <OrgSwitcher />
 
         <main id="main-content" tabIndex={-1} className="flex-1">
           <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
