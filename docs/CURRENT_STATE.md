@@ -86,7 +86,8 @@ trail, or CI pipeline exists yet.
 | Module 0.1.3B frontend | **PASS** | Session/login/logout integration complete; 37/37 tests, lint and build clean |
 | Module 0.1.3B-R role alignment | **PASS** | Frontend fixtures, display, tests, and docs aligned with the three-role contract |
 | Module 0.1.4 Phase B backend | **PASS** | Organization & membership database foundation; Flyway V4, entities, repositories, 75/75 backend tests passing |
-| MySQL 8 runtime | **PASS** | Fresh V1+V2+V3 schema and V2-to-V3 upgrade verified on disposable schemas |
+| MySQL 8 runtime (V1-V3 historical) | **PASS** | Fresh V1+V2+V3 schema and V2-to-V3 upgrade verified on disposable MySQL 8.0.40 schemas |
+| MySQL 8 runtime (current V1-V5) | **PENDING** | Live MySQL/InnoDB verification of the current working tree has not been performed |
 | Frontend auth integration | **PASS** | Real browser login, final `PLATFORM_ADMIN` identity, session restore, logout, and post-logout `401` verified |
 | Repository governance | **RESOLVED** | Git exists at HostelOS root on branch `feature/0.1.3-identity-authorization`; root `.gitignore` added; CI workflows implemented (see CI gates below) |
 | Production deployment | **DEFERRED** | Same-origin proxy/CORS topology and operational hardening remain outstanding |
@@ -102,7 +103,7 @@ trail, or CI pipeline exists yet.
 | Identifier normalization tests | PASS | 2/2 |
 | Existing backend tests | PASS | Error handling 2/2, application 12/12, production docs 7/7 |
 | JAR packaging | PASS | `target/HostelOs-0.0.1-SNAPSHOT.jar` |
-| MySQL migration | PASS | Flyway V1+V2+V3 on fresh and V2-to-V3 upgrade schemas |
+| MySQL migration (V1-V3 historical) | PASS | Flyway V1+V2+V3 on fresh and V2-to-V3 upgrade schemas |
 | Hibernate schema validation | PASS | `ddl-auto=validate` against MySQL 8 |
 | Bootstrap administrator | PASS | Created once with `PLATFORM_ADMIN` only |
 | Auth runtime | PASS | CSRF `200`, login `200`, me `200`, logout `204`, me after logout `401` |
@@ -190,6 +191,23 @@ assignment, then applied V3 and confirmed the assignment became
 `PLATFORM_ADMIN`. Both temporary schemas were dropped. The existing `hostelos`
 database was not modified.
 
+### MySQL compatibility
+
+Decision recorded 2026-10-30.
+
+- Minimum supported server: MySQL 8.0.19+. V3 uses
+  `ALTER TABLE roles DROP CONSTRAINT chk_roles_name`, which requires 8.0.19+.
+  MySQL 8.0.16-8.0.18 supports only `DROP CHECK`, while earlier 8.0 releases
+  parsed and ignored `CHECK` constraints.
+- The documented verified target is MySQL 8.0.40. V3 remains unchanged because
+  it is published Flyway history; it is valid on MySQL 8.0.19+ and H2.
+- H2 2.4.240 in MySQL mode supports `DROP CONSTRAINT`, not `DROP CHECK`. The
+  existing H2 test profile remains unchanged.
+- H2 compatibility-mode tests exercise migration sequencing and SQL behavior
+  only. They do not establish full MySQL/InnoDB compatibility.
+- Live MySQL verification for the current V1-V5 working tree is still pending.
+  The previously recorded MySQL 8.0.40 checks cover V1-V3 only.
+
 ## Repository state
 
 - Git exists at the HostelOS root.
@@ -216,7 +234,8 @@ database was not modified.
 | Maven | Wrapper 3.9.9 |
 | Spring Boot | 4.1.2 |
 | Spring Security | 7.1.2 |
-| MySQL | 8.0.40, service `MySQL80`, port 3306 |
+| MySQL (verified target) | 8.0.40, service `MySQL80`, port 3306 |
+| Minimum supported MySQL | 8.0.19+ |
 | Automated backend database | H2 2.4.240 in MySQL compatibility mode |
 | Frontend | React 19.3.1, Vite 8.3.5, Redux Toolkit 2.13.0, Vitest 5.0.5 |
 | Frontend commands | `npm run lint`, `npm test`, `npm run build` |

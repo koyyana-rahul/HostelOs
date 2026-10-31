@@ -19,6 +19,17 @@ export const authApi = baseApi.injectEndpoints({
           [csrf.headerName]: csrf.token,
         },
       }),
+      invalidatesTags: ['Session', 'Membership', 'Organization'],
+    }),
+    register: builder.mutation({
+      query: ({ loginIdentifier, displayName, password, csrf }) => ({
+        url: '/v1/auth/register',
+        method: 'POST',
+        body: { loginIdentifier, displayName, password },
+        headers: {
+          [csrf.headerName]: csrf.token,
+        },
+      }),
     }),
     logout: builder.mutation({
       query: (csrf) => ({
@@ -28,6 +39,11 @@ export const authApi = baseApi.injectEndpoints({
           [csrf.headerName]: csrf.token,
         },
       }),
+      invalidatesTags: ['Session', 'Membership', 'Organization'],
+    }),
+    getMemberships: builder.query({
+      query: () => '/v1/auth/me/memberships',
+      providesTags: ['Membership'],
     }),
   }),
 })
@@ -38,4 +54,7 @@ export const {
   useLazyGetCsrfTokenQuery,
   useLoginMutation,
   useLogoutMutation,
+  useRegisterMutation,
+  useGetMembershipsQuery,
+  useLazyGetMembershipsQuery,
 } = authApi

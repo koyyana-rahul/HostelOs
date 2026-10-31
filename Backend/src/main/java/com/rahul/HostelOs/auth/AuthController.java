@@ -1,8 +1,15 @@
 package com.rahul.HostelOs.auth;
 
 import com.rahul.HostelOs.common.exception.ApiError;
+import com.rahul.HostelOs.identity.DuplicateLoginIdentifierException;
 import com.rahul.HostelOs.identity.HostelOsPrincipal;
+import com.rahul.HostelOs.identity.UserAccount;
+import com.rahul.HostelOs.identity.UserAccountService;
 import com.rahul.HostelOs.identity.LoginAttemptService;
+import com.rahul.HostelOs.organization.MembershipStatus;
+import com.rahul.HostelOs.organization.OrganizationMembership;
+import com.rahul.HostelOs.organization.OrganizationMembershipRepository;
+import com.rahul.HostelOs.organization.dto.MembershipResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -12,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,16 +48,22 @@ public class AuthController {
 	private final SecurityContextRepository securityContextRepository;
 	private final SessionAuthenticationStrategy sessionAuthenticationStrategy;
 	private final LoginAttemptService loginAttempts;
+	private final UserAccountService userAccounts;
+	private final OrganizationMembershipRepository membershipRepository;
 
 	public AuthController(
 			AuthenticationManager authenticationManager,
 			SecurityContextRepository securityContextRepository,
 			SessionAuthenticationStrategy sessionAuthenticationStrategy,
-			LoginAttemptService loginAttempts) {
+			LoginAttemptService loginAttempts,
+			UserAccountService userAccounts,
+			OrganizationMembershipRepository membershipRepository) {
 		this.authenticationManager = authenticationManager;
 		this.securityContextRepository = securityContextRepository;
 		this.sessionAuthenticationStrategy = sessionAuthenticationStrategy;
 		this.loginAttempts = loginAttempts;
+		this.userAccounts = userAccounts;
+		this.membershipRepository = membershipRepository;
 	}
 
 	@Operation(summary = "Bootstrap a CSRF token")
@@ -66,7 +80,29 @@ public class AuthController {
 		return new CsrfResponse(token.getHeaderName(), token.getToken());
 	}
 
-	@Operation(summary = "Authenticate and create a session")
+	@Operation(summary = "Register a new customer account")
+	@ApiResponse(responseCode = "201", description = "Registration succeeded")
+	@ApiResponse(responseCode = "400", description = "Invalid registration request")
+	@ApiResponse(responseCode = "409", description = "Duplicate login identifier")
+	@PostMapping("/register")
+	public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request, HttpServletRequest httpRequest) {
+		try {
+			UserAccount account = userAccounts.registerCustomer(request.loginIdentifier(), request.displayName(), request.password());
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(new AuthUserResponse(
+							account.getId(),
+							account.getLoginIdentifier(),
+							account.getDisplayName(),
+							account.getRoles().stream().map(role -> role.getName().name()).toList()));
+		} catch (DuplicateLoginIdentifierException exception) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body(ApiError.of(HttpStatus.CONFLICT, "Login identifier already exists", httpRequest.getRequestURI()));
+		} catch (IllegalArgumentException exception) {
+			return ResponseEntity.badRequest()
+					.body(ApiError.of(HttpStatus.BAD_REQUEST, exception.getMessage(), httpRequest.getRequestURI()));
+		}
+	}
+
 	@ApiResponse(responseCode = "200", description = "Authentication succeeded")
 	@ApiResponse(responseCode = "400", description = "Invalid login request")
 	@ApiResponse(responseCode = "401", description = "Authentication failed")
@@ -134,4 +170,15 @@ public class AuthController {
 	public AuthUserResponse me(@AuthenticationPrincipal HostelOsPrincipal principal) {
 		return AuthUserResponse.from(principal);
 	}
+
+	@Operation(summary = "List active organization memberships for the current user")
+	@ApiResponse(responseCode = "200", description = "Memberships returned")
+	@ApiResponse(responseCode = "401", description = "Authentication is required")
+	@SecurityRequirement(name = "sessionAuth")
+	@GetMapping("/me/memberships")
+	public List<MembershipResponse> myMemberships(@AuthenticationPrincipal HostelOsPrincipal principal) {
+		List<OrganizationMembership> memberships = membershipRepository.findByUserIdAndStatus(principal.getUserId(), MembershipStatus.ACTIVE);
+		return memberships.stream().map(MembershipResponse::from).toList();
+	}
 }
+

@@ -24,6 +24,6 @@ const baseQueryWithSessionHandling = async (args, api, extraOptions) => {
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithSessionHandling,
-  tagTypes: ['Session'],
+  tagTypes: ['Session', 'Organization', 'Membership'],
   endpoints: () => ({}),
 })
