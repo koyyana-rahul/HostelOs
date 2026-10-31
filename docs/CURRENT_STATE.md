@@ -85,6 +85,7 @@ trail, or CI pipeline exists yet.
 | Module 0.1.3A-R roles | **PASS** | Three-role model implemented; `clean verify` 44/44 |
 | Module 0.1.3B frontend | **PASS** | Session/login/logout integration complete; 37/37 tests, lint and build clean |
 | Module 0.1.3B-R role alignment | **PASS** | Frontend fixtures, display, tests, and docs aligned with the three-role contract |
+| Module 0.1.4 Phase B backend | **PASS** | Organization & membership database foundation; Flyway V4, entities, repositories, 75/75 backend tests passing |
 | MySQL 8 runtime | **PASS** | Fresh V1+V2+V3 schema and V2-to-V3 upgrade verified on disposable schemas |
 | Frontend auth integration | **PASS** | Real browser login, final `PLATFORM_ADMIN` identity, session restore, logout, and post-logout `401` verified |
 | Repository governance | **RESOLVED** | Git exists at HostelOS root on branch `feature/0.1.3-identity-authorization`; root `.gitignore` added; CI workflows implemented (see CI gates below) |

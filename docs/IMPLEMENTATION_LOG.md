@@ -349,10 +349,41 @@ References:
 
 - `docs/INTEGRATION_QA_0.1.3C.md` - Module 0.1.3C final integration and release-readiness QA, PASS WITH GAPS verdict, CI workflows implemented.
 
+## 2026-10-29 - Module 0.1.4: Phase B - Organization and Membership Database Foundation
+
+Status: Complete on the backend.
+
+### Delivered
+
+- Added Flyway migration `V4__organizations_and_memberships.sql`:
+  - `organizations` table with BIGINT surrogate key, unique normalized `slug` (3-60 chars), `name` (1-120 chars), `status` (`ACTIVE`, `SUSPENDED`, `DEACTIVATED`), optimistic-lock `version`, and UTC `TIMESTAMP(6)` timestamps.
+  - `organization_memberships` table with BIGINT surrogate key, foreign keys to `organizations(id)` and `user_accounts(id)` with `ON DELETE RESTRICT`, `org_role` (`ORG_ADMIN`, `ORG_STAFF`), `status` (`ACTIVE`, `SUSPENDED`, `REVOKED`), optimistic-lock `version`, and UTC `TIMESTAMP(6)` timestamps.
+  - Natural unique constraint `uk_org_memberships_org_user (organization_id, user_id)` and composite unique key `uk_org_memberships_tenant_id (organization_id, id)` supporting composite foreign key references in future phases.
+  - Performance lookup index on `user_id`; organization-scoped queries can use the leading `organization_id` column of the composite unique indexes.
+  - Check constraints for status enums, role enums, and normalized slug formatting.
+- Added domain entities and enums in `com.rahul.HostelOs.organization`:
+  - `Organization`: encapsulates name, immutable normalized slug, status transitions (`activate`, `suspend`, `deactivate`), version, and timestamps.
+  - `OrganizationMembership`: maps lazy relationships to `Organization` and `UserAccount`, encapsulates lifecycle state transitions (`suspend`, `revoke`, `reactivate`, `changeRole`), version, and timestamps.
+  - `OrganizationStatus` enum: `ACTIVE`, `SUSPENDED`, `DEACTIVATED`.
+  - `OrgRole` enum: `ORG_ADMIN`, `ORG_STAFF`.
+  - `MembershipStatus` enum: `ACTIVE`, `SUSPENDED`, `REVOKED`.
+  - `OrganizationSlug`: provides Unicode NFKC normalization, trimming, lower-casing with `Locale.ROOT`, and regex format validation.
+- Added Spring Data JPA repositories:
+  - `OrganizationRepository`: find/exists by normalized slug.
+  - `OrganizationMembershipRepository`: find/exists by organization and user, find by user/status, find by organization/status, with entity graph fetching.
+- Added comprehensive unit, integration, and migration test suites:
+  - `OrganizationSlugTests` (15 tests): validates NFKC folding, casing, length bounds, regex violations.
+  - `OrganizationRepositoryTests` (9 tests): validates persistence, normalization on save, duplicate slug rejection, membership reference, duplicate membership rejection, role/status mapping, in-place reactivation without duplicate creation, and repository lookup queries.
+  - `OrganizationMigrationTests` (1 test): validates sequential `V1 -> V2 -> V3 -> V4` Flyway migration on clean isolated H2 database, checking table presence, column constraints, and foreign key integrity.
+- Kept `V1`, `V2`, and `V3` migrations completely unchanged.
+- Preserved existing global roles (`PLATFORM_ADMIN`, `ORGANIZATION_ADMIN`, `STAFF`) and identity architecture unchanged.
+
+### Verification
+
+- `.\mvnw.cmd -B verify`: `BUILD SUCCESS`, **75/75 tests passing** (50 existing tests + 25 Phase B tests).
+- Normal application MySQL database was not modified; automated tests use isolated H2 test profile.
+- Frontend source, routes, and tests untouched.
+
 ## Next permitted work
 
-Module 0.1.3A backend, Module 0.1.3A-R role reconciliation, Module 0.1.3B
-frontend, and 0.1.3B-R role-contract alignment are complete. Remaining identity
-hardening items above require their own approved scope. Do not commit the
-uncommitted backend, frontend, or documentation changes without explicit
-project-owner approval.
+Phase B is complete. Phase C (tenant-scoped authorization infrastructure, `TenantAuthorizationInterceptor`, and scoped repository query patterns) remains deferred pending architectural approval. Do not proceed to Phase C without explicit authorization.
