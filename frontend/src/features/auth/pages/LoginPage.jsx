@@ -8,7 +8,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import { useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { Brand } from '../../../components/layout/Brand.jsx'
 import { Badge } from '../../../components/ui/Badge.jsx'
 import { Button } from '../../../components/ui/Button.jsx'
@@ -20,10 +20,13 @@ import { env } from '../../../lib/env.js'
 import {
   authApi,
   useLazyGetCsrfTokenQuery,
+  useLazyGetCurrentUserQuery,
+  useLazyGetMembershipsQuery,
   useLoginMutation,
 } from '../api/authApi.js'
-import { selectAuthStatus, sessionEstablished } from '../authSlice.js'
+import { sessionEstablished, selectAuthStatus } from '../authSlice.js'
 import { getLoginErrorMessage } from '../lib/authErrors.js'
+import { getLandingPath } from '../lib/roleResolver.js'
 
 const inputClassName =
   'h-11 w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink transition-colors placeholder:text-muted/70 hover:border-brand/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 disabled:cursor-not-allowed disabled:bg-canvas disabled:text-muted'
@@ -61,6 +64,8 @@ export default function LoginPage() {
   const status = useAppSelector(selectAuthStatus)
   const [getCsrfToken] = useLazyGetCsrfTokenQuery()
   const [loginRequest] = useLoginMutation()
+  const [getCurrentUser] = useLazyGetCurrentUserQuery()
+  const [getMemberships] = useLazyGetMembershipsQuery()
   const [loginIdentifier, setLoginIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
@@ -108,16 +113,22 @@ export default function LoginPage() {
 
     try {
       const csrf = await getCsrfToken(undefined, false).unwrap()
-      const user = await loginRequest({
+      await loginRequest({
         loginIdentifier: normalizedIdentifier,
         password,
         csrf,
       }).unwrap()
-
       dispatch(authApi.util.resetApiState())
+      const user = await getCurrentUser().unwrap()
       dispatch(sessionEstablished(user))
+      let memberships = []
+      try {
+        memberships = await getMemberships().unwrap()
+      } catch {
+        memberships = []
+      }
       setPassword('')
-      navigate(destination, { replace: true })
+      navigate(getLandingPath(user, memberships), { replace: true })
     } catch (requestError) {
       setError(getLoginErrorMessage(requestError))
     } finally {
@@ -311,7 +322,10 @@ export default function LoginPage() {
               </div>
             </Card>
 
-            <p className="mt-5 text-center text-xs text-muted">
+            <p className="mt-5 text-center text-sm text-muted">
+              Don't have an account? <Link to="/register" className="text-brand hover:underline">Create account</Link>
+            </p>
+            <p className="mt-2 text-center text-xs text-muted">
               Access is verified against the HostelOS backend.
             </p>
           </div>

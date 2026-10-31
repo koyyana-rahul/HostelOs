@@ -69,12 +69,14 @@ public class SecurityConfig {
 				.securityContext(context -> context
 						.securityContextRepository(securityContextRepository))
 				.authorizeHttpRequests(requests -> requests
-						.requestMatchers(HttpMethod.GET, "/api/v1/system/info").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/v1/auth/csrf").permitAll()
-						.requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-						.requestMatchers(HttpMethod.POST, "/api/v1/auth/logout").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/v1/auth/me").authenticated()
-						.requestMatchers("/api/v1/auth/**").denyAll()
+				.requestMatchers(HttpMethod.GET, "/api/v1/system/info").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/v1/auth/csrf").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/auth/logout").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/v1/auth/me").authenticated()
+				.requestMatchers(HttpMethod.GET, "/api/v1/auth/me/memberships").authenticated()
+				.requestMatchers("/api/v1/auth/**").denyAll()
 						.requestMatchers(
 								"/actuator/health",
 								"/actuator/health/**",
@@ -84,6 +86,8 @@ public class SecurityConfig {
 								"/swagger-ui/**",
 								"/error")
 						.permitAll()
+						.requestMatchers("/api/v1/organizations/**").authenticated()
+						.requestMatchers("/api/v1/platform/**").hasRole("PLATFORM_ADMIN")
 						.anyRequest().denyAll())
 				.exceptionHandling(exceptions -> exceptions
 						.authenticationEntryPoint(errorHandler)
@@ -140,7 +144,7 @@ public class SecurityConfig {
 				return false;
 			}
 			String path = request.getRequestURI().substring(request.getContextPath().length());
-			if ("POST".equals(method) && "/api/v1/auth/login".equals(path)) {
+			if ("POST".equals(method) && ("/api/v1/auth/login".equals(path) || "/api/v1/auth/register".equals(path))) {
 				return true;
 			}
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

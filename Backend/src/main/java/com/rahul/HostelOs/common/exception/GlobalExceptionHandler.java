@@ -1,5 +1,19 @@
 package com.rahul.HostelOs.common.exception;
 
+import com.rahul.HostelOs.building.exception.BuildingArchivedException;
+import com.rahul.HostelOs.building.exception.DuplicateBuildingCodeException;
+import com.rahul.HostelOs.inventory.exception.DuplicatePropertyCodeException;
+import com.rahul.HostelOs.inventory.exception.InvalidPropertyStatusTransitionException;
+import com.rahul.HostelOs.inventory.exception.PropertyNotFoundException;
+import com.rahul.HostelOs.organization.exception.DuplicateOrganizationSlugException;
+import com.rahul.HostelOs.organization.exception.InactiveUserAccountException;
+import com.rahul.HostelOs.organization.exception.InvalidMembershipTransitionException;
+import com.rahul.HostelOs.organization.exception.LastAdminProtectionException;
+import com.rahul.HostelOs.organization.exception.MembershipAlreadyExistsException;
+import com.rahul.HostelOs.organization.exception.MembershipNotFoundException;
+import com.rahul.HostelOs.organization.exception.OrganizationAccessDeniedException;
+import com.rahul.HostelOs.organization.exception.OrganizationNotFoundException;
+import com.rahul.HostelOs.organization.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -56,6 +70,139 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				HttpStatus.FORBIDDEN,
 				"Access is denied",
 				request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+	}
+
+	@ExceptionHandler(PropertyNotFoundException.class)
+	public ResponseEntity<ApiError> handlePropertyNotFound(
+			PropertyNotFoundException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Property not found";
+		ApiError error = ApiError.of(HttpStatus.NOT_FOUND, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
+	@ExceptionHandler(DuplicatePropertyCodeException.class)
+	public ResponseEntity<ApiError> handleDuplicatePropertyCode(
+			DuplicatePropertyCodeException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Duplicate property code";
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler(InvalidPropertyStatusTransitionException.class)
+	public ResponseEntity<ApiError> handleInvalidPropertyStatusTransition(
+			InvalidPropertyStatusTransitionException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Invalid property status transition";
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler(DuplicateBuildingCodeException.class)
+	public ResponseEntity<ApiError> handleDuplicateBuildingCode(
+			DuplicateBuildingCodeException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Duplicate building code";
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler(OrganizationNotFoundException.class)
+	public ResponseEntity<ApiError> handleOrganizationNotFound(
+			OrganizationNotFoundException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Organization not found";
+		ApiError error = ApiError.of(HttpStatus.NOT_FOUND, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
+	@ExceptionHandler(MembershipNotFoundException.class)
+	public ResponseEntity<ApiError> handleMembershipNotFound(
+			MembershipNotFoundException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Membership not found";
+		ApiError error = ApiError.of(HttpStatus.NOT_FOUND, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ApiError> handleUserNotFound(
+			UserNotFoundException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "User not found";
+		ApiError error = ApiError.of(HttpStatus.NOT_FOUND, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
+	@ExceptionHandler(DuplicateOrganizationSlugException.class)
+	public ResponseEntity<ApiError> handleDuplicateOrganizationSlug(
+			DuplicateOrganizationSlugException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Duplicate organization slug";
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler(MembershipAlreadyExistsException.class)
+	public ResponseEntity<ApiError> handleMembershipAlreadyExists(
+			MembershipAlreadyExistsException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Membership already exists";
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler(InvalidMembershipTransitionException.class)
+	public ResponseEntity<ApiError> handleInvalidMembershipTransition(
+			InvalidMembershipTransitionException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Invalid membership transition";
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler(LastAdminProtectionException.class)
+	public ResponseEntity<ApiError> handleLastAdminProtection(
+			LastAdminProtectionException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Last active administrator cannot be removed or demoted";
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler({OrganizationAccessDeniedException.class, InactiveUserAccountException.class})
+	public ResponseEntity<ApiError> handleOrgAccessDenied(
+			RuntimeException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Access is denied";
+		// Keep response generic per security but use exception message if meaningful; ApiError already standardized
+		ApiError error = ApiError.of(HttpStatus.FORBIDDEN, "Access is denied", request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
 	}
 

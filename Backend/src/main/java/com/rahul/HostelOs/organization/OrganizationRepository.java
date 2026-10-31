@@ -1,6 +1,7 @@
 package com.rahul.HostelOs.organization;
 
 import jakarta.persistence.LockModeType;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -16,4 +17,8 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("SELECT o FROM Organization o WHERE o.id = :id")
 	Optional<Organization> findByIdWithLock(@Param("id") Long id);
+
+	long countByStatus(OrganizationStatus status);
+
+	List<Organization> findTop5ByOrderByCreatedAtDesc();
 }
