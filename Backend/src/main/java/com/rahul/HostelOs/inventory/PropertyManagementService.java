@@ -8,11 +8,7 @@ import com.rahul.HostelOs.inventory.dto.UpdatePropertyRequest;
 import com.rahul.HostelOs.inventory.exception.DuplicatePropertyCodeException;
 import com.rahul.HostelOs.inventory.exception.InvalidPropertyStatusTransitionException;
 import com.rahul.HostelOs.inventory.exception.PropertyNotFoundException;
-import com.rahul.HostelOs.organization.MembershipStatus;
-import com.rahul.HostelOs.organization.OrgRole;
 import com.rahul.HostelOs.organization.Organization;
-import com.rahul.HostelOs.organization.OrganizationMembership;
-import com.rahul.HostelOs.organization.OrganizationMembershipRepository;
 import com.rahul.HostelOs.organization.OrganizationRepository;
 import com.rahul.HostelOs.organization.OrganizationStatus;
 import com.rahul.HostelOs.organization.exception.OrganizationAccessDeniedException;
@@ -33,16 +29,13 @@ public class PropertyManagementService {
 
 	private final PropertyRepository propertyRepository;
 	private final OrganizationRepository organizationRepository;
-	private final OrganizationMembershipRepository membershipRepository;
 
-	public PropertyManagementService(
-			PropertyRepository propertyRepository,
-			OrganizationRepository organizationRepository,
-			OrganizationMembershipRepository membershipRepository) {
-		this.propertyRepository = Objects.requireNonNull(propertyRepository, "PropertyRepository must not be null");
-		this.organizationRepository = Objects.requireNonNull(organizationRepository, "OrganizationRepository must not be null");
-		this.membershipRepository = Objects.requireNonNull(membershipRepository, "OrganizationMembershipRepository must not be null");
-	}
+public PropertyManagementService(
+		PropertyRepository propertyRepository,
+		OrganizationRepository organizationRepository) {
+	this.propertyRepository = Objects.requireNonNull(propertyRepository, "PropertyRepository must not be null");
+	this.organizationRepository = Objects.requireNonNull(organizationRepository, "OrganizationRepository must not be null");
+}
 
 	public PropertyResponse createProperty(Long organizationId, CreatePropertyRequest request) {
 		if (request == null) {
@@ -69,7 +62,11 @@ public class PropertyManagementService {
 				request.state(),
 				request.postalCode(),
 				request.country(),
-				request.timezone());
+				request.timezone(),
+				request.latitude(),
+				request.longitude(),
+				request.placeId(),
+				request.locationProvider());
 
 		try {
 			Property saved = propertyRepository.save(property);
@@ -101,15 +98,17 @@ public class PropertyManagementService {
 			throw new InvalidPropertyStatusTransitionException("Cannot update details of an archived property");
 		}
 
-		property.updateDetails(
-				request.name(),
-				request.addressLine1(),
-				request.addressLine2(),
-				request.city(),
-				request.state(),
-				request.postalCode(),
-				request.country(),
-				request.timezone());
+property.updateDetails(
+			request.name(),
+			request.addressLine1(),
+			request.addressLine2(),
+			request.city(),
+			request.state(),
+			request.postalCode(),
+			request.country(),
+			request.timezone(),
+			request.latitude(),
+			request.longitude());
 
 		Property saved = propertyRepository.save(property);
 		propertyRepository.flush();
@@ -191,19 +190,11 @@ public class PropertyManagementService {
 			throw new OrganizationAccessDeniedException("Organization is not active: " + organizationId);
 		}
 
-		OrganizationMembership callerMembership = membershipRepository
-				.findByOrganizationIdAndUserId(organizationId, callerUserId)
-				.orElseThrow(() -> new OrganizationAccessDeniedException("Caller has no membership in organization: " + organizationId));
-
-		if (callerMembership.getStatus() != MembershipStatus.ACTIVE) {
-			throw new OrganizationAccessDeniedException("Caller membership is not active in organization: " + organizationId);
+		if (org.isOwnedBy(callerUserId)) {
+			return org;
 		}
 
-		if (callerMembership.getOrgRole() != OrgRole.ORG_ADMIN) {
-			throw new OrganizationAccessDeniedException("Caller does not hold ORG_ADMIN role in organization: " + organizationId);
-		}
-
-		return org;
+		throw new OrganizationAccessDeniedException("Only the organization owner has access");
 	}
 
 	private Organization authorizeReadAccess(Long organizationId, Long callerUserId) {
@@ -218,20 +209,11 @@ public class PropertyManagementService {
 			throw new OrganizationAccessDeniedException("Organization is not active: " + organizationId);
 		}
 
-		OrganizationMembership callerMembership = membershipRepository
-				.findByOrganizationIdAndUserId(organizationId, callerUserId)
-				.orElseThrow(() -> new OrganizationAccessDeniedException("Caller has no membership in organization: " + organizationId));
-
-		if (callerMembership.getStatus() != MembershipStatus.ACTIVE) {
-			throw new OrganizationAccessDeniedException("Caller membership is not active in organization: " + organizationId);
+		if (org.isOwnedBy(callerUserId)) {
+			return org;
 		}
 
-		OrgRole role = callerMembership.getOrgRole();
-		if (role != OrgRole.ORG_ADMIN && role != OrgRole.ORG_STAFF) {
-			throw new OrganizationAccessDeniedException("Caller does not hold read permissions in organization: " + organizationId);
-		}
-
-		return org;
+		throw new OrganizationAccessDeniedException("Only the organization owner has read access");
 	}
 
 	private Long resolveActingUserId() {

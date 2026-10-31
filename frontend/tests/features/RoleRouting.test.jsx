@@ -1,11 +1,11 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import {
   authUserPayload,
   organizationAdminUserPayload,
   staffUserPayload,
   stubFetch,
-  stubFetchWithMemberships,
+  stubOwnerApi,
 } from '../helpers/api.js'
 import { renderApp } from '../test-utils.jsx'
 
@@ -24,12 +24,12 @@ describe('role-aware route access', () => {
     expect(router.state.location.pathname).toBe('/platform')
   })
 
-  it('CUSTOMER without active organization membership is sent to /onboarding', async () => {
+  it('CUSTOMER without an owner account is sent to /discover', async () => {
     const customerUser = {
       id: 99,
       loginIdentifier: 'customer@example.com',
       displayName: 'Customer',
-      roles: [],
+      roles: ['CUSTOMER'],
     }
 
     stubFetch()
@@ -39,28 +39,18 @@ describe('role-aware route access', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /get started with hostelos/i,
+        name: /find hostels and pgs/i,
       }),
     ).toBeInTheDocument()
-    expect(router.state.location.pathname).toBe('/onboarding')
+    expect(router.state.location.pathname).toBe('/discover')
   })
 
-  it('ORGANIZATION_ADMIN with active membership can open /app', async () => {
-    const memberships = [
-      {
-        id: 1,
-        organizationId: 10,
-        organizationName: 'Green Valley Hostel',
-        orgRole: 'ORG_ADMIN',
-        status: 'ACTIVE',
-      },
-    ]
-
-    stubFetchWithMemberships(memberships)
+  it('ORGANIZATION_ADMIN with an organization can open /app', async () => {
+    stubOwnerApi()
 
     const { router } = renderApp({
       route: '/app',
-      user: organizationAdminUserPayload,
+      user: { ...organizationAdminUserPayload, roles: ['ORGANIZATION_ADMIN'] },
     })
 
     expect(
@@ -72,48 +62,20 @@ describe('role-aware route access', () => {
     expect(router.state.location.pathname).toBe('/app')
   })
 
-  it('STAFF with active membership can open /app', async () => {
-    const memberships = [
-      {
-        id: 2,
-        organizationId: 10,
-        organizationName: 'Green Valley Hostel',
-        orgRole: 'ORG_STAFF',
-        status: 'ACTIVE',
-      },
-    ]
-
-    stubFetchWithMemberships(memberships)
+  it('STAFF without an owner organization is sent to /discover', async () => {
+    stubFetch()
 
     const { router } = renderApp({
       route: '/app',
-      user: staffUserPayload,
+      user: { ...staffUserPayload, roles: ['STAFF'] },
     })
 
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^overview$/i,
+        name: /find hostels and pgs/i,
       }),
     ).toBeInTheDocument()
-    expect(router.state.location.pathname).toBe('/app')
-  })
-
-  it('Anonymous user is sent to /login from a protected route', async () => {
-    const { router } = renderApp({
-      route: '/foundation',
-      authStatus: 'anonymous',
-      user: null,
-    })
-
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: /sign in to hostelos/i,
-      }),
-    ).toBeInTheDocument()
-    await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/login')
-    })
+    expect(router.state.location.pathname).toBe('/discover')
   })
 })

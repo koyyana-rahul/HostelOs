@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Objects;
@@ -63,6 +64,18 @@ public class Property {
 	@Column(name = "timezone", nullable = false, length = 50)
 	private String timezone;
 
+	@Column(name = "latitude", precision = 10, scale = 8)
+	private BigDecimal latitude;
+
+	@Column(name = "longitude", precision = 11, scale = 8)
+	private BigDecimal longitude;
+
+	@Column(name = "place_id", length = 64)
+	private String placeId;
+
+	@Column(name = "location_provider", length = 50)
+	private String locationProvider;
+
 	@Version
 	@Column(name = "version", nullable = false)
 	private long version;
@@ -78,22 +91,26 @@ public class Property {
 	protected Property() {
 	}
 
-	public Property(
-			Organization organization,
-			String name,
-			String rawCode,
-			PropertyStatus status,
-			String addressLine1,
-			String addressLine2,
-			String city,
-			String state,
-			String postalCode,
-			String country,
-			String timezone) {
+public Property(
+		Organization organization,
+		String name,
+		String rawCode,
+		PropertyStatus status,
+		String addressLine1,
+		String addressLine2,
+		String city,
+		String state,
+		String postalCode,
+		String country,
+		String timezone,
+		BigDecimal latitude,
+		BigDecimal longitude,
+		String placeId,
+		String locationProvider) {
 		this.organization = Objects.requireNonNull(organization, "Organization must not be null");
 		this.name = validateName(name);
 		this.code = PropertyCode.normalize(rawCode);
-		this.status = Objects.requireNonNull(status, "Property status must not be null");
+		this.status = Objects.requireNonNull(status, "Property status must not null");
 		this.addressLine1 = normalizeOptional(addressLine1, 200, "Address line 1");
 		this.addressLine2 = normalizeOptional(addressLine2, 200, "Address line 2");
 		this.city = validateCity(city);
@@ -101,6 +118,10 @@ public class Property {
 		this.postalCode = normalizeOptional(postalCode, 20, "Postal code");
 		this.country = normalizeCountry(country);
 		this.timezone = validateTimezone(timezone);
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.placeId = placeId;
+		this.locationProvider = locationProvider;
 	}
 
 	@PrePersist
@@ -110,6 +131,18 @@ public class Property {
 		this.city = validateCity(this.city);
 		this.country = normalizeCountry(this.country);
 		this.timezone = validateTimezone(this.timezone);
+		if (this.latitude == null) {
+			this.latitude = BigDecimal.valueOf(12.9719);
+		}
+		if (this.longitude == null) {
+			this.longitude = BigDecimal.valueOf(77.5937);
+		}
+		if (this.placeId == null) {
+			this.placeId = "";
+		}
+		if (this.locationProvider == null) {
+			this.locationProvider = "openstreetmap";
+		}
 	}
 
 	public Long getId() {
@@ -190,27 +223,31 @@ public class Property {
 		this.status = PropertyStatus.ARCHIVED;
 	}
 
-	public void updateDetails(
-			String newName,
-			String newAddressLine1,
-			String newAddressLine2,
-			String newCity,
-			String newState,
-			String newPostalCode,
-			String newCountry,
-			String newTimezone) {
-		if (this.status == PropertyStatus.ARCHIVED) {
-			throw new IllegalStateException("Cannot update details of an archived property");
-		}
-		this.name = validateName(newName);
-		this.addressLine1 = normalizeOptional(newAddressLine1, 200, "Address line 1");
-		this.addressLine2 = normalizeOptional(newAddressLine2, 200, "Address line 2");
-		this.city = validateCity(newCity);
-		this.state = normalizeOptional(newState, 100, "State");
-		this.postalCode = normalizeOptional(newPostalCode, 20, "Postal code");
-		this.country = normalizeCountry(newCountry);
-		this.timezone = validateTimezone(newTimezone);
+public void updateDetails(
+		String newName,
+		String newAddressLine1,
+		String newAddressLine2,
+		String newCity,
+		String newState,
+		String newPostalCode,
+		String newCountry,
+		String newTimezone,
+		BigDecimal newLatitude,
+		BigDecimal newLongitude) {
+	if (this.status == PropertyStatus.ARCHIVED) {
+		throw new IllegalStateException("Cannot update details of an archived property");
 	}
+	this.name = validateName(newName);
+	this.addressLine1 = normalizeOptional(newAddressLine1, 200, "Address line 1");
+	this.addressLine2 = normalizeOptional(newAddressLine2, 200, "Address line 2");
+	this.city = validateCity(newCity);
+	this.state = normalizeOptional(newState, 100, "State");
+	this.postalCode = normalizeOptional(newPostalCode, 20, "Postal code");
+	this.country = normalizeCountry(newCountry);
+	this.timezone = validateTimezone(newTimezone);
+	this.latitude = newLatitude;
+	this.longitude = newLongitude;
+}
 
 	private static String validateName(String name) {
 		if (name == null || name.trim().isBlank()) {

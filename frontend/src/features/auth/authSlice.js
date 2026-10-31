@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const initialAuthState = {
   user: null,
-  status: 'checking',
+  status: 'anonymous',
   error: null,
 }
 

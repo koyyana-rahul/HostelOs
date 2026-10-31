@@ -1,4 +1,13 @@
-import { LayoutDashboard, Building2, UsersRound, ClipboardList, Settings } from 'lucide-react'
+import {
+  Briefcase,
+  Building2,
+  LayoutDashboard,
+  Search,
+  Settings,
+  UserRound,
+  UsersRound,
+  ClipboardList,
+} from 'lucide-react'
 
 export const platformNav = [
   { to: '/platform', label: 'Platform Dashboard', icon: LayoutDashboard, end: true },
@@ -11,13 +20,24 @@ export const platformNav = [
 export const orgNav = [
   { to: '/app/overview', label: 'Overview', icon: LayoutDashboard, end: true },
   { to: '/app/properties', label: 'Properties', icon: Building2 },
-  { to: '/app/staff', label: 'Staff and Members', icon: UsersRound },
-  { to: '/app/operations', label: 'Operations', icon: ClipboardList },
+  { to: '/app/listings', label: 'Listings', icon: Search },
+  { to: '/app/enquiries', label: 'Enquiries', icon: Briefcase },
   { to: '/app/settings', label: 'Settings', icon: Settings },
+  { to: '/app/account', label: 'Account', icon: UserRound },
+]
+
+export const ownerNav = [
+  { to: '/app/overview', label: 'Overview', icon: LayoutDashboard, end: true },
+  { to: '/app/properties', label: 'Properties', icon: Building2 },
+  { to: '/app/listings', label: 'Listings', icon: Search },
+  { to: '/app/enquiries', label: 'Enquiries', icon: Briefcase },
+  { to: '/app/settings', label: 'Settings', icon: Settings },
+  { to: '/app/account', label: 'Account', icon: UserRound },
 ]
 
 export const staffNav = [
   { to: '/app/overview', label: 'Overview', icon: LayoutDashboard, end: true },
   { to: '/app/properties', label: 'Properties', icon: Building2 },
-  { to: '/app/operations', label: 'Operations', icon: ClipboardList },
+  { to: '/app/listings', label: 'Listings', icon: Search },
+  { to: '/app/enquiries', label: 'Enquiries', icon: Briefcase },
 ]

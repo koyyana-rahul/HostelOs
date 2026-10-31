@@ -103,6 +103,31 @@ public class AuthController {
 		}
 	}
 
+	@Operation(summary = "Register a new organization owner account")
+	@ApiResponse(responseCode = "201", description = "Owner registration succeeded")
+	@ApiResponse(responseCode = "400", description = "Invalid registration request")
+	@ApiResponse(responseCode = "409", description = "Duplicate login identifier")
+	@PostMapping("/register/owner")
+	public ResponseEntity<Object> registerOwner(
+			@Valid @RequestBody RegisterOwnerRequest request,
+			HttpServletRequest httpRequest) {
+		try {
+			UserAccount account = userAccounts.registerOwner(request.loginIdentifier(), request.displayName(), request.password());
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(new AuthUserResponse(
+							account.getId(),
+							account.getLoginIdentifier(),
+							account.getDisplayName(),
+							account.getRoles().stream().map(role -> role.getName().name()).toList()));
+		} catch (DuplicateLoginIdentifierException exception) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body(ApiError.of(HttpStatus.CONFLICT, "Login identifier already exists", httpRequest.getRequestURI()));
+		} catch (IllegalArgumentException exception) {
+			return ResponseEntity.badRequest()
+					.body(ApiError.of(HttpStatus.BAD_REQUEST, exception.getMessage(), httpRequest.getRequestURI()));
+		}
+	}
+
 	@ApiResponse(responseCode = "200", description = "Authentication succeeded")
 	@ApiResponse(responseCode = "400", description = "Invalid login request")
 	@ApiResponse(responseCode = "401", description = "Authentication failed")

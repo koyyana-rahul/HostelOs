@@ -1,0 +1,740 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.rahul:HostelOs >-------------------------
+[INFO] Building HostelOS Backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.5.0:clean (default-clean) @ HostelOs ---
+[INFO] Deleting D:\Downloads\HostelOs\Backend\target
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ HostelOs ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 7 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ HostelOs ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 74 source files with javac [debug parameters release 17] to target\classes
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ HostelOs ---
+[INFO] Copying 3 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ HostelOs ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 24 source files with javac [debug parameters release 17] to target\test-classes
+[INFO] /D:/Downloads/HostelOs/Backend/src/test/java/com/rahul/HostelOs/concurrency/ConcurrencyTestSupport.java: D:\Downloads\HostelOs\Backend\src\test\java\com\rahul\HostelOs\concurrency\ConcurrencyTestSupport.java uses or overrides a deprecated API.
+[INFO] /D:/Downloads/HostelOs/Backend/src/test/java/com/rahul/HostelOs/concurrency/ConcurrencyTestSupport.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ HostelOs ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.rahul.HostelOs.AuthIntegrationTests
+00:35:04.885 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.AuthIntegrationTests
+00:35:05.025 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.AuthIntegrationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:35:05.542+05:30  INFO 2224 --- [HostelOs] [           main] c.rahul.HostelOs.AuthIntegrationTests    : Starting AuthIntegrationTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:35:05.545+05:30  INFO 2224 --- [HostelOs] [           main] c.rahul.HostelOs.AuthIntegrationTests    : The following 1 profile is active: "test"
+2026-10-31T00:35:06.967+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:35:07.061+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:35:08.852+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-31T00:35:08.946+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-31T00:35:08.981+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-31T00:35:09.425+05:30  INFO 2224 --- [HostelOs] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3832 ms
+2026-10-31T00:35:11.121+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:35:11.431+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn0: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:35:11.435+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:35:11.451+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:35:11.533+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:11.586+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-31T00:35:11.589+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.031s)
+2026-10-31T00:35:11.599+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-31T00:35:11.646+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-31T00:35:11.655+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - baseline"
+2026-10-31T00:35:11.659+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : +---+
+| 1 |
++---+
+| 1 |
++---+
+
+2026-10-31T00:35:11.678+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - identity foundation"
+2026-10-31T00:35:11.714+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - reconcile platform admin role"
+2026-10-31T00:35:11.725+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - organizations and memberships"
+2026-10-31T00:35:11.742+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - inventory property foundation"
+2026-10-31T00:35:11.752+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - building management"
+2026-10-31T00:35:11.763+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - introduce customer role"
+2026-10-31T00:35:11.774+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 7 migrations to schema "public", now at version v7 (execution time 00:00.064s)
+2026-10-31T00:35:11.928+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:35:12.006+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-10-31T00:35:12.646+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:35:12.774+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:35:14.113+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:35:14.148+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:35:14.251+05:30  INFO 2224 --- [HostelOs] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-31T00:35:15.861+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:35:17.312+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:35:17.493+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 64191 (http) with context path '/'
+2026-10-31T00:35:17.506+05:30  INFO 2224 --- [HostelOs] [           main] c.rahul.HostelOs.AuthIntegrationTests    : Started AuthIntegrationTests in 12.42 seconds (process running for 14.379)
+2026-10-31T00:35:18.152+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account created
+2026-10-31T00:35:18.152+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T00:35:18.152+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-10-31T00:35:20.169+05:30  INFO 2224 --- [HostelOs] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-31T00:35:20.169+05:30  INFO 2224 --- [HostelOs] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-31T00:35:20.171+05:30  INFO 2224 --- [HostelOs] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.40 s -- in com.rahul.HostelOs.AuthIntegrationTests
+[INFO] Running com.rahul.HostelOs.concurrency.OrganizationConcurrencyIntegrationTests
+[WARNING] Tests run: 3, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0.001 s -- in com.rahul.HostelOs.concurrency.OrganizationConcurrencyIntegrationTests
+[INFO] Running com.rahul.HostelOs.concurrency.PropertyConcurrencyIntegrationTests
+[WARNING] Tests run: 3, Failures: 0, Errors: 0, Skipped: 3, Time elapsed: 0 s -- in com.rahul.HostelOs.concurrency.PropertyConcurrencyIntegrationTests
+[INFO] Running com.rahul.HostelOs.config.MysqlTestDatabaseGuardTests
+2026-10-31T00:35:31.949+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : MySQL test database safety guard PASSED: target database is verified as local hostelos_test (jdbc:mysql://localhost:3306/hostelos_test)
+2026-10-31T00:35:31.951+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : MySQL test database safety guard PASSED: target database is verified as local hostelos_test (jdbc:mysql://localhost:3306/hostelos_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC)
+2026-10-31T00:35:32.017+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : Active profile 'mysql-test' detected. Executing fail-closed database safety guard...
+2026-10-31T00:35:32.019+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : MySQL test database safety guard PASSED: target database is verified as local hostelos_test (jdbc:mysql://127.0.0.1:3306/hostelos_test)
+2026-10-31T00:35:32.019+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : MySQL test database safety guard PASSED: target database is verified as local hostelos_test (jdbc:mysql://127.0.0.1:3306/hostelos_test?createDatabaseIfNotExist=false)
+2026-10-31T00:35:32.025+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : Active profile 'mysql-test' detected. Executing fail-closed database safety guard...
+2026-10-31T00:35:32.041+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : MySQL test database safety guard PASSED: target database is verified as local hostelos_test (jdbc:mysql://127.0.0.1:3306/hostelos_test)
+2026-10-31T00:35:32.046+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : Active profile 'mysql-test' detected. Executing fail-closed database safety guard...
+2026-10-31T00:35:32.047+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.config.MysqlTestDatabaseGuard      : MySQL test database safety guard PASSED: target database is verified as local hostelos_test (jdbc:mysql://localhost:3306/hostelos_test?useSSL=false)
+[INFO] Tests run: 32, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.206 s -- in com.rahul.HostelOs.config.MysqlTestDatabaseGuardTests
+[INFO] Running com.rahul.HostelOs.config.TestDatabaseProfileResolverTests
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in com.rahul.HostelOs.config.TestDatabaseProfileResolverTests
+[INFO] Running com.rahul.HostelOs.ErrorHandlingIntegrationTests
+2026-10-31T00:35:32.103+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.ErrorHandlingIntegrationTests
+2026-10-31T00:35:32.109+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.ErrorHandlingIntegrationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:35:32.180+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.ErrorHandlingIntegrationTests      : Starting ErrorHandlingIntegrationTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:35:32.181+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.ErrorHandlingIntegrationTests      : The following 1 profile is active: "test"
+2026-10-31T00:35:32.686+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:35:32.731+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:35:32.924+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-31T00:35:32.925+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-31T00:35:32.925+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-31T00:35:33.031+05:30  INFO 2224 --- [HostelOs] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 843 ms
+2026-10-31T00:35:33.153+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:35:33.155+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn3: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:35:33.155+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:35:33.155+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:35:33.166+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:33.180+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.008s)
+2026-10-31T00:35:33.183+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2026-10-31T00:35:33.183+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-31T00:35:33.219+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:35:33.265+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:35:33.270+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:35:33.461+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:35:33.469+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:35:34.352+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:35:34.708+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:35:34.731+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 59221 (http) with context path '/'
+2026-10-31T00:35:34.737+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.ErrorHandlingIntegrationTests      : Started ErrorHandlingIntegrationTests in 2.612 seconds (process running for 31.61)
+2026-10-31T00:35:34.749+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account already exists; no changes made
+2026-10-31T00:35:34.749+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T00:35:34.749+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-10-31T00:35:34.765+05:30  INFO 2224 --- [HostelOs] [o-auto-2-exec-6] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-31T00:35:34.765+05:30  INFO 2224 --- [HostelOs] [o-auto-2-exec-6] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-31T00:35:34.767+05:30  INFO 2224 --- [HostelOs] [o-auto-2-exec-6] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-10-31T00:35:34.809+05:30 ERROR 2224 --- [HostelOs] [o-auto-2-exec-4] c.r.H.c.e.GlobalExceptionHandler         : Unhandled exception for GET /probe/failure
+
+java.lang.IllegalStateException: sensitive-internal-detail
+	at com.rahul.HostelOs.ErrorHandlingIntegrationTests$ProbeController.failure(ErrorHandlingIntegrationTests.java:106) ~[test-classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-11.0.27.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.10.jar:7.0.10]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.27.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:132) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:59) ~[tomcat-embed-websocket-11.0.27.jar:11.0.27]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$2(FilterChainProxy.java:235) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:491) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:353) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:84) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:131) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:101) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:181) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:110) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:96) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:91) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:76) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:230) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:243) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:336) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:140) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:237) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:195) ~[spring-security-web-7.1.2.jar:7.1.2]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:317) ~[spring-security-config-7.1.2.jar:7.1.2]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:355) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:272) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.10.jar:7.0.10]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:164) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:86) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:71) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:347) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:411) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:71) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1308) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:2202) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:74) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:947) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:481) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:74) ~[tomcat-embed-core-11.0.27.jar:11.0.27]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.748 s -- in com.rahul.HostelOs.ErrorHandlingIntegrationTests
+[INFO] Running com.rahul.HostelOs.HostelOsApplicationTests
+2026-10-31T00:35:34.836+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.HostelOsApplicationTests]: HostelOsApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:34.840+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.HostelOsApplicationTests
+2026-10-31T00:35:34.842+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.HostelOsApplicationTests]: HostelOsApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:34.843+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.HostelOsApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:35:34.884+05:30  INFO 2224 --- [HostelOs] [           main] c.r.HostelOs.HostelOsApplicationTests    : Starting HostelOsApplicationTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:35:34.884+05:30  INFO 2224 --- [HostelOs] [           main] c.r.HostelOs.HostelOsApplicationTests    : The following 1 profile is active: "test"
+2026-10-31T00:35:35.470+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:35:35.507+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 32 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:35:35.667+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-31T00:35:35.667+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-31T00:35:35.667+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-31T00:35:35.742+05:30  INFO 2224 --- [HostelOs] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 856 ms
+2026-10-31T00:35:35.848+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:35:35.851+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn5: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:35:35.851+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:35:35.853+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:35:35.861+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:35.875+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.008s)
+2026-10-31T00:35:35.879+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2026-10-31T00:35:35.880+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-31T00:35:35.907+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:35:35.959+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:35:35.963+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:35:36.122+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:35:36.127+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:35:36.407+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:35:36.655+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:35:36.686+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 56672 (http) with context path '/'
+2026-10-31T00:35:36.690+05:30  INFO 2224 --- [HostelOs] [           main] c.r.HostelOs.HostelOsApplicationTests    : Started HostelOsApplicationTests in 1.835 seconds (process running for 33.563)
+2026-10-31T00:35:36.700+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account already exists; no changes made
+2026-10-31T00:35:36.701+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T00:35:36.701+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-10-31T00:35:36.714+05:30  INFO 2224 --- [HostelOs] [o-auto-3-exec-1] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-31T00:35:36.714+05:30  INFO 2224 --- [HostelOs] [o-auto-3-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-31T00:35:36.714+05:30  INFO 2224 --- [HostelOs] [o-auto-3-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-10-31T00:35:37.355+05:30  INFO 2224 --- [HostelOs] [o-auto-3-exec-2] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 587 ms
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.757 s -- in com.rahul.HostelOs.HostelOsApplicationTests
+[INFO] Running com.rahul.HostelOs.identity.AdminBootstrapRunnerTests
+2026-10-31T00:35:38.006+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account created
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.445 s -- in com.rahul.HostelOs.identity.AdminBootstrapRunnerTests
+[INFO] Running com.rahul.HostelOs.identity.LoginIdentifierTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in com.rahul.HostelOs.identity.LoginIdentifierTests
+[INFO] Running com.rahul.HostelOs.identity.RoleMigrationTests
+2026-10-31T00:35:38.199+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/RAHUL/AppData/Local/Temp/junit-13077217136072610741/identity (H2 2.4)
+2026-10-31T00:35:38.219+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:38.239+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-31T00:35:38.242+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.015s)
+2026-10-31T00:35:38.244+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-31T00:35:38.283+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-31T00:35:38.302+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - baseline"
+2026-10-31T00:35:38.303+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : +---+
+| 1 |
++---+
+| 1 |
++---+
+
+2026-10-31T00:35:38.316+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - identity foundation"
+2026-10-31T00:35:38.340+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - reconcile platform admin role"
+2026-10-31T00:35:38.358+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - organizations and memberships"
+2026-10-31T00:35:38.380+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - inventory property foundation"
+2026-10-31T00:35:38.395+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - building management"
+2026-10-31T00:35:38.412+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - introduce customer role"
+2026-10-31T00:35:38.419+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 7 migrations to schema "public", now at version v7 (execution time 00:00.052s)
+2026-10-31T00:35:38.544+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/RAHUL/AppData/Local/Temp/junit-1830642293797324308/identity (H2 2.4)
+2026-10-31T00:35:38.555+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:38.568+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-31T00:35:38.570+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.009s)
+2026-10-31T00:35:38.572+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-31T00:35:38.587+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-31T00:35:38.591+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - baseline"
+2026-10-31T00:35:38.592+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : +---+
+| 1 |
++---+
+| 1 |
++---+
+
+2026-10-31T00:35:38.601+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - identity foundation"
+2026-10-31T00:35:38.617+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.013s)
+2026-10-31T00:35:38.738+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/RAHUL/AppData/Local/Temp/junit-1830642293797324308/identity (H2 2.4)
+2026-10-31T00:35:38.746+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:38.759+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.008s)
+2026-10-31T00:35:38.763+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-10-31T00:35:38.766+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - reconcile platform admin role"
+2026-10-31T00:35:38.777+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - organizations and memberships"
+2026-10-31T00:35:38.825+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - inventory property foundation"
+2026-10-31T00:35:38.843+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - building management"
+2026-10-31T00:35:38.865+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - introduce customer role"
+2026-10-31T00:35:38.868+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 5 migrations to schema "public", now at version v7 (execution time 00:00.033s)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.284 s -- in com.rahul.HostelOs.identity.RoleMigrationTests
+[INFO] Running com.rahul.HostelOs.inventory.PropertyControllerTests
+2026-10-31T00:35:39.424+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.inventory.PropertyControllerTests]: PropertyControllerTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:39.654+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.inventory.PropertyControllerTests
+2026-10-31T00:35:39.659+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.inventory.PropertyControllerTests]: PropertyControllerTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:39.663+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.inventory.PropertyControllerTests
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.061 s -- in com.rahul.HostelOs.inventory.PropertyControllerTests
+[INFO] Running com.rahul.HostelOs.inventory.PropertyManagementServiceTests
+2026-10-31T00:35:46.436+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.inventory.PropertyManagementServiceTests]: PropertyManagementServiceTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:46.449+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.inventory.PropertyManagementServiceTests
+2026-10-31T00:35:46.453+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.inventory.PropertyManagementServiceTests]: PropertyManagementServiceTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:46.455+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.inventory.PropertyManagementServiceTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:35:46.526+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.i.PropertyManagementServiceTests   : Starting PropertyManagementServiceTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:35:46.527+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.i.PropertyManagementServiceTests   : The following 1 profile is active: "test"
+2026-10-31T00:35:47.219+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:35:47.256+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:35:47.570+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:35:47.571+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn16: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:35:47.571+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:35:47.573+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:35:47.583+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:47.593+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.008s)
+2026-10-31T00:35:47.596+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2026-10-31T00:35:47.596+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-31T00:35:47.635+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:35:47.675+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:35:47.681+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:35:47.803+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:35:47.805+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:35:48.466+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:35:49.163+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:35:49.203+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.i.PropertyManagementServiceTests   : Started PropertyManagementServiceTests in 2.728 seconds (process running for 46.075)
+2026-10-31T00:35:49.215+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account already exists; no changes made
+2026-10-31T00:35:49.215+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T00:35:49.215+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.665 s -- in com.rahul.HostelOs.inventory.PropertyManagementServiceTests
+[INFO] Running com.rahul.HostelOs.inventory.PropertyRepositoryTests
+2026-10-31T00:35:50.110+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.inventory.PropertyRepositoryTests]: PropertyRepositoryTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:50.111+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.inventory.PropertyRepositoryTests
+2026-10-31T00:35:50.114+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.inventory.PropertyRepositoryTests]: PropertyRepositoryTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:50.115+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.inventory.PropertyRepositoryTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:35:50.162+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.inventory.PropertyRepositoryTests  : Starting PropertyRepositoryTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:35:50.163+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.inventory.PropertyRepositoryTests  : The following 1 profile is active: "test"
+2026-10-31T00:35:51.040+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:35:51.082+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:35:51.420+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:35:51.425+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn18: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:35:51.425+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:35:51.425+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:35:51.456+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:51.468+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.008s)
+2026-10-31T00:35:51.472+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2026-10-31T00:35:51.472+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-31T00:35:51.511+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:35:51.601+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:35:51.602+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:35:51.789+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:35:51.798+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:35:52.155+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:35:52.542+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:35:52.566+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.inventory.PropertyRepositoryTests  : Started PropertyRepositoryTests in 2.44 seconds (process running for 49.439)
+2026-10-31T00:35:52.574+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account already exists; no changes made
+2026-10-31T00:35:52.575+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T00:35:52.575+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-10-31T00:35:52.602+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 23505, SQLState: 23505
+2026-10-31T00:35:52.602+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : Unique index or primary key violation: "public.uk_properties_org_code INDEX public.uk_properties_org_code_INDEX_C ON public.properties(organization_id NULLS FIRST, code NULLS FIRST) VALUES ( /* key:21 */ CAST(41 AS BIGINT), 'MAIN')"; SQL statement:
+insert into properties (address_line1,address_line2,city,code,country,created_at,name,organization_id,postal_code,state,status,timezone,updated_at,version,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default) [23505-240]
+2026-10-31T00:35:52.740+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 23503, SQLState: 23503
+2026-10-31T00:35:52.740+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : Referential integrity constraint violation: "fk_properties_organization: public.properties FOREIGN KEY(organization_id) REFERENCES public.organizations(id) (CAST(53 AS BIGINT))"; SQL statement:
+DELETE FROM organizations WHERE id = ? [23503-240]
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.712 s -- in com.rahul.HostelOs.inventory.PropertyRepositoryTests
+[INFO] Running com.rahul.HostelOs.organization.MembershipManagementServiceTests
+2026-10-31T00:35:52.811+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.organization.MembershipManagementServiceTests]: MembershipManagementServiceTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:52.843+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.MembershipManagementServiceTests
+2026-10-31T00:35:52.843+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.organization.MembershipManagementServiceTests]: MembershipManagementServiceTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:35:52.846+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.MembershipManagementServiceTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:35:52.875+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.o.MembershipManagementServiceTests : Starting MembershipManagementServiceTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:35:52.875+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.o.MembershipManagementServiceTests : The following 1 profile is active: "test"
+2026-10-31T00:35:53.169+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:35:53.193+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:35:53.335+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:35:53.336+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn20: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:35:53.336+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:35:53.336+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:35:53.341+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:35:53.350+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.006s)
+2026-10-31T00:35:53.352+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2026-10-31T00:35:53.352+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-31T00:35:53.373+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:35:53.403+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:35:53.405+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:35:53.528+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:35:53.531+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:35:54.537+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:35:55.506+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:35:55.549+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.o.MembershipManagementServiceTests : Started MembershipManagementServiceTests in 2.697 seconds (process running for 52.421)
+2026-10-31T00:35:55.569+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account already exists; no changes made
+2026-10-31T00:35:55.574+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T00:35:55.574+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+[INFO] Tests run: 50, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.968 s -- in com.rahul.HostelOs.organization.MembershipManagementServiceTests
+[INFO] Running com.rahul.HostelOs.organization.OrganizationAuthorizationServiceTests
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.374 s -- in com.rahul.HostelOs.organization.OrganizationAuthorizationServiceTests
+[INFO] Running com.rahul.HostelOs.organization.OrganizationMigrationTests
+2026-10-31T00:36:00.469+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/RAHUL/AppData/Local/Temp/junit-2178090150570200618/migration-test (H2 2.4)
+2026-10-31T00:36:00.493+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:36:00.515+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-31T00:36:00.516+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.019s)
+2026-10-31T00:36:00.517+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-31T00:36:00.530+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-31T00:36:00.537+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - baseline"
+2026-10-31T00:36:00.539+05:30  INFO 2224 --- [HostelOs] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : +---+
+| 1 |
++---+
+| 1 |
++---+
+
+2026-10-31T00:36:00.548+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - identity foundation"
+2026-10-31T00:36:00.582+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - reconcile platform admin role"
+2026-10-31T00:36:00.594+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - organizations and memberships"
+2026-10-31T00:36:00.626+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - inventory property foundation"
+2026-10-31T00:36:00.630+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - building management"
+2026-10-31T00:36:00.637+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - introduce customer role"
+2026-10-31T00:36:00.640+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 7 migrations to schema "public", now at version v7 (execution time 00:00.068s)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.023 s -- in com.rahul.HostelOs.organization.OrganizationMigrationTests
+[INFO] Running com.rahul.HostelOs.organization.OrganizationProvisioningServiceTests
+2026-10-31T00:36:01.322+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.organization.OrganizationProvisioningServiceTests]: OrganizationProvisioningServiceTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:36:01.332+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.OrganizationProvisioningServiceTests
+2026-10-31T00:36:01.357+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.organization.OrganizationProvisioningServiceTests]: OrganizationProvisioningServiceTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:36:01.428+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.OrganizationProvisioningServiceTests
+2026-10-31T00:36:01.816+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 23505, SQLState: 23505
+2026-10-31T00:36:01.816+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : Unique index or primary key violation: "public.uk_organizations_slug INDEX public.uk_organizations_slug_INDEX_8 ON public.organizations(slug NULLS FIRST) VALUES ( /* 110 */ 'race-slug-133404040400400' )"; SQL statement:
+insert into organizations (created_at,name,slug,status,updated_at,version,id) values (?,?,?,?,?,?,default) [23505-240]
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.061 s -- in com.rahul.HostelOs.organization.OrganizationProvisioningServiceTests
+[INFO] Running com.rahul.HostelOs.organization.OrganizationRepositoryTests
+2026-10-31T00:36:02.330+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.organization.OrganizationRepositoryTests]: OrganizationRepositoryTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:36:02.338+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.OrganizationRepositoryTests
+2026-10-31T00:36:02.339+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.organization.OrganizationRepositoryTests]: OrganizationRepositoryTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:36:02.341+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.OrganizationRepositoryTests
+2026-10-31T00:36:02.519+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 23505, SQLState: 23505
+2026-10-31T00:36:02.519+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : Unique index or primary key violation: "public.uk_organizations_slug INDEX public.uk_organizations_slug_INDEX_8 ON public.organizations(slug NULLS FIRST) VALUES ( /* 122 */ 'duplicate-slug' )"; SQL statement:
+insert into organizations (created_at,name,slug,status,updated_at,version,id) values (?,?,?,?,?,?,default) [23505-240]
+2026-10-31T00:36:02.570+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 23505, SQLState: 23505
+2026-10-31T00:36:02.570+05:30  WARN 2224 --- [HostelOs] [           main] org.hibernate.orm.jdbc.error             : Unique index or primary key violation: "public.uk_org_memberships_org_user INDEX public.uk_org_memberships_org_user_INDEX_F ON public.organization_memberships(organization_id NULLS FIRST, user_id NULLS FIRST) VALUES ( /* key:150 */ CAST(125 AS BIGINT), CAST(201 AS BIGINT))"; SQL statement:
+insert into organization_memberships (created_at,org_role,organization_id,status,updated_at,user_id,version,id) values (?,?,?,?,?,?,?,default) [23505-240]
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.334 s -- in com.rahul.HostelOs.organization.OrganizationRepositoryTests
+[INFO] Running com.rahul.HostelOs.organization.OrganizationSecurityIntegrationTests
+2026-10-31T00:36:02.663+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.OrganizationSecurityIntegrationTests
+2026-10-31T00:36:02.667+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.organization.OrganizationSecurityIntegrationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:36:02.728+05:30  INFO 2224 --- [HostelOs] [           main] H.o.OrganizationSecurityIntegrationTests : Starting OrganizationSecurityIntegrationTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:36:02.728+05:30  INFO 2224 --- [HostelOs] [           main] H.o.OrganizationSecurityIntegrationTests : The following 1 profile is active: "test"
+2026-10-31T00:36:03.347+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:36:03.386+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 33 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:36:04.158+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-31T00:36:04.160+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-31T00:36:04.160+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-31T00:36:04.486+05:30  INFO 2224 --- [HostelOs] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1753 ms
+2026-10-31T00:36:04.738+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:36:04.741+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn25: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:36:04.741+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:36:04.741+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:36:04.750+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:36:04.765+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.010s)
+2026-10-31T00:36:04.770+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2026-10-31T00:36:04.771+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-31T00:36:04.829+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:36:04.902+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:36:04.905+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:36:05.062+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:36:05.065+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:36:05.359+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:36:05.803+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:36:05.868+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 58508 (http) with context path '/'
+2026-10-31T00:36:05.874+05:30  INFO 2224 --- [HostelOs] [           main] H.o.OrganizationSecurityIntegrationTests : Started OrganizationSecurityIntegrationTests in 3.196 seconds (process running for 62.748)
+2026-10-31T00:36:05.886+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account already exists; no changes made
+2026-10-31T00:36:05.886+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T00:36:05.886+05:30  WARN 2224 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-10-31T00:36:07.519+05:30  INFO 2224 --- [HostelOs] [o-auto-4-exec-1] o.a.c.c.C.[Tomcat-3].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-31T00:36:07.519+05:30  INFO 2224 --- [HostelOs] [o-auto-4-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-31T00:36:07.521+05:30  INFO 2224 --- [HostelOs] [o-auto-4-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.13 s -- in com.rahul.HostelOs.organization.OrganizationSecurityIntegrationTests
+[INFO] Running com.rahul.HostelOs.organization.OrganizationSlugTests
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in com.rahul.HostelOs.organization.OrganizationSlugTests
+[INFO] Running com.rahul.HostelOs.ProductionDocumentationTests
+2026-10-31T00:36:12.796+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.ProductionDocumentationTests]: ProductionDocumentationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:36:12.799+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.ProductionDocumentationTests
+2026-10-31T00:36:12.801+05:30  INFO 2224 --- [HostelOs] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.rahul.HostelOs.ProductionDocumentationTests]: ProductionDocumentationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-31T00:36:12.804+05:30  INFO 2224 --- [HostelOs] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.ProductionDocumentationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T00:36:12.845+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.ProductionDocumentationTests       : Starting ProductionDocumentationTests using Java 17.0.16 with PID 2224 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T00:36:12.846+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.ProductionDocumentationTests       : The following 2 profiles are active: "test", "prod"
+2026-10-31T00:36:13.190+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T00:36:13.220+05:30  INFO 2224 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25 ms. Found 6 JPA repository interfaces.
+2026-10-31T00:36:13.352+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-31T00:36:13.355+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-31T00:36:13.355+05:30  INFO 2224 --- [HostelOs] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-31T00:36:13.456+05:30  INFO 2224 --- [HostelOs] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 607 ms
+2026-10-31T00:36:13.551+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T00:36:13.555+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn27: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T00:36:13.555+05:30  INFO 2224 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T00:36:13.555+05:30  INFO 2224 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T00:36:13.563+05:30  WARN 2224 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T00:36:13.573+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.007s)
+2026-10-31T00:36:13.577+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 7
+2026-10-31T00:36:13.577+05:30  INFO 2224 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-31T00:36:13.617+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T00:36:13.666+05:30  INFO 2224 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T00:36:13.667+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T00:36:13.813+05:30  INFO 2224 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T00:36:13.820+05:30  INFO 2224 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T00:36:14.017+05:30  INFO 2224 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T00:36:14.217+05:30  INFO 2224 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T00:36:14.247+05:30  INFO 2224 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 54427 (http) with context path '/'
+2026-10-31T00:36:14.252+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.ProductionDocumentationTests       : Started ProductionDocumentationTests in 1.438 seconds (process running for 71.125)
+2026-10-31T00:36:14.258+05:30  INFO 2224 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account already exists; no changes made
+2026-10-31T00:36:14.267+05:30  INFO 2224 --- [HostelOs] [o-auto-5-exec-1] o.a.c.c.C.[Tomcat-4].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-31T00:36:14.267+05:30  INFO 2224 --- [HostelOs] [o-auto-5-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-31T00:36:14.267+05:30  INFO 2224 --- [HostelOs] [o-auto-5-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.589 s -- in com.rahul.HostelOs.ProductionDocumentationTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 274, Failures: 0, Errors: 0, Skipped: 6
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:29 min
+[INFO] Finished at: 2026-10-31T00:36:17+05:30
+[INFO] ------------------------------------------------------------------------

@@ -25,7 +25,7 @@ public interface OrganizationMembershipRepository extends JpaRepository<Organiza
 	@EntityGraph(attributePaths = {"organization"})
 	List<OrganizationMembership> findByUserId(Long userId);
 
-	@EntityGraph(attributePaths = {"organization"})
+	@EntityGraph(attributePaths = {"organization", "user"})
 	List<OrganizationMembership> findByUserIdAndStatus(Long userId, MembershipStatus status);
 
 	@EntityGraph(attributePaths = {"organization", "user"})
@@ -40,7 +40,7 @@ public interface OrganizationMembershipRepository extends JpaRepository<Organiza
 
 	@Query("SELECT COUNT(m) FROM OrganizationMembership m " +
 			"WHERE m.organization.id = :orgId " +
-			"AND m.orgRole = com.rahul.HostelOs.organization.OrgRole.ORG_ADMIN " +
+			"AND m.orgRole = com.rahul.HostelOs.organization.OrgRole.ORGANIZATION_ADMIN " +
 			"AND m.status = com.rahul.HostelOs.organization.MembershipStatus.ACTIVE")
 	long countActiveAdmins(@Param("orgId") Long orgId);
 

@@ -7,6 +7,6 @@ import jakarta.validation.constraints.NotNull;
 @Schema(description = "Payload for changing a member's role.")
 public record ChangeMemberRoleRequest(
 		@NotNull(message = "New org role must not be null")
-		@Schema(description = "New role for the member.", example = "ORG_ADMIN")
+		@Schema(description = "New role for the member.", example = "ORGANIZATION_ADMIN")
 		OrgRole newRole) {
 }

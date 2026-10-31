@@ -33,6 +33,9 @@ public class Organization {
 	@Column(name = "status", nullable = false, length = 20)
 	private OrganizationStatus status;
 
+	@Column(name = "owner_user_id")
+	private Long ownerUserId;
+
 	@Version
 	@Column(name = "version", nullable = false)
 	private long version;
@@ -74,6 +77,24 @@ public class Organization {
 
 	public OrganizationStatus getStatus() {
 		return status;
+	}
+
+	public Long getOwnerUserId() {
+		return ownerUserId;
+	}
+
+	public boolean isOwnedBy(Long userId) {
+		return ownerUserId != null && ownerUserId.equals(userId);
+	}
+
+	public void assignOwner(Long userId) {
+		if (userId == null || userId <= 0L) {
+			throw new IllegalArgumentException("Owner user ID must be a positive non-null value");
+		}
+		if (this.ownerUserId != null && !this.ownerUserId.equals(userId)) {
+			throw new IllegalStateException("Organization already has an owner");
+		}
+		this.ownerUserId = userId;
 	}
 
 	public long getVersion() {

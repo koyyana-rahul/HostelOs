@@ -73,7 +73,7 @@ class OrganizationProvisioningServiceTests {
 	}
 
 	@Test
-	@DisplayName("Successfully provisions organization and creator ORG_ADMIN membership atomically")
+	@DisplayName("Successfully provisions organization and creator ORGANIZATION_ADMIN membership atomically")
 	void provisionOrganization_Success() {
 		String slug = "sunrise-hostel-" + System.nanoTime();
 		CreateOrganizationRequest request = new CreateOrganizationRequest("Sunrise Hostel", slug);
@@ -92,12 +92,12 @@ class OrganizationProvisioningServiceTests {
 		assertThat(organization.getStatus()).isEqualTo(OrganizationStatus.ACTIVE);
 		assertThat(organization.getSlug()).isEqualTo(slug);
 
-		// Verify creator membership exists with ORG_ADMIN and ACTIVE
+		// Verify creator membership exists with ORGANIZATION_ADMIN and ACTIVE
 		List<OrganizationMembership> memberships = membershipRepository.findByOrganizationId(response.id());
 		assertThat(memberships).hasSize(1);
 		OrganizationMembership creatorMembership = memberships.get(0);
 		assertThat(creatorMembership.getUser().getId()).isEqualTo(activeCreator.getId());
-		assertThat(creatorMembership.getOrgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(creatorMembership.getOrgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 		assertThat(creatorMembership.getStatus()).isEqualTo(MembershipStatus.ACTIVE);
 	}
 

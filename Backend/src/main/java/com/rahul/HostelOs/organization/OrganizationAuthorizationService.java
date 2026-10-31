@@ -50,23 +50,15 @@ public class OrganizationAuthorizationService {
 			return false;
 		}
 
-		Optional<OrganizationMembership> membershipOpt = membershipRepository
-				.findByOrganizationIdAndUserIdAndStatus(organizationId, userId, MembershipStatus.ACTIVE);
-		if (membershipOpt.isEmpty()) {
+		if (!organization.isOwnedBy(userId)) {
 			return false;
 		}
 
-		OrganizationMembership membership = membershipOpt.get();
-		OrgRole memberRole = membership.getOrgRole();
-		if (memberRole == null) {
-			return false;
-		}
-
-		if (requiredRole == OrgRole.ORG_ADMIN) {
-			return memberRole == OrgRole.ORG_ADMIN;
+		if (requiredRole == OrgRole.ORGANIZATION_ADMIN) {
+			return organization.isOwnedBy(userId);
 		}
 		if (requiredRole == OrgRole.ORG_STAFF) {
-			return memberRole == OrgRole.ORG_ADMIN || memberRole == OrgRole.ORG_STAFF;
+			return organization.isOwnedBy(userId);
 		}
 
 		return false;

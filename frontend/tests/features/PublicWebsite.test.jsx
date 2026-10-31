@@ -15,7 +15,7 @@ describe('Public website pages', () => {
 
   it('renders For Owners page for anonymous users', async () => {
     renderApp({ route: '/for-owners', authStatus: 'anonymous', user: null })
-    expect(await screen.findByRole('heading', { name: /digitize and manage your property/i })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: /run your hostel from one calm workspace/i })).toBeInTheDocument()
   })
 
   it('renders Features page for anonymous users', async () => {

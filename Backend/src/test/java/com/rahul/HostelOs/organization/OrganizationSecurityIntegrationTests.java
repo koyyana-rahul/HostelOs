@@ -117,7 +117,7 @@ class OrganizationSecurityIntegrationTests {
 		membershipRepository.save(new OrganizationMembership(
 				orgAlpha, alphaStaff, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE));
 		membershipRepository.save(new OrganizationMembership(
-				orgAlpha, alphaAdmin, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				orgAlpha, alphaAdmin, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 		membershipRepository.save(new OrganizationMembership(
 				orgBeta, betaStaff, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE));
 	}
@@ -310,7 +310,7 @@ class OrganizationSecurityIntegrationTests {
 		UserAccount user = userAccounts.createUser(login, "Demotion Target", DEFAULT_PASSWORD, Set.of(RoleName.STAFF));
 		Organization org = organizationRepository.findById(orgAlphaId).orElseThrow();
 		OrganizationMembership membership = membershipRepository.save(new OrganizationMembership(
-				org, user, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				org, user, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		Browser browser = new Browser();
 		browser.login(login, DEFAULT_PASSWORD);
@@ -389,7 +389,7 @@ class OrganizationSecurityIntegrationTests {
 		}
 
 		@GetMapping("/{organizationId}/admin")
-		@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORG_ADMIN)")
+		@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORGANIZATION_ADMIN)")
 		public Map<String, Object> adminOperation(@PathVariable("organizationId") Long organizationId) {
 			return Map.of("status", "ok", "organizationId", organizationId, "level", "admin");
 		}

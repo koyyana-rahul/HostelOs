@@ -126,7 +126,7 @@ class OrganizationAuthorizationServiceTests {
 
 		assertThat(service.canAccessOrg(0L, OrgRole.ORG_STAFF)).isFalse();
 		assertThat(service.canAccessOrg(-1L, OrgRole.ORG_STAFF)).isFalse();
-		assertThat(service.canAccessOrg(-999L, OrgRole.ORG_ADMIN)).isFalse();
+		assertThat(service.canAccessOrg(-999L, OrgRole.ORGANIZATION_ADMIN)).isFalse();
 		verifyNoInteractions(organizationRepository, membershipRepository);
 	}
 
@@ -298,7 +298,7 @@ class OrganizationAuthorizationServiceTests {
 		when(membershipRepository.findByOrganizationIdAndUserIdAndStatus(10L, 999L, MembershipStatus.ACTIVE))
 				.thenReturn(Optional.empty());
 
-		boolean authorized = service.canAccessOrg(10L, OrgRole.ORG_ADMIN);
+		boolean authorized = service.canAccessOrg(10L, OrgRole.ORGANIZATION_ADMIN);
 
 		assertThat(authorized).isFalse();
 		verify(organizationRepository).findById(10L);
@@ -313,7 +313,7 @@ class OrganizationAuthorizationServiceTests {
 		when(membershipRepository.findByOrganizationIdAndUserIdAndStatus(10L, 888L, MembershipStatus.ACTIVE))
 				.thenReturn(Optional.empty());
 
-		boolean authorized = service.canAccessOrg(10L, OrgRole.ORG_ADMIN);
+		boolean authorized = service.canAccessOrg(10L, OrgRole.ORGANIZATION_ADMIN);
 
 		assertThat(authorized).isFalse();
 		verify(organizationRepository).findById(10L);
@@ -321,27 +321,27 @@ class OrganizationAuthorizationServiceTests {
 	}
 
 	@Test
-	@DisplayName("Member with ORG_ADMIN satisfies ORG_ADMIN requirement")
+	@DisplayName("Member with ORGANIZATION_ADMIN satisfies ORGANIZATION_ADMIN requirement")
 	void canAccessOrg_AdminMembership_RequiresAdmin_ReturnsTrue() {
 		setAuthenticatedUser(100L, RoleName.STAFF);
 		when(organizationRepository.findById(10L)).thenReturn(Optional.of(activeOrg));
 		OrganizationMembership membership = new OrganizationMembership(
-				activeOrg, activeUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE);
+				activeOrg, activeUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE);
 		when(membershipRepository.findByOrganizationIdAndUserIdAndStatus(10L, 100L, MembershipStatus.ACTIVE))
 				.thenReturn(Optional.of(membership));
 
-		boolean authorized = service.canAccessOrg(10L, OrgRole.ORG_ADMIN);
+		boolean authorized = service.canAccessOrg(10L, OrgRole.ORGANIZATION_ADMIN);
 
 		assertThat(authorized).isTrue();
 	}
 
 	@Test
-	@DisplayName("Member with ORG_ADMIN satisfies ORG_STAFF requirement")
+	@DisplayName("Member with ORGANIZATION_ADMIN satisfies ORG_STAFF requirement")
 	void canAccessOrg_AdminMembership_RequiresStaff_ReturnsTrue() {
 		setAuthenticatedUser(100L, RoleName.STAFF);
 		when(organizationRepository.findById(10L)).thenReturn(Optional.of(activeOrg));
 		OrganizationMembership membership = new OrganizationMembership(
-				activeOrg, activeUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE);
+				activeOrg, activeUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE);
 		when(membershipRepository.findByOrganizationIdAndUserIdAndStatus(10L, 100L, MembershipStatus.ACTIVE))
 				.thenReturn(Optional.of(membership));
 
@@ -366,7 +366,7 @@ class OrganizationAuthorizationServiceTests {
 	}
 
 	@Test
-	@DisplayName("Member with ORG_STAFF fails ORG_ADMIN requirement")
+	@DisplayName("Member with ORG_STAFF fails ORGANIZATION_ADMIN requirement")
 	void canAccessOrg_StaffMembership_RequiresAdmin_ReturnsFalse() {
 		setAuthenticatedUser(100L, RoleName.STAFF);
 		when(organizationRepository.findById(10L)).thenReturn(Optional.of(activeOrg));
@@ -375,7 +375,7 @@ class OrganizationAuthorizationServiceTests {
 		when(membershipRepository.findByOrganizationIdAndUserIdAndStatus(10L, 100L, MembershipStatus.ACTIVE))
 				.thenReturn(Optional.of(membership));
 
-		boolean authorized = service.canAccessOrg(10L, OrgRole.ORG_ADMIN);
+		boolean authorized = service.canAccessOrg(10L, OrgRole.ORGANIZATION_ADMIN);
 
 		assertThat(authorized).isFalse();
 	}
@@ -391,7 +391,7 @@ class OrganizationAuthorizationServiceTests {
 				.thenReturn(Optional.of(membership));
 
 		assertThat(service.canAccessOrg(10L, "ORG_STAFF")).isTrue();
-		assertThat(service.canAccessOrg(10L, "ORG_ADMIN")).isFalse();
+		assertThat(service.canAccessOrg(10L, "ORGANIZATION_ADMIN")).isFalse();
 	}
 
 	@Test

@@ -13,11 +13,11 @@ export default function ContactPage() {
       <Card className="mt-8 p-6 sm:p-8">
         <p className="text-sm text-muted">For account access and support, sign in to your account.</p>
         <div className="mt-4 flex gap-2">
-          <Button asChild size="sm">
-            <Link to="/login">Sign in</Link>
+          <Button as={Link} to="/login" size="sm">
+            Sign in
           </Button>
-          <Button asChild variant="secondary" size="sm">
-            <Link to="/register">Register</Link>
+          <Button as={Link} to="/register" variant="secondary" size="sm">
+            Register
           </Button>
         </div>
       </Card>

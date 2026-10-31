@@ -65,10 +65,11 @@ public class OrganizationProvisioningService {
 
 		try {
 			Organization organization = new Organization(name, slug, OrganizationStatus.ACTIVE);
+			organization.assignOwner(creatorUserId);
 			Organization savedOrg = organizationRepository.save(organization);
 
 			OrganizationMembership membership = new OrganizationMembership(
-					savedOrg, creator, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE);
+					savedOrg, creator, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE);
 			membershipRepository.save(membership);
 
 			membershipRepository.flush();

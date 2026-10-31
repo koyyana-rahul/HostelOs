@@ -104,7 +104,7 @@ public class MembershipManagementService {
 			throw new InvalidMembershipTransitionException("Cannot change role of non-active membership: " + membershipId);
 		}
 
-		if (membership.getOrgRole() == OrgRole.ORG_ADMIN && request.newRole() != OrgRole.ORG_ADMIN) {
+		if (membership.getOrgRole() == OrgRole.ORGANIZATION_ADMIN && request.newRole() != OrgRole.ORGANIZATION_ADMIN) {
 			assertNotLastActiveAdmin(organizationId, membership);
 		}
 
@@ -127,7 +127,7 @@ public class MembershipManagementService {
 			return MembershipResponse.from(membership); // Idempotent
 		}
 
-		if (membership.getOrgRole() == OrgRole.ORG_ADMIN) {
+		if (membership.getOrgRole() == OrgRole.ORGANIZATION_ADMIN) {
 			assertNotLastActiveAdmin(organizationId, membership);
 		}
 
@@ -146,7 +146,7 @@ public class MembershipManagementService {
 			return MembershipResponse.from(membership); // Idempotent
 		}
 
-		if (membership.getStatus() == MembershipStatus.ACTIVE && membership.getOrgRole() == OrgRole.ORG_ADMIN) {
+		if (membership.getStatus() == MembershipStatus.ACTIVE && membership.getOrgRole() == OrgRole.ORGANIZATION_ADMIN) {
 			assertNotLastActiveAdmin(organizationId, membership);
 		}
 
@@ -217,8 +217,8 @@ public class MembershipManagementService {
 			throw new OrganizationAccessDeniedException("Caller membership is not active in organization: " + organizationId);
 		}
 
-		if (callerMembership.getOrgRole() != OrgRole.ORG_ADMIN) {
-			throw new OrganizationAccessDeniedException("Caller does not hold ORG_ADMIN role in organization: " + organizationId);
+		if (callerMembership.getOrgRole() != OrgRole.ORGANIZATION_ADMIN) {
+			throw new OrganizationAccessDeniedException("Caller does not hold ORGANIZATION_ADMIN role in organization: " + organizationId);
 		}
 
 		return org;
@@ -235,7 +235,7 @@ public class MembershipManagementService {
 	}
 
 	private void assertNotLastActiveAdmin(Long organizationId, OrganizationMembership target) {
-		if (target.getOrgRole() != OrgRole.ORG_ADMIN || target.getStatus() != MembershipStatus.ACTIVE) {
+		if (target.getOrgRole() != OrgRole.ORGANIZATION_ADMIN || target.getStatus() != MembershipStatus.ACTIVE) {
 			return;
 		}
 		long activeAdminCount = membershipRepository.countActiveAdmins(organizationId);

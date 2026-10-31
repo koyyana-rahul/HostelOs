@@ -1,6 +1,6 @@
 package com.rahul.HostelOs.organization;
 
 public enum OrgRole {
-	ORG_ADMIN,
+	ORGANIZATION_ADMIN,
 	ORG_STAFF
 }

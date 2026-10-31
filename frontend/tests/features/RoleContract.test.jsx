@@ -5,7 +5,7 @@ import {
   csrfPayload,
   jsonResponse,
   staffUserPayload,
-  stubFetchWithMemberships,
+  stubFetch,
 } from '../helpers/api.js'
 import {
   authenticatedUser,
@@ -15,6 +15,8 @@ import {
 
 describe('finalized role contract', () => {
   it('renders exactly the platform, organization, and staff role names', async () => {
+    stubFetch()
+
     renderApp({
       route: '/foundation',
       user: {
@@ -47,6 +49,8 @@ describe('finalized role contract', () => {
   })
 
   it('does not derive navigation or actions from the STAFF role', async () => {
+    stubFetch()
+
     renderApp({ route: '/foundation', user: staffUser })
 
     await screen.findByRole('heading', {
@@ -67,16 +71,7 @@ describe('finalized role contract', () => {
   })
 
   it('preserves the sign-in flow for a STAFF identity', async () => {
-    stubFetchWithMemberships(
-      [
-        {
-          id: 1,
-          organizationId: 10,
-          organizationName: 'Green Valley Hostel',
-          orgRole: 'ORG_STAFF',
-          status: 'ACTIVE',
-        },
-      ],
+    stubFetch(
       jsonResponse(csrfPayload),
       jsonResponse(staffUserPayload),
       jsonResponse(staffUserPayload),
@@ -95,15 +90,17 @@ describe('finalized role contract', () => {
     )
     await user.click(screen.getByRole('button', { name: /^sign in$/i }))
 
-    expect(
+expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^overview$/i,
+        name: /find hostels and pgs/i,
       }),
     ).toBeInTheDocument()
-    expect(screen.getByText(staffUserPayload.displayName)).toBeInTheDocument()
-    expect(screen.getByText('STAFF')).toBeInTheDocument()
-    expect(screen.queryByText('PLATFORM_ADMIN')).not.toBeInTheDocument()
-    expect(screen.queryByText('ORGANIZATION_ADMIN')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /get started/i }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /platform|dashboard/i }),
+    ).not.toBeInTheDocument()
   })
 })

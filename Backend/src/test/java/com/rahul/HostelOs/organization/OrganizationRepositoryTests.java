@@ -101,13 +101,13 @@ class OrganizationRepositoryTests {
 		Organization org = organizationRepository.save(new Organization("Alpha Hostel", "alpha-hostel", OrganizationStatus.ACTIVE));
 
 		OrganizationMembership membership = new OrganizationMembership(
-				org, testUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE);
+				org, testUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE);
 		OrganizationMembership saved = membershipRepository.save(membership);
 
 		assertThat(saved.getId()).isNotNull();
 		assertThat(saved.getOrganization().getId()).isEqualTo(org.getId());
 		assertThat(saved.getUser().getId()).isEqualTo(testUser.getId());
-		assertThat(saved.getOrgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(saved.getOrgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 		assertThat(saved.getStatus()).isEqualTo(MembershipStatus.ACTIVE);
 	}
 
@@ -115,7 +115,7 @@ class OrganizationRepositoryTests {
 	void duplicateOrganizationUserMembershipIsRejected() {
 		Organization org = organizationRepository.save(new Organization("Beta Hostel", "beta-hostel", OrganizationStatus.ACTIVE));
 
-		OrganizationMembership m1 = new OrganizationMembership(org, testUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE);
+		OrganizationMembership m1 = new OrganizationMembership(org, testUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE);
 		membershipRepository.saveAndFlush(m1);
 
 		OrganizationMembership m2 = new OrganizationMembership(org, testUser, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE);
@@ -135,11 +135,11 @@ class OrganizationRepositoryTests {
 				Set.of(staffRole)));
 
 		OrganizationMembership adminMember = membershipRepository.saveAndFlush(
-				new OrganizationMembership(org, testUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				new OrganizationMembership(org, testUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 		OrganizationMembership staffMember = membershipRepository.saveAndFlush(
 				new OrganizationMembership(org, user2, OrgRole.ORG_STAFF, MembershipStatus.SUSPENDED));
 
-		assertThat(adminMember.getOrgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(adminMember.getOrgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 		assertThat(adminMember.getStatus()).isEqualTo(MembershipStatus.ACTIVE);
 
 		assertThat(staffMember.getOrgRole()).isEqualTo(OrgRole.ORG_STAFF);
@@ -165,13 +165,13 @@ class OrganizationRepositoryTests {
 		OrganizationMembership revoked = membershipRepository.findById(membershipId).orElseThrow();
 		assertThat(revoked.getStatus()).isEqualTo(MembershipStatus.REVOKED);
 
-		// Reactivate membership in place with role elevation to ORG_ADMIN
-		revoked.reactivate(OrgRole.ORG_ADMIN);
+		// Reactivate membership in place with role elevation to ORGANIZATION_ADMIN
+		revoked.reactivate(OrgRole.ORGANIZATION_ADMIN);
 		OrganizationMembership reactivated = membershipRepository.saveAndFlush(revoked);
 
 		assertThat(reactivated.getId()).isEqualTo(membershipId);
 		assertThat(reactivated.getStatus()).isEqualTo(MembershipStatus.ACTIVE);
-		assertThat(reactivated.getOrgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(reactivated.getOrgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 
 		// Assert only one record exists for (org, user)
 		List<OrganizationMembership> userMemberships = membershipRepository.findByOrganizationId(org.getId());
@@ -183,7 +183,7 @@ class OrganizationRepositoryTests {
 		Organization org = organizationRepository.save(new Organization("Epsilon Hostel", "epsilon-hostel", OrganizationStatus.ACTIVE));
 
 		OrganizationMembership membership = membershipRepository.saveAndFlush(
-				new OrganizationMembership(org, testUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				new OrganizationMembership(org, testUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		assertThat(membershipRepository.findByOrganizationIdAndUserId(org.getId(), testUser.getId())).isPresent();
 		assertThat(membershipRepository.findByOrganizationIdAndUserIdAndStatus(org.getId(), testUser.getId(), MembershipStatus.ACTIVE)).isPresent();

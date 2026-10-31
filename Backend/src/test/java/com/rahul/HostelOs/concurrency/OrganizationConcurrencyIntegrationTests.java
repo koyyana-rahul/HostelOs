@@ -156,7 +156,7 @@ class OrganizationConcurrencyIntegrationTests {
 					winner.id(), creator.getId())).isEqualTo(1L);
 			assertThat(organizationRepository.findById(winner.id()).orElseThrow().getVersion()).isZero();
 			assertThat(membership.getVersion()).isZero();
-			assertThat(membership.getOrgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+			assertThat(membership.getOrgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 			assertThat(membership.getStatus()).isEqualTo(MembershipStatus.ACTIVE);
 		} finally {
 			ConcurrencyTestSupport.shutdown(executor);
@@ -221,7 +221,7 @@ class OrganizationConcurrencyIntegrationTests {
 		OrganizationMembership membershipA = findMembership(organization.id(), adminA.getId());
 		Organization organizationEntity = organizationRepository.findById(organization.id()).orElseThrow();
 		OrganizationMembership membershipB = membershipRepository.save(new OrganizationMembership(
-				organizationEntity, adminB, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				organizationEntity, adminB, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 		support.trackMembership(membershipB.getId());
 		assertThat(membershipA.getVersion()).isZero();
 		assertThat(membershipB.getVersion()).isZero();
@@ -249,7 +249,7 @@ class OrganizationConcurrencyIntegrationTests {
 
 			OrganizationMembership reloadedA = membershipRepository.findById(membershipA.getId()).orElseThrow();
 			OrganizationMembership reloadedB = membershipRepository.findById(membershipB.getId()).orElseThrow();
-			assertThat(reloadedA.getOrgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+			assertThat(reloadedA.getOrgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 			assertThat(reloadedA.getStatus()).isEqualTo(MembershipStatus.ACTIVE);
 			assertThat(reloadedA.getVersion()).isZero();
 			assertThat(reloadedB.getOrgRole()).isEqualTo(OrgRole.ORG_STAFF);

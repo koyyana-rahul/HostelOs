@@ -27,6 +27,10 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
 	boolean existsByOrganizationIdAndId(Long organizationId, Long id);
 
+	long countByOrganizationId(Long organizationId);
+
+	long countByOrganizationIdAndStatus(Long organizationId, PropertyStatus status);
+
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@EntityGraph(attributePaths = {"organization"})
 	@Query("SELECT p FROM Property p WHERE p.id = :id AND p.organization.id = :organizationId")

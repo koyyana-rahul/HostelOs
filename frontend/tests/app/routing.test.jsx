@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
-import { jsonResponse, stubFetch, systemInfoPayload } from '../helpers/api.js'
+import { jsonResponse, stubFetch, systemInfoPayload, authUserPayload } from '../helpers/api.js'
 import { renderApp } from '../test-utils.jsx'
 
 describe('application routing', () => {
   it('navigates to the foundation page', async () => {
     const user = userEvent.setup()
-    stubFetch(jsonResponse(systemInfoPayload))
+    stubFetch(jsonResponse(authUserPayload), jsonResponse(systemInfoPayload))
     renderApp({ route: '/system' })
 
     await screen.findByRole('heading', {
@@ -31,6 +31,7 @@ describe('application routing', () => {
   })
 
   it('renders the not-found state for unknown routes', async () => {
+    stubFetch(jsonResponse(authUserPayload))
     renderApp({ route: '/missing-page' })
 
     expect(

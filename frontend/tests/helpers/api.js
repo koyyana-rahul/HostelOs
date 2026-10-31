@@ -27,6 +27,28 @@ export const staffUserPayload = Object.freeze({
   roles: ['STAFF'],
 })
 
+export const organizationPayload = Object.freeze({
+  id: 10,
+  name: 'Sunrise Stays',
+  slug: 'sunrise-stays',
+  status: 'ACTIVE',
+})
+
+export const dashboardPayload = Object.freeze({
+  organizationId: 10,
+  propertyCount: 2,
+  activePropertyCount: 2,
+  listingCount: 1,
+  publishedListingCount: 1,
+  draftListingCount: 0,
+  archivedListingCount: 0,
+  enquiryCount: 3,
+  newEnquiryCount: 1,
+  readEnquiryCount: 0,
+  respondedEnquiryCount: 1,
+  closedEnquiryCount: 1,
+})
+
 export const csrfPayload = Object.freeze({
   headerName: 'X-XSRF-TOKEN',
   token: 'test-csrf-token',
@@ -67,8 +89,8 @@ function createFetchStub(memberships, responses) {
     }
   })
 
-  fetchMock.mockResolvedValue(
-    jsonResponse({ status: 404, message: 'Not found' }, 404),
+  fetchMock.mockImplementation(() =>
+    Promise.resolve(jsonResponse({ status: 404, message: 'Not found' }, 404)),
   )
 
   const fetchImplementation = (input, init) => {
@@ -89,4 +111,44 @@ export function stubFetch(...responses) {
 
 export function stubFetchWithMemberships(memberships, ...responses) {
   return createFetchStub(memberships, responses)
+}
+
+export function stubOwnerApi({
+  organizations = [organizationPayload],
+  dashboard = dashboardPayload,
+  properties = [],
+  listings = [],
+  enquiries = [],
+  memberships = [],
+} = {}) {
+  const fetchMock = vi.fn((input) => {
+    const url = typeof input === 'string' ? input : input?.url
+    const path = typeof url === 'string' ? url : ''
+
+    if (path.includes('/v1/organizations/mine')) {
+      return Promise.resolve(jsonResponse(organizations))
+    }
+    if (path.includes('/dashboard')) {
+      return Promise.resolve(jsonResponse(dashboard))
+    }
+    if (/\/v1\/organizations\/\d+\/properties/.test(path)) {
+      return Promise.resolve(jsonResponse(properties))
+    }
+    if (/\/v1\/organizations\/\d+\/listings/.test(path)) {
+      return Promise.resolve(jsonResponse(listings))
+    }
+    if (/\/v1\/organizations\/\d+\/enquiries/.test(path)) {
+      return Promise.resolve(jsonResponse(enquiries))
+    }
+    if (path.includes('/v1/auth/me/memberships')) {
+      return Promise.resolve(jsonResponse(memberships))
+    }
+
+    return Promise.resolve(
+      jsonResponse({ status: 404, message: 'Not found' }, 404),
+    )
+  })
+
+  vi.stubGlobal('fetch', fetchMock)
+  return fetchMock
 }
