@@ -5,7 +5,6 @@ import { useAppDispatch } from '../../hooks/useAppDispatch.js'
 import { setCurrentOrganization } from '../../features/organizations/organizationSlice.js'
 import { Link } from 'react-router-dom'
 import { Plus } from 'lucide-react'
-import { Badge } from '../ui/Badge.jsx'
 
 export function OrgSwitcher() {
   const user = useAppSelector(selectCurrentUser)

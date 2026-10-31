@@ -8,12 +8,12 @@ import { useListOrganizationsQuery } from '../api/organizationApi.js'
 
 export default function OnboardingPage() {
   const { data: memberships = [], isLoading: membershipsLoading } = useGetMembershipsQuery()
-  const { data: organizations = [], isLoading: orgsLoading } = useListOrganizationsQuery(undefined, {
+  const { data: organizations = [] } = useListOrganizationsQuery(undefined, {
     skip: memberships.length === 0,
   })
 
   const activeMemberships = memberships.filter((m) => m.status === 'ACTIVE')
-  const isLoading = membershipsLoading || (memberships.length > 0 && orgsLoading)
+  const isLoading = membershipsLoading
 
   return (
     <main className="min-h-dvh bg-canvas">
