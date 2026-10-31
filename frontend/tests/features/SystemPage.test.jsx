@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import {
   jsonResponse,
+  staffUserPayload,
   stubFetch,
   systemInfoPayload,
 } from '../helpers/api.js'
@@ -12,7 +13,7 @@ describe('system information page', () => {
   it('shows a loading state while the request is pending', async () => {
     stubFetch(new Promise(() => {}))
 
-    renderApp({ route: '/system' })
+    renderApp({ route: '/system', user: staffUserPayload })
 
     expect(
       await screen.findByText(/contacting the backend/i),
@@ -25,7 +26,7 @@ describe('system information page', () => {
   it('renders the returned application metadata', async () => {
     stubFetch(jsonResponse(systemInfoPayload))
 
-    renderApp({ route: '/system' })
+    renderApp({ route: '/system', user: staffUserPayload })
 
     expect(
       await screen.findByRole('heading', {
@@ -50,7 +51,7 @@ describe('system information page', () => {
     )
     const user = userEvent.setup()
 
-    renderApp({ route: '/system' })
+    renderApp({ route: '/system', user: staffUserPayload })
 
     const alert = await screen.findByRole('alert')
 
@@ -73,7 +74,7 @@ describe('system information page', () => {
       jsonResponse({ applicationName: 'HostelOS', apiVersion: 'v1' }),
     )
 
-    renderApp({ route: '/system' })
+    renderApp({ route: '/system', user: staffUserPayload })
 
     expect(await screen.findByRole('alert')).toHaveTextContent(/incomplete/i)
     expect(
@@ -85,11 +86,11 @@ describe('system information page', () => {
     stubFetch(jsonResponse(systemInfoPayload))
     const user = userEvent.setup()
 
-    renderApp()
+    renderApp({ route: '/foundation', user: staffUserPayload })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     await user.click(screen.getByRole('link', { name: 'System' }))

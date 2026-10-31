@@ -31,7 +31,7 @@ class RoleMigrationTests {
 
 		try (Connection connection = connection(url)) {
 			assertThat(roleNames(connection))
-					.containsExactly("ORGANIZATION_ADMIN", "PLATFORM_ADMIN", "STAFF");
+					.containsExactly("CUSTOMER", "ORGANIZATION_ADMIN", "PLATFORM_ADMIN", "STAFF");
 		}
 	}
 
@@ -57,7 +57,7 @@ class RoleMigrationTests {
 
 		try (Connection connection = connection(url)) {
 			assertThat(roleNames(connection))
-					.containsExactly("ORGANIZATION_ADMIN", "PLATFORM_ADMIN", "STAFF");
+					.containsExactly("CUSTOMER", "ORGANIZATION_ADMIN", "PLATFORM_ADMIN", "STAFF");
 			assertThat(count(connection, "SELECT COUNT(*) FROM user_accounts")).isEqualTo(2);
 			assertThat(count(connection, "SELECT COUNT(*) FROM user_roles")).isEqualTo(2);
 			assertThat(assignedRoleNames(connection, platformAdminId)).containsExactly("PLATFORM_ADMIN");
