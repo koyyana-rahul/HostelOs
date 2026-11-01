@@ -15,6 +15,9 @@ import com.rahul.HostelOs.listing.exception.ListingVersionConflictException;
 import com.rahul.HostelOs.organization.Organization;
 import com.rahul.HostelOs.organization.OrganizationAccessPolicy;
 import com.rahul.HostelOs.organization.OrganizationStatus;
+import com.rahul.HostelOs.propertymedia.PropertyMedia;
+import com.rahul.HostelOs.propertymedia.PropertyMediaRepository;
+import com.rahul.HostelOs.propertymedia.PropertyMediaStatus;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
@@ -36,14 +39,17 @@ public class ListingService {
 	private final ListingRepository listingRepository;
 	private final PropertyRepository propertyRepository;
 	private final OrganizationAccessPolicy accessPolicy;
+	private final PropertyMediaRepository propertyMediaRepository;
 
 	public ListingService(
 			ListingRepository listingRepository,
 			PropertyRepository propertyRepository,
-			OrganizationAccessPolicy accessPolicy) {
+			OrganizationAccessPolicy accessPolicy,
+			PropertyMediaRepository propertyMediaRepository) {
 		this.listingRepository = Objects.requireNonNull(listingRepository, "ListingRepository must not be null");
 		this.propertyRepository = Objects.requireNonNull(propertyRepository, "PropertyRepository must not be null");
 		this.accessPolicy = Objects.requireNonNull(accessPolicy, "OrganizationAccessPolicy must not be null");
+		this.propertyMediaRepository = Objects.requireNonNull(propertyMediaRepository, "PropertyMediaRepository must not be null");
 	}
 
 	public ListingResponse createListing(Long organizationId, CreateListingRequest request) {
@@ -199,9 +205,9 @@ public class ListingService {
 		String normalizedQuery = normalizeSearch(query);
 		String normalizedCity = normalizeSearch(city);
 		try {
-			return listingRepository
-					.searchPublished(normalizedQuery, normalizedCity, type, minPrice, maxPrice, pageable)
-					.map(PublicListingResponse::from);
+			Page<Listing> listings = listingRepository.searchPublished(
+					normalizedQuery, normalizedCity, type, minPrice, maxPrice, pageable);
+			return withPublicMedia(listings);
 		} catch (RuntimeException exception) {
 			throw exception;
 		}
@@ -214,7 +220,36 @@ public class ListingService {
 		if (listing.getOrganization().getStatus() != OrganizationStatus.ACTIVE) {
 			throw new ListingNotFoundException(listingId);
 		}
-		return PublicListingResponse.from(listing);
+		return PublicListingResponse.from(listing, publicMediaFor(listing));
+	}
+
+	private Page<PublicListingResponse> withPublicMedia(Page<Listing> listings) {
+		List<Long> propertyIds = listings.getContent().stream()
+				.map(Listing::getProperty)
+				.filter(Objects::nonNull)
+				.map(Property::getId)
+				.filter(Objects::nonNull)
+				.toList();
+		List<PropertyMedia> media = propertyIds.isEmpty()
+				? List.of()
+				: propertyMediaRepository.findByPropertyIdInAndStatusOrderByPropertyIdAscPositionAsc(
+						propertyIds, PropertyMediaStatus.READY);
+		return listings.map(listing -> PublicListingResponse.from(
+				listing,
+				media.stream()
+						.filter(item -> listing.getProperty() != null
+								&& item.getProperty().getId().equals(listing.getProperty().getId()))
+						.toList()));
+	}
+
+	private List<PropertyMedia> publicMediaFor(Listing listing) {
+		if (listing.getProperty() == null) {
+			return List.of();
+		}
+		return propertyMediaRepository.findByOrganizationIdAndPropertyIdAndStatusOrderByPositionAsc(
+				listing.getOrganization().getId(),
+				listing.getProperty().getId(),
+				PropertyMediaStatus.READY);
 	}
 
 	private Property resolveProperty(Long organizationId, Long propertyId) {
