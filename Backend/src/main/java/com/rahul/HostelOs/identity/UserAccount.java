@@ -87,6 +87,16 @@ public class UserAccount {
 		return displayName;
 	}
 
+	public void updateDisplayName(String displayName) {
+		if (displayName == null || displayName.isBlank()) {
+			throw new IllegalArgumentException("Display name must not be blank");
+		}
+		if (displayName.length() > 120) {
+			throw new IllegalArgumentException("Display name must not exceed 120 characters");
+		}
+		this.displayName = displayName.trim();
+	}
+
 	public String getPasswordHash() {
 		return passwordHash;
 	}

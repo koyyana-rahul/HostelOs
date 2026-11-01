@@ -85,4 +85,29 @@ public class UserAccountService {
 		createUser(loginIdentifier, displayName, rawPassword, Set.of(RoleName.PLATFORM_ADMIN));
 		return true;
 	}
+
+	@Transactional(readOnly = true)
+	public UserAccount getProfile(Long userId) {
+		return userAccounts.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException("User account was not found"));
+	}
+
+	@Transactional
+	public UserAccount updateDisplayName(Long userId, String displayName) {
+		UserAccount account = getProfile(userId);
+		String normalizedDisplayName = normalizeDisplayName(displayName);
+		account.updateDisplayName(normalizedDisplayName);
+		return userAccounts.saveAndFlush(account);
+	}
+
+	private String normalizeDisplayName(String displayName) {
+		String normalized = displayName == null ? "" : displayName.trim();
+		if (normalized.isBlank()) {
+			throw new IllegalArgumentException("Display name must not be blank");
+		}
+		if (normalized.length() > 120) {
+			throw new IllegalArgumentException("Display name must not exceed 120 characters");
+		}
+		return normalized;
+	}
 }

@@ -154,6 +154,12 @@ export const routes = [
                       () => import('../features/customer/account/MyEnquiriesPage.jsx'),
                     ),
                   },
+                  {
+                    path: 'my-enquiries/:enquiryId',
+                    ...lazyPage(
+                      () => import('../features/customer/account/EnquiryDetailsPage.jsx'),
+                    ),
+                  },
                 ],
               },
             ],

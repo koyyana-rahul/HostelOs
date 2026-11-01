@@ -1,6 +1,7 @@
 package com.rahul.HostelOs.enquiry;
 
 import com.rahul.HostelOs.enquiry.dto.CreateEnquiryRequest;
+import com.rahul.HostelOs.enquiry.dto.CustomerEnquiryResponse;
 import com.rahul.HostelOs.enquiry.dto.EnquiryResponse;
 import com.rahul.HostelOs.enquiry.dto.UpdateEnquiryStatusRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,9 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +41,22 @@ public class EnquiryController {
 			@PathVariable Long listingId,
 			@Valid @RequestBody CreateEnquiryRequest request) {
 		return enquiryService.createEnquiry(listingId, request);
+	}
+
+	@GetMapping("/api/v1/customers/me/enquiries")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@Operation(summary = "List the authenticated customer's enquiries")
+	public Page<CustomerEnquiryResponse> listCustomerEnquiries(
+			@RequestParam(name = "status", required = false) EnquiryStatus status,
+			@PageableDefault(size = 20) Pageable pageable) {
+		return enquiryService.listCustomerEnquiries(status, pageable);
+	}
+
+	@GetMapping("/api/v1/customers/me/enquiries/{enquiryId}")
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@Operation(summary = "Get an enquiry owned by the authenticated customer")
+	public CustomerEnquiryResponse getCustomerEnquiry(@PathVariable Long enquiryId) {
+		return enquiryService.getCustomerEnquiry(enquiryId);
 	}
 
 	@GetMapping("/api/v1/organizations/{organizationId}/enquiries")

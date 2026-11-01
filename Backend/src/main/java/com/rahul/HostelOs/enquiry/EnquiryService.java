@@ -1,6 +1,7 @@
 package com.rahul.HostelOs.enquiry;
 
 import com.rahul.HostelOs.enquiry.dto.CreateEnquiryRequest;
+import com.rahul.HostelOs.enquiry.dto.CustomerEnquiryResponse;
 import com.rahul.HostelOs.enquiry.dto.EnquiryResponse;
 import com.rahul.HostelOs.enquiry.dto.UpdateEnquiryStatusRequest;
 import com.rahul.HostelOs.enquiry.exception.EnquiryNotFoundException;
@@ -15,6 +16,10 @@ import com.rahul.HostelOs.organization.OrganizationStatus;
 import com.rahul.HostelOs.organization.exception.OrganizationAccessDeniedException;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,5 +105,37 @@ public class EnquiryService {
 		enquiry.changeStatus(request.status());
 		Enquiry saved = enquiryRepository.saveAndFlush(enquiry);
 		return EnquiryResponse.from(saved);
+	}
+
+	@Transactional(readOnly = true)
+	public Page<CustomerEnquiryResponse> listCustomerEnquiries(
+			EnquiryStatus status,
+			Pageable pageable) {
+		Long customerUserId = accessPolicy.currentPrincipal().getUserId();
+		Pageable safePageable = safePageable(pageable);
+		Page<Enquiry> enquiries = status == null
+				? enquiryRepository.findByCustomerUserIdOrderByCreatedAtDesc(customerUserId, safePageable)
+				: enquiryRepository.findByCustomerUserIdAndStatusOrderByCreatedAtDesc(
+						customerUserId,
+						status,
+						safePageable);
+		return enquiries.map(CustomerEnquiryResponse::from);
+	}
+
+	@Transactional(readOnly = true)
+	public CustomerEnquiryResponse getCustomerEnquiry(Long enquiryId) {
+		Long customerUserId = accessPolicy.currentPrincipal().getUserId();
+		Enquiry enquiry = enquiryRepository.findByCustomerUserIdAndId(customerUserId, enquiryId)
+				.orElseThrow(() -> new EnquiryNotFoundException(enquiryId));
+		return CustomerEnquiryResponse.from(enquiry);
+	}
+
+	private Pageable safePageable(Pageable pageable) {
+		int page = pageable == null ? 0 : Math.max(pageable.getPageNumber(), 0);
+		int size = pageable == null ? 20 : Math.min(Math.max(pageable.getPageSize(), 1), 50);
+		Sort sort = pageable != null && pageable.getSort().isSorted()
+				? pageable.getSort()
+				: Sort.by(Sort.Direction.DESC, "createdAt");
+		return PageRequest.of(page, size, sort);
 	}
 }
