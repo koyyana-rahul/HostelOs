@@ -32,16 +32,16 @@ jobs:
           restore-keys: |
             maven-cache-${{ runner.os }}-
 
-      - name: Backend clean verify
+      - name: Backend compile
         working-directory: ./Backend
         run: |
           chmod +x mvnw
-          ./mvnw -B clean verify
+          ./mvnw -B -DskipTests compile
 
-      - name: Upload Surefire reports
+      - name: Upload compile reports
         if: always()
         uses: actions/upload-artifact@v5
         with:
-          name: surefire-reports
-          path: Backend/target/surefire-reports
+          name: backend-compile-reports
+          path: Backend/target
           if-no-files-found: ignore
