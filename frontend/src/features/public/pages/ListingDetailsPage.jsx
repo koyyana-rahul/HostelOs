@@ -11,6 +11,7 @@ import { selectCurrentUser } from '../../auth/authSlice.js'
 import { hasCustomerRole } from '../../auth/lib/roleResolver.js'
 import { csrfRequest } from '../../../services/api/csrfRequest.js'
 import { formatMoney, titleCase } from '../../../utils/format.js'
+import { ListingImageGallery } from '../components/ListingImageGallery.jsx'
 
 const inputClassName =
   'h-11 w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink transition-colors placeholder:text-muted/70 hover:border-brand/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 disabled:cursor-not-allowed disabled:bg-canvas disabled:text-muted'
@@ -165,6 +166,10 @@ export default function ListingDetailsPage() {
         </Badge>
         {listing.city ? <Badge>{listing.city}</Badge> : null}
       </div>
+
+      <Card className="mt-6">
+        <ListingImageGallery listing={listing} />
+      </Card>
 
       <Card className="mt-8">
         <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-brand">

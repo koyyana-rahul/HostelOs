@@ -1,11 +1,12 @@
 import { Link, useSearchParams } from 'react-router-dom'
-import { Building2, LoaderCircle, MapPin, Search } from 'lucide-react'
+import { LoaderCircle, MapPin, Search } from 'lucide-react'
 import { Button } from '../../../components/ui/Button.jsx'
 import { Card } from '../../../components/ui/Card.jsx'
 import { ErrorState } from '../../../components/feedback/ErrorState.jsx'
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle.js'
 import { formatMoney, titleCase } from '../../../utils/format.js'
 import { useSearchPublicListingsQuery } from '../../listings/api/listingApi.js'
+import { ListingCardImage } from '../components/ListingImageGallery.jsx'
 
 const inputClassName =
   'h-11 w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink transition-colors placeholder:text-muted/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15'
@@ -26,11 +27,7 @@ function ListingCard({ listing }) {
       className="group block focus:outline-none"
     >
       <Card className="h-full overflow-hidden transition-colors group-hover:border-brand/30">
-        <div className="flex h-28 items-end bg-gradient-to-br from-brand-soft via-canvas to-surface p-4">
-          <span className="grid size-10 place-items-center rounded-xl bg-surface/80 text-brand shadow-sm">
-            <Building2 className="size-5" aria-hidden="true" />
-          </span>
-        </div>
+        <ListingCardImage listing={listing} />
         <div className="p-4">
           <div className="flex items-start justify-between gap-2">
             <h2 className="line-clamp-2 text-sm font-semibold text-ink">
