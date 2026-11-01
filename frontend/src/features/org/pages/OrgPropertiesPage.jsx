@@ -11,6 +11,7 @@ import {
 } from '../../organizations/api/propertyApi.js'
 import { useOwnerOrganization } from '../../organizations/hooks/useOwnerOrganization.js'
 import { PropertyFormModal } from '../components/PropertyFormModal.jsx'
+import { PropertyMediaManager } from '../components/PropertyMediaManager.jsx'
 
 function statusTone(status) {
   if (status === 'ACTIVE') return 'success'
@@ -156,6 +157,10 @@ export default function OrgPropertiesPage() {
                     </Button>
                   ) : null}
                 </div>
+                <PropertyMediaManager
+                  organizationId={organizationId}
+                  propertyId={property.id}
+                />
               </Card>
             </li>
           ))}
