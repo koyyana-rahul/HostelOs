@@ -59,14 +59,15 @@ describe('sign-in page', () => {
     })
   })
 
-  it('creates a session and returns to the requested protected page', async () => {
+  it('creates a session and navigates to the role landing page', async () => {
     const fetchMock = stubFetch(
       jsonResponse(csrfPayload),
+      jsonResponse(authUserPayload),
       jsonResponse(authUserPayload),
     )
     const user = userEvent.setup()
 
-    renderApp({ route: '/foundation', authStatus: 'anonymous' })
+    const { router } = renderApp({ route: '/foundation', authStatus: 'anonymous' })
 
     expect(
       await screen.findByRole('heading', {
@@ -80,10 +81,10 @@ describe('sign-in page', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /a clear base for every module/i,
+        name: /platform dashboard/i,
       }),
     ).toBeInTheDocument()
-    expect(fetchMock).toHaveBeenCalledTimes(2)
+    expect(router.state.location.pathname).toBe('/platform')
 
     const csrfRequest = fetchMock.mock.calls[0][0]
     const loginRequest = fetchMock.mock.calls[1][0]
@@ -216,7 +217,7 @@ describe('sign-in page', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /welcome to hostelos/i,
+        name: /discover hostels and pgs/i,
       }),
     ).toBeInTheDocument()
   })

@@ -1,0 +1,114 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.rahul:HostelOs >-------------------------
+[INFO] Building HostelOS Backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ HostelOs ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 7 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ HostelOs ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ HostelOs ---
+[INFO] Copying 3 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ HostelOs ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ HostelOs ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.rahul.HostelOs.OrganizationControllerIntegrationTests
+13:45:08.196 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.rahul.HostelOs.OrganizationControllerIntegrationTests]: OrganizationControllerIntegrationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:45:08.341 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.OrganizationControllerIntegrationTests
+13:45:08.463 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.rahul.HostelOs.OrganizationControllerIntegrationTests]: OrganizationControllerIntegrationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:45:08.466 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.rahul.HostelOs.HostelOsApplication for test class com.rahul.HostelOs.OrganizationControllerIntegrationTests
+13:45:08.468 [main] WARN org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- For test class [com.rahul.HostelOs.OrganizationControllerIntegrationTests], the following 'default' context configuration classes were detected but are currently ignored: com.rahul.HostelOs.AuthIntegrationTests$AuthTestConfiguration. In Spring Framework 7.1, these classes will no longer be ignored. Please update your test configuration accordingly. For details, see: https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/ctx-management/default-config.html
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-31T13:45:08.864+05:30  INFO 10004 --- [HostelOs] [           main] H.OrganizationControllerIntegrationTests : Starting OrganizationControllerIntegrationTests using Java 17.0.16 with PID 10004 (started by RAHUL in D:\Downloads\HostelOs\Backend)
+2026-10-31T13:45:08.867+05:30  INFO 10004 --- [HostelOs] [           main] H.OrganizationControllerIntegrationTests : The following 1 profile is active: "test"
+2026-10-31T13:45:10.276+05:30  INFO 10004 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-31T13:45:10.357+05:30  INFO 10004 --- [HostelOs] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 6 JPA repository interfaces.
+2026-10-31T13:45:11.392+05:30  INFO 10004 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-31T13:45:11.411+05:30  INFO 10004 --- [HostelOs] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-31T13:45:11.412+05:30  INFO 10004 --- [HostelOs] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-31T13:45:11.505+05:30  INFO 10004 --- [HostelOs] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2608 ms
+2026-10-31T13:45:12.004+05:30  INFO 10004 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Starting...
+2026-10-31T13:45:12.256+05:30  INFO 10004 --- [HostelOs] [           main] com.zaxxer.hikari.pool.HikariPool        : HostelOsPool - Added connection conn0: url=jdbc:h2:mem:hostelos user=SA
+2026-10-31T13:45:12.258+05:30  INFO 10004 --- [HostelOs] [           main] com.zaxxer.hikari.HikariDataSource       : HostelOsPool - Start completed.
+2026-10-31T13:45:12.272+05:30  INFO 10004 --- [HostelOs] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:hostelos (H2 2.4)
+2026-10-31T13:45:12.339+05:30  WARN 10004 --- [HostelOs] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-10-31T13:45:12.377+05:30  INFO 10004 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-31T13:45:12.381+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.020s)
+2026-10-31T13:45:12.388+05:30  INFO 10004 --- [HostelOs] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-31T13:45:12.448+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-31T13:45:12.456+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - baseline"
+2026-10-31T13:45:12.459+05:30  INFO 10004 --- [HostelOs] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : +---+
+| 1 |
++---+
+| 1 |
++---+
+
+2026-10-31T13:45:12.479+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - identity foundation"
+2026-10-31T13:45:12.509+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - reconcile platform admin role"
+2026-10-31T13:45:12.524+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - organizations and memberships"
+2026-10-31T13:45:12.539+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - inventory property foundation"
+2026-10-31T13:45:12.549+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "6 - building management"
+2026-10-31T13:45:12.557+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "7 - introduce customer role"
+2026-10-31T13:45:12.570+05:30  INFO 10004 --- [HostelOs] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 7 migrations to schema "public", now at version v7 (execution time 00:00.055s)
+2026-10-31T13:45:12.715+05:30  INFO 10004 --- [HostelOs] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-31T13:45:12.806+05:30  INFO 10004 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-10-31T13:45:13.406+05:30  INFO 10004 --- [HostelOs] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-31T13:45:13.511+05:30  INFO 10004 --- [HostelOs] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:hostelos]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: hostelos/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-31T13:45:14.716+05:30  INFO 10004 --- [HostelOs] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-31T13:45:14.746+05:30  INFO 10004 --- [HostelOs] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-31T13:45:14.837+05:30  INFO 10004 --- [HostelOs] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-31T13:45:16.342+05:30  INFO 10004 --- [HostelOs] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name hostelOsUserDetailsService
+2026-10-31T13:45:17.432+05:30  INFO 10004 --- [HostelOs] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-31T13:45:17.547+05:30  INFO 10004 --- [HostelOs] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 50944 (http) with context path '/'
+2026-10-31T13:45:17.558+05:30  INFO 10004 --- [HostelOs] [           main] H.OrganizationControllerIntegrationTests : Started OrganizationControllerIntegrationTests in 9.043 seconds (process running for 10.394)
+2026-10-31T13:45:18.185+05:30  INFO 10004 --- [HostelOs] [           main] c.r.H.identity.AdminBootstrapRunner      : Bootstrap administrator account created
+2026-10-31T13:45:18.185+05:30  WARN 10004 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-31T13:45:18.185+05:30  WARN 10004 --- [HostelOs] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-10-31T13:45:19.908+05:30  INFO 10004 --- [HostelOs] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-31T13:45:19.908+05:30  INFO 10004 --- [HostelOs] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-31T13:45:19.909+05:30  INFO 10004 --- [HostelOs] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.72 s -- in com.rahul.HostelOs.OrganizationControllerIntegrationTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  27.308 s
+[INFO] Finished at: 2026-10-31T13:45:31+05:30
+[INFO] ------------------------------------------------------------------------

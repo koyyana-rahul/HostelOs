@@ -37,8 +37,8 @@ public class PropertyController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORG_ADMIN)")
-	@Operation(summary = "Create property", description = "Creates a new property under the specified organization. Requires ORG_ADMIN.")
+	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORGANIZATION_ADMIN)")
+	@Operation(summary = "Create property", description = "Creates a new property under the specified organization. Requires ORGANIZATION_ADMIN.")
 	public ResponseEntity<PropertyResponse> createProperty(
 			@PathVariable("organizationId") Long organizationId,
 			@Valid @RequestBody CreatePropertyRequest request) {
@@ -48,7 +48,7 @@ public class PropertyController {
 
 	@GetMapping
 	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORG_STAFF)")
-	@Operation(summary = "List properties", description = "Lists properties within the organization, optionally filtered by status. Requires ORG_STAFF or ORG_ADMIN.")
+	@Operation(summary = "List properties", description = "Lists properties within the organization, optionally filtered by status. Requires ORG_STAFF or ORGANIZATION_ADMIN.")
 	public ResponseEntity<List<PropertyResponse>> listProperties(
 			@PathVariable("organizationId") Long organizationId,
 			@RequestParam(name = "status", required = false) PropertyStatus status) {
@@ -58,7 +58,7 @@ public class PropertyController {
 
 	@GetMapping("/{propertyId}")
 	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORG_STAFF)")
-	@Operation(summary = "Get property", description = "Retrieves details of a specific property. Requires ORG_STAFF or ORG_ADMIN.")
+	@Operation(summary = "Get property", description = "Retrieves details of a specific property. Requires ORG_STAFF or ORGANIZATION_ADMIN.")
 	public ResponseEntity<PropertyResponse> getProperty(
 			@PathVariable("organizationId") Long organizationId,
 			@PathVariable("propertyId") Long propertyId) {
@@ -67,8 +67,8 @@ public class PropertyController {
 	}
 
 	@PutMapping("/{propertyId}")
-	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORG_ADMIN)")
-	@Operation(summary = "Update property", description = "Replaces mutable configuration details of an existing property. Requires ORG_ADMIN.")
+	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORGANIZATION_ADMIN)")
+	@Operation(summary = "Update property", description = "Replaces mutable configuration details of an existing property. Requires ORGANIZATION_ADMIN.")
 	public ResponseEntity<PropertyResponse> updateProperty(
 			@PathVariable("organizationId") Long organizationId,
 			@PathVariable("propertyId") Long propertyId,
@@ -78,8 +78,8 @@ public class PropertyController {
 	}
 
 	@PatchMapping("/{propertyId}/status")
-	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORG_ADMIN)")
-	@Operation(summary = "Change property status", description = "Transitions the operational status of an existing property. Requires ORG_ADMIN.")
+	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORGANIZATION_ADMIN)")
+	@Operation(summary = "Change property status", description = "Transitions the operational status of an existing property. Requires ORGANIZATION_ADMIN.")
 	public ResponseEntity<PropertyResponse> changeStatus(
 			@PathVariable("organizationId") Long organizationId,
 			@PathVariable("propertyId") Long propertyId,

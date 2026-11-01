@@ -72,6 +72,11 @@ public class UserAccountService {
 	}
 
 	@Transactional
+	public UserAccount registerOwner(String rawLoginIdentifier, String displayName, String rawPassword) {
+		return createUser(rawLoginIdentifier, displayName, rawPassword, Set.of(RoleName.ORGANIZATION_ADMIN));
+	}
+
+	@Transactional
 	public boolean createPlatformAdminIfAbsent(String rawLoginIdentifier, String displayName, String rawPassword) {
 		String loginIdentifier = LoginIdentifier.normalize(rawLoginIdentifier);
 		if (userAccounts.existsByLoginIdentifier(loginIdentifier)) {

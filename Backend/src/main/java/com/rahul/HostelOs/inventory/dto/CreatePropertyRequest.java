@@ -1,9 +1,12 @@
 package com.rahul.HostelOs.inventory.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Schema(description = "Payload for creating a new property.")
 public record CreatePropertyRequest(
@@ -45,5 +48,23 @@ public record CreatePropertyRequest(
 
 		@Size(max = 50, message = "Timezone must not exceed 50 characters")
 		@Schema(description = "IANA timezone ID.", example = "Asia/Kolkata")
-		String timezone) {
+		String timezone,
+
+		@DecimalMax(value = "90", message = "Latitude must not exceed 90 degrees")
+		@DecimalMin(value = "-90", message = "Latitude must not be less than -90 degrees")
+		@Schema(description = "Property latitude in decimal degrees.", example = "12.9719")
+		BigDecimal latitude,
+
+		@DecimalMax(value = "180", message = "Longitude must not exceed 180 degrees")
+		@DecimalMin(value = "-180", message = "Longitude must not be less than -180 degrees")
+		@Schema(description = "Property longitude in decimal degrees.", example = "77.5937")
+		BigDecimal longitude,
+
+		@Size(max = 64, message = "Place ID must not exceed 64 characters")
+		@Schema(description = "Place ID from geocoding provider.", example = "ChIJd8BlQ2BZwokRAFUEcm_qryI")
+		String placeId,
+
+		@Size(max = 50, message = "Location provider must not exceed 50 characters")
+		@Schema(description = "Geocoding provider used.", example = "openstreetmap")
+		String locationProvider) {
 }

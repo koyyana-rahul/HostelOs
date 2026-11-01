@@ -2,6 +2,14 @@ package com.rahul.HostelOs.common.exception;
 
 import com.rahul.HostelOs.building.exception.BuildingArchivedException;
 import com.rahul.HostelOs.building.exception.DuplicateBuildingCodeException;
+import com.rahul.HostelOs.enquiry.exception.EnquiryNotFoundException;
+import com.rahul.HostelOs.enquiry.exception.EnquiryVersionConflictException;
+import com.rahul.HostelOs.enquiry.exception.InvalidEnquiryStatusTransitionException;
+import com.rahul.HostelOs.listing.exception.DuplicateListingTitleException;
+import com.rahul.HostelOs.listing.exception.InvalidListingStatusTransitionException;
+import com.rahul.HostelOs.listing.exception.ListingNotFoundException;
+import com.rahul.HostelOs.listing.exception.ListingValidationException;
+import com.rahul.HostelOs.listing.exception.ListingVersionConflictException;
 import com.rahul.HostelOs.inventory.exception.DuplicatePropertyCodeException;
 import com.rahul.HostelOs.inventory.exception.InvalidPropertyStatusTransitionException;
 import com.rahul.HostelOs.inventory.exception.PropertyNotFoundException;
@@ -115,6 +123,57 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				: "Duplicate building code";
 		ApiError error = ApiError.of(HttpStatus.CONFLICT, message, request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler({ListingNotFoundException.class, EnquiryNotFoundException.class})
+	public ResponseEntity<ApiError> handleListingOrEnquiryNotFound(
+			RuntimeException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Resource not found";
+		ApiError error = ApiError.of(HttpStatus.NOT_FOUND, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
+	@ExceptionHandler(DuplicateListingTitleException.class)
+	public ResponseEntity<ApiError> handleDuplicateListingTitle(
+			DuplicateListingTitleException exception,
+			HttpServletRequest request) {
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, exception.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler({
+			InvalidListingStatusTransitionException.class,
+			ListingVersionConflictException.class,
+			InvalidEnquiryStatusTransitionException.class,
+			EnquiryVersionConflictException.class
+	})
+	public ResponseEntity<ApiError> handleListingOrEnquiryConflict(
+			RuntimeException exception,
+			HttpServletRequest request) {
+		ApiError error = ApiError.of(HttpStatus.CONFLICT, exception.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
+
+	@ExceptionHandler(ListingValidationException.class)
+	public ResponseEntity<ApiError> handleListingValidation(
+			ListingValidationException exception,
+			HttpServletRequest request) {
+		ApiError error = ApiError.of(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ApiError> handleIllegalArgument(
+			IllegalArgumentException exception,
+			HttpServletRequest request) {
+		String message = (exception.getMessage() != null && !exception.getMessage().isBlank())
+				? exception.getMessage()
+				: "Invalid request";
+		ApiError error = ApiError.of(HttpStatus.BAD_REQUEST, message, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
 	@ExceptionHandler(OrganizationNotFoundException.class)

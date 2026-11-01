@@ -2,6 +2,7 @@ import { act, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { env } from '../../src/lib/env.js'
+import { stubFetch } from '../helpers/api.js'
 import { renderApp } from '../test-utils.jsx'
 
 describe('AppLayout and Shell Navigation', () => {
@@ -10,6 +11,7 @@ describe('AppLayout and Shell Navigation', () => {
   let matchMediaListeners = []
 
   beforeEach(() => {
+    stubFetch()
     matchMediaListeners = []
 
     originalShowModal = HTMLDialogElement.prototype.showModal
@@ -53,11 +55,11 @@ describe('AppLayout and Shell Navigation', () => {
   })
 
   it('renders skip link targeting #main-content that is focusable', async () => {
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const skipLink = screen.getByRole('link', { name: /skip to content/i })
@@ -69,11 +71,11 @@ describe('AppLayout and Shell Navigation', () => {
   })
 
   it('renders header with workspace title, environment badge, and version tag', async () => {
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     expect(screen.getByText('Operations workspace')).toBeInTheDocument()
@@ -84,11 +86,11 @@ describe('AppLayout and Shell Navigation', () => {
 
   it('opens drawer, moves focus to close button, and locks body scrolling', async () => {
     const user = userEvent.setup()
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })
@@ -107,11 +109,11 @@ describe('AppLayout and Shell Navigation', () => {
 
   it('dismisses drawer with close button and restores focus to hamburger and restores scroll', async () => {
     const user = userEvent.setup()
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })
@@ -127,11 +129,11 @@ describe('AppLayout and Shell Navigation', () => {
 
   it('dismisses drawer with Escape key and restores focus to hamburger', async () => {
     const user = userEvent.setup()
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })
@@ -148,11 +150,11 @@ describe('AppLayout and Shell Navigation', () => {
 
   it('dismisses drawer with backdrop button and restores focus to hamburger', async () => {
     const user = userEvent.setup()
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })
@@ -167,11 +169,11 @@ describe('AppLayout and Shell Navigation', () => {
 
   it('closes drawer on navigation without stealing focus back to hamburger', async () => {
     const user = userEvent.setup()
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })
@@ -191,11 +193,11 @@ describe('AppLayout and Shell Navigation', () => {
 
   it('closes drawer and restores body scroll when transitioning to desktop breakpoint without focusing hidden hamburger', async () => {
     const user = userEvent.setup()
-    renderApp()
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })

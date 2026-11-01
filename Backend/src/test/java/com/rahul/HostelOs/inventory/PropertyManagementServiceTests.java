@@ -100,7 +100,7 @@ class PropertyManagementServiceTests {
 
 		// Admin membership in Org1
 		membershipRepository.save(new OrganizationMembership(
-				org1, adminUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				org1, adminUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		// Staff membership in Org1
 		membershipRepository.save(new OrganizationMembership(
@@ -108,7 +108,7 @@ class PropertyManagementServiceTests {
 
 		// Alien membership in Org2 only
 		membershipRepository.save(new OrganizationMembership(
-				org2, alienUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				org2, alienUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		authenticateAs(adminUser);
 	}
@@ -234,7 +234,7 @@ class PropertyManagementServiceTests {
 
 		assertThatThrownBy(() -> propertyService.createProperty(org1.getId(), request))
 				.isInstanceOf(OrganizationAccessDeniedException.class)
-				.hasMessageContaining("ORG_ADMIN");
+				.hasMessageContaining("ORGANIZATION_ADMIN");
 	}
 
 	@Test
@@ -329,7 +329,7 @@ class PropertyManagementServiceTests {
 
 		assertThatThrownBy(() -> propertyService.updateProperty(org1.getId(), created.id(), updateRequest))
 				.isInstanceOf(OrganizationAccessDeniedException.class)
-				.hasMessageContaining("ORG_ADMIN");
+				.hasMessageContaining("ORGANIZATION_ADMIN");
 	}
 
 	// ==========================================
@@ -385,7 +385,7 @@ class PropertyManagementServiceTests {
 	// ==========================================
 
 	@Test
-	@DisplayName("Read property allowed for both ORG_ADMIN and ORG_STAFF")
+	@DisplayName("Read property allowed for both ORGANIZATION_ADMIN and ORG_STAFF")
 	void getProperty_AdminAndStaffAllowed() {
 		PropertyResponse created = propertyService.createProperty(org1.getId(), new CreatePropertyRequest(
 				"Read Hostel", "READ-01", null, null, "City", null, null, null, null));

@@ -1,11 +1,12 @@
 import { X } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { SidebarContent } from './SidebarContent.jsx'
 
 export function MobileNavDrawer({
   open = false,
   onClose,
   triggerButtonRef,
+  children,
 }) {
   const dialogRef = useRef(null)
   const closeButtonRef = useRef(null)
@@ -23,11 +24,11 @@ export function MobileNavDrawer({
     onCloseRef.current?.()
   }
 
-  const handleNavigate = () => {
+  const handleNavigate = useCallback(() => {
     shouldRestoreFocusRef.current = false
     isNavigatingRef.current = true
     onCloseRef.current?.()
-  }
+  }, [])
 
   useEffect(() => {
     if (!open) {
@@ -122,7 +123,7 @@ export function MobileNavDrawer({
             <X className="size-4" aria-hidden="true" />
           </button>
         </div>
-        <SidebarContent onNavigate={handleNavigate} />
+        {children ?? <SidebarContent onNavigate={handleNavigate} />}
       </dialog>
     </div>
   )

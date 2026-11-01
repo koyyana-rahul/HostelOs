@@ -85,7 +85,7 @@ class PropertyControllerTests {
 
 		// Admin in Org 1
 		membershipRepository.save(new OrganizationMembership(
-				org1, adminUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				org1, adminUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		// Staff in Org 1
 		membershipRepository.save(new OrganizationMembership(
@@ -93,7 +93,7 @@ class PropertyControllerTests {
 
 		// Admin in Org 2
 		membershipRepository.save(new OrganizationMembership(
-				org2, alienUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				org2, alienUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 	}
 
 	// ==========================================
@@ -251,7 +251,7 @@ class PropertyControllerTests {
 	}
 
 	@Test
-	@DisplayName("4b. 403 Forbidden when ORG_STAFF attempts mutations (ORG_ADMIN required)")
+	@DisplayName("4b. 403 Forbidden when ORG_STAFF attempts mutations (ORGANIZATION_ADMIN required)")
 	void staffAttemptingMutations_Returns403() throws Exception {
 		Browser staff = new Browser();
 		staff.login(staffLogin, DEFAULT_PASSWORD);

@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import { ArrowRight, Search, Building2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Button } from '../../../components/ui/Button.jsx'
 import { Card } from '../../../components/ui/Card.jsx'
 
@@ -17,18 +17,14 @@ export default function HomePage() {
               A two-sided platform connecting students and working professionals with verified accommodations, and giving hostel owners simple tools to run their business.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button asChild size="lg">
-                <Link to="/discover">
-                  <Search className="size-4" />
-                  Find a hostel or PG
-                  <ArrowRight className="size-4" />
-                </Link>
+              <Button as={Link} to="/discover" size="lg">
+                <Search className="size-4" />
+                Find a hostel or PG
+                <ArrowRight className="size-4" />
               </Button>
-              <Button asChild variant="secondary" size="lg">
-                <Link to="/for-owners">
-                  <Building2 className="size-4" />
-                  List your property
-                </Link>
+              <Button as={Link} to="/for-owners" variant="secondary" size="lg">
+                <Building2 className="size-4" />
+                List your property
               </Button>
             </div>
           </div>

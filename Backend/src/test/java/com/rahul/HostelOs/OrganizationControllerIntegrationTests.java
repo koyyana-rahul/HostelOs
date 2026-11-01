@@ -60,7 +60,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser browser = new Browser();
 		String login = "nocrsf-" + System.nanoTime() + "@example.com";
 		browser.bootstrapCsrf();
-		browser.postJson("/api/v1/auth/register", registerPayload(login, "NoCsrf", PASSWORD), browser.getCsrfToken());
+		browser.postJson("/api/v1/auth/register/owner", registerPayload(login, "NoCsrf", PASSWORD), browser.getCsrfToken());
 		Browser authed = new Browser();
 		authed.bootstrapCsrf();
 		authed.login(login, PASSWORD);
@@ -74,7 +74,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser browser = new Browser();
 		browser.bootstrapCsrf();
 		String login = "orgcreator-" + System.nanoTime() + "@example.com";
-		HttpResponse<String> register = browser.postJson("/api/v1/auth/register", registerPayload(login, "Org Creator", PASSWORD), browser.getCsrfToken());
+		HttpResponse<String> register = browser.postJson("/api/v1/auth/register/owner", registerPayload(login, "Org Creator", PASSWORD), browser.getCsrfToken());
 		assertThat(register.statusCode()).isEqualTo(201);
 		Browser authed = new Browser();
 		authed.bootstrapCsrf();
@@ -93,7 +93,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser browser = new Browser();
 		browser.bootstrapCsrf();
 		String login = "listuser-" + System.nanoTime() + "@example.com";
-		browser.postJson("/api/v1/auth/register", registerPayload(login, "List User", PASSWORD), browser.getCsrfToken());
+		browser.postJson("/api/v1/auth/register/owner", registerPayload(login, "List User", PASSWORD), browser.getCsrfToken());
 		Browser authed = new Browser();
 		authed.bootstrapCsrf();
 		authed.login(login, PASSWORD);
@@ -110,7 +110,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -129,7 +129,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "ownerx-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "OwnerX", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "OwnerX", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -153,7 +153,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner2-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner2", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner2", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -169,7 +169,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner3-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner3", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner3", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -192,7 +192,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner4-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner4", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner4", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -216,7 +216,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner5-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner5", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner5", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -231,9 +231,9 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		HttpResponse<String> add = ownerAuthed.postJson("/api/v1/organizations/" + orgId + "/members", addMemberPayload(newUser, "ORG_STAFF"), ownerAuthed.getCsrfToken());
 		String mid = membershipIdFromBody(add.body());
 
-		HttpResponse<String> change = ownerAuthed.putJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/role", changeRolePayload("ORG_ADMIN"), ownerAuthed.getCsrfToken());
+		HttpResponse<String> change = ownerAuthed.putJson("/api/v1/organizations/" + orgId + "/members/" + mid + "/role", changeRolePayload("ORGANIZATION_ADMIN"), ownerAuthed.getCsrfToken());
 		assertThat(change.statusCode()).isEqualTo(200);
-		assertThat(change.body()).contains("\"orgRole\":\"ORG_ADMIN\"");
+		assertThat(change.body()).contains("\"orgRole\":\"ORGANIZATION_ADMIN\"");
 	}
 
 	@Test
@@ -241,7 +241,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner6-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner6", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner6", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -270,7 +270,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner7-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner7", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner7", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -295,7 +295,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner8-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner8", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner8", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -327,7 +327,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner9-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner9", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner9", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);
@@ -354,7 +354,7 @@ class OrganizationControllerIntegrationTests extends AuthIntegrationTests {
 		Browser owner = new Browser();
 		owner.bootstrapCsrf();
 		String ownerLogin = "owner10-" + System.nanoTime() + "@example.com";
-		owner.postJson("/api/v1/auth/register", registerPayload(ownerLogin, "Owner10", PASSWORD), owner.getCsrfToken());
+		owner.postJson("/api/v1/auth/register/owner", registerPayload(ownerLogin, "Owner10", PASSWORD), owner.getCsrfToken());
 		Browser ownerAuthed = new Browser();
 		ownerAuthed.bootstrapCsrf();
 		ownerAuthed.login(ownerLogin, PASSWORD);

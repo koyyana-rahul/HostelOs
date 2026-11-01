@@ -1,11 +1,13 @@
 import { RouteError } from '../components/feedback/RouteError.jsx'
 import { AppLayout } from '../components/layout/AppLayout.jsx'
+import { OrganizationLayout } from '../components/layout/OrganizationLayout.jsx'
 import { PublicLayout } from '../components/layout/public/PublicLayout.jsx'
 import { AuthGate } from '../features/auth/components/AuthGate.jsx'
 import { RequireAuth } from '../features/auth/components/RequireAuth.jsx'
+import { RequireCustomer } from '../features/auth/components/RequireCustomer.jsx'
+import { RequireOrganizationOwner } from '../features/organizations/components/RequireOrganizationOwner.jsx'
+import { RequireOwnerOnboarding } from '../features/organizations/components/RequireOwnerOnboarding.jsx'
 import { RequirePlatform } from '../features/organizations/components/RequirePlatform.jsx'
-import { RequirePlatformMembership } from '../features/organizations/components/RequirePlatformMembership.jsx'
-import { RequireOrgAccess } from '../features/organizations/components/RequireOrgAccess.jsx'
 
 function lazyPage(load) {
   return {
@@ -34,6 +36,12 @@ export const routes = [
             ...lazyPage(() => import('../features/public/pages/DiscoverPage.jsx')),
           },
           {
+            path: 'discover/:listingId',
+            ...lazyPage(
+              () => import('../features/public/pages/ListingDetailsPage.jsx'),
+            ),
+          },
+          {
             path: 'for-owners',
             ...lazyPage(() => import('../features/public/pages/ForOwnersPage.jsx')),
           },
@@ -60,7 +68,7 @@ export const routes = [
         ...lazyPage(() => import('../features/auth/pages/RegisterPage.jsx')),
       },
       {
-        Component: RequirePlatformMembership,
+        Component: RequireOwnerOnboarding,
         children: [
           {
             path: 'onboarding',
@@ -68,7 +76,9 @@ export const routes = [
           },
           {
             path: 'onboarding/create',
-            ...lazyPage(() => import('../features/organizations/pages/CreateOrganizationPage.jsx')),
+            ...lazyPage(
+              () => import('../features/organizations/pages/CreateOrganizationPage.jsx'),
+            ),
           },
         ],
       },
@@ -107,11 +117,53 @@ export const routes = [
         Component: RequireAuth,
         children: [
           {
-            Component: RequireOrgAccess,
+            Component: PublicLayout,
+            children: [
+              {
+                Component: RequireCustomer,
+                children: [
+                  {
+                    path: 'account',
+                    ...lazyPage(
+                      () => import('../features/customer/account/AccountPage.jsx'),
+                    ),
+                    children: [
+                      {
+                        index: true,
+                        ...lazyPage(
+                          () => import('../features/customer/account/ProfilePage.jsx'),
+                        ),
+                      },
+                      {
+                        path: 'profile',
+                        ...lazyPage(
+                          () => import('../features/customer/account/ProfilePage.jsx'),
+                        ),
+                      },
+                      {
+                        path: 'settings',
+                        ...lazyPage(
+                          () => import('../features/customer/account/AccountSettingsPage.jsx'),
+                        ),
+                      },
+                    ],
+                  },
+                  {
+                    path: 'my-enquiries',
+                    ...lazyPage(
+                      () => import('../features/customer/account/MyEnquiriesPage.jsx'),
+                    ),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            Component: RequireOrganizationOwner,
             children: [
               {
                 path: 'app',
-                Component: AppLayout,
+                Component: OrganizationLayout,
                 children: [
                   {
                     index: true,
@@ -126,16 +178,30 @@ export const routes = [
                     ...lazyPage(() => import('../features/org/pages/OrgPropertiesPage.jsx')),
                   },
                   {
-                    path: 'staff',
-                    ...lazyPage(() => import('../features/org/pages/OrgStaffPage.jsx')),
+                    path: 'listings',
+                    ...lazyPage(() => import('../features/org/pages/OrgListingsPage.jsx')),
                   },
                   {
-                    path: 'operations',
-                    ...lazyPage(() => import('../features/org/pages/OrgOperationsPage.jsx')),
+                    path: 'enquiries',
+                    ...lazyPage(() => import('../features/org/pages/OrgEnquiriesPage.jsx')),
                   },
                   {
                     path: 'settings',
                     ...lazyPage(() => import('../features/org/pages/OrgSettingsPage.jsx')),
+                  },
+                  {
+                    path: 'account',
+                    ...lazyPage(() => import('../features/org/pages/OrgAccountPage.jsx')),
+                  },
+                  {
+                    path: 'account/profile',
+                    ...lazyPage(() => import('../features/org/pages/OrgProfilePage.jsx')),
+                  },
+                  {
+                    path: 'account/settings',
+                    ...lazyPage(
+                      () => import('../features/org/pages/OrgAccountSettingsPage.jsx'),
+                    ),
                   },
                 ],
               },
@@ -144,10 +210,6 @@ export const routes = [
           {
             Component: AppLayout,
             children: [
-              {
-                index: true,
-                ...lazyPage(() => import('../features/home/pages/HomeRedirectPage.jsx')),
-              },
               {
                 path: 'foundation',
                 ...lazyPage(() => import('../features/foundation/pages/FoundationPage.jsx')),
@@ -159,10 +221,6 @@ export const routes = [
               {
                 path: 'unauthorized',
                 ...lazyPage(() => import('../components/feedback/AccessDenied.jsx')),
-              },
-              {
-                path: '*',
-                ...lazyPage(() => import('./NotFoundPage.jsx')),
               },
             ],
           },

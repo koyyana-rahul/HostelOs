@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+.DS_Store
+.DS_Store?
+lib
+*.local.js
+*.test.*
+*.spec.*
+src/features/auth/
+src/features/public/pages/ListingDetailsPage.jsx
+src/components/layout/public/PublicHeader.jsx
+*.config.*

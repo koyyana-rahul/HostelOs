@@ -1,4 +1,4 @@
-import { act, screen, waitFor, within } from '@testing-library/react'
+import { act, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { env } from '../../src/lib/env.js'
@@ -11,6 +11,7 @@ describe('Accessibility, Responsiveness & Regression Verification (F5)', () => {
   let matchMediaListeners = []
 
   beforeEach(() => {
+    stubFetch()
     matchMediaListeners = []
 
     originalShowModal = HTMLDialogElement.prototype.showModal
@@ -55,11 +56,11 @@ describe('Accessibility, Responsiveness & Regression Verification (F5)', () => {
   })
 
   it('1. skip link is keyboard-accessible and targets #main-content', async () => {
-    renderApp({ route: '/' })
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const skipLink = screen.getByRole('link', { name: /skip to content/i })
@@ -79,11 +80,11 @@ describe('Accessibility, Responsiveness & Regression Verification (F5)', () => {
 
   it('2. dialog and mobile drawer handle Escape and restore focus on dismissal', async () => {
     const user = userEvent.setup()
-    renderApp({ route: '/' })
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })
@@ -109,17 +110,17 @@ describe('Accessibility, Responsiveness & Regression Verification (F5)', () => {
   })
 
   describe('3. route semantics across application routes', () => {
-    it('verifies heading and landmarks on overview route (/)', async () => {
+    it('verifies heading and landmarks on the public home route (/)', async () => {
       renderApp({ route: '/' })
       expect(
         await screen.findByRole('heading', {
           level: 1,
-          name: /welcome to hostelos/i,
+          name: /discover hostels and pgs/i,
         }),
       ).toBeInTheDocument()
       expect(screen.getByRole('main')).toBeInTheDocument()
       expect(
-        screen.getByRole('navigation', { name: /primary/i }),
+        screen.getByRole('link', { name: /find a hostel or pg/i }),
       ).toBeInTheDocument()
     })
 
@@ -178,38 +179,27 @@ describe('Accessibility, Responsiveness & Regression Verification (F5)', () => {
     })
   })
 
-  it('4. ensures status indicators convey meaning through text/labels and not color alone', async () => {
-    renderApp({ route: '/' })
+  it('4. ensures status indicators convey meaning through text labels', async () => {
+    stubFetch(jsonResponse(systemInfoPayload))
+    renderApp({ route: '/system' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /system information/i,
     })
 
-    // Header environment badge has explicit text
     expect(screen.getByText(env.environmentLabel)).toBeInTheDocument()
-
-    // Metric cards have readable text values and helper descriptions
-    const metricsSection = screen.getByRole('region', { name: /key metrics/i })
-    expect(within(metricsSection).getByText('85.6%')).toBeInTheDocument()
-    expect(within(metricsSection).getByText('Healthy')).toBeInTheDocument()
-
-    // Property occupancy table badges have explicit percentages
-    const table = screen.getByRole('table', {
-      name: /property occupancy overview/i,
-    })
-    expect(within(table).getByText('88.0%')).toBeInTheDocument()
-    expect(within(table).getByText('85.0%')).toBeInTheDocument()
-    expect(within(table).getByText('75.0%')).toBeInTheDocument()
+    expect(await screen.findByText('Endpoint status')).toBeInTheDocument()
+    expect(screen.getByText('AVAILABLE')).toBeInTheDocument()
   })
 
   it('5. responsive drawer automatically dismisses and restores scroll upon desktop breakpoint', async () => {
     const user = userEvent.setup()
-    renderApp({ route: '/' })
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const hamburger = screen.getByRole('button', { name: /open navigation/i })
@@ -239,33 +229,30 @@ describe('Accessibility, Responsiveness & Regression Verification (F5)', () => {
     expect(document.body.style.overflow).toBe('')
   })
 
-  it('6. table markup provides semantic column headers with scope and an accessible table name', async () => {
-    renderApp({ route: '/' })
+  it('6. definition lists pair every term with a description', async () => {
+    const { container } = renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
-    const table = screen.getByRole('table', {
-      name: /property occupancy overview/i,
-    })
-    expect(table).toBeInTheDocument()
+    const lists = container.querySelectorAll('dl')
+    expect(lists.length).toBeGreaterThan(0)
 
-    const colHeaders = within(table).getAllByRole('columnheader')
-    expect(colHeaders.length).toBe(4)
-
-    colHeaders.forEach((header) => {
-      expect(header).toHaveAttribute('scope', 'col')
+    lists.forEach((list) => {
+      const terms = list.querySelectorAll('dt')
+      expect(terms.length).toBeGreaterThan(0)
+      expect(list.querySelectorAll('dd').length).toBe(terms.length)
     })
   })
 
   it('7. representative decorative icons are hidden from assistive technology', async () => {
-    renderApp({ route: '/' })
+    renderApp({ route: '/foundation' })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const svgs = document.querySelectorAll('svg')

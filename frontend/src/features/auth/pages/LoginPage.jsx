@@ -6,6 +6,8 @@ import {
   LockKeyhole,
   LogIn,
   ShieldCheck,
+  Eye,
+  EyeOff,
 } from 'lucide-react'
 import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
@@ -21,12 +23,12 @@ import {
   authApi,
   useLazyGetCsrfTokenQuery,
   useLazyGetCurrentUserQuery,
-  useLazyGetMembershipsQuery,
   useLoginMutation,
 } from '../api/authApi.js'
 import { sessionEstablished, selectAuthStatus } from '../authSlice.js'
 import { getLoginErrorMessage } from '../lib/authErrors.js'
 import { getLandingPath } from '../lib/roleResolver.js'
+import { useLazyListMyOrganizationsQuery } from '../../organizations/api/organizationApi.js'
 
 const inputClassName =
   'h-11 w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink transition-colors placeholder:text-muted/70 hover:border-brand/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 disabled:cursor-not-allowed disabled:bg-canvas disabled:text-muted'
@@ -65,12 +67,14 @@ export default function LoginPage() {
   const [getCsrfToken] = useLazyGetCsrfTokenQuery()
   const [loginRequest] = useLoginMutation()
   const [getCurrentUser] = useLazyGetCurrentUserQuery()
-  const [getMemberships] = useLazyGetMembershipsQuery()
+  const [getMyOrganizations] = useLazyListMyOrganizationsQuery()
   const [loginIdentifier, setLoginIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const destination = getDestination(location.state)
+  const registrationState = location.state
 
   if (status === 'authenticated') {
     return <Navigate to={destination} replace />
@@ -121,14 +125,16 @@ export default function LoginPage() {
       dispatch(authApi.util.resetApiState())
       const user = await getCurrentUser().unwrap()
       dispatch(sessionEstablished(user))
-      let memberships = []
+
+      let organizations = []
       try {
-        memberships = await getMemberships().unwrap()
+        organizations = await getMyOrganizations().unwrap()
       } catch {
-        memberships = []
+        organizations = []
       }
+
       setPassword('')
-      navigate(getLandingPath(user, memberships), { replace: true })
+      navigate(getLandingPath(user, organizations), { replace: true })
     } catch (requestError) {
       setError(getLoginErrorMessage(requestError))
     } finally {
@@ -217,8 +223,25 @@ export default function LoginPage() {
                 Sign in to HostelOS
               </h1>
               <p className="mt-2 text-sm leading-6 text-muted">
-                Use the account supplied by your administrator.
+                Sign in to manage your hostel or discover your next stay.
               </p>
+
+              {registrationState?.registered ? (
+                <div
+                  role="status"
+                  className="mt-5 flex items-start gap-3 rounded-xl border border-success/15 bg-success-soft/60 p-4"
+                >
+                  <CheckCircle2
+                    className="mt-0.5 size-4 shrink-0 text-success"
+                    aria-hidden="true"
+                  />
+                  <p className="text-sm leading-5 text-ink">
+                    {registrationState.owner
+                      ? 'Owner account created. Sign in to set up your organization.'
+                      : 'Account created. Sign in to continue.'}
+                  </p>
+                </div>
+              ) : null}
 
               <form
                 className="mt-8 space-y-5"
@@ -278,18 +301,29 @@ export default function LoginPage() {
                   >
                     Password
                   </label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={password}
-                    onChange={updateField(setPassword)}
-                    autoComplete="current-password"
-                    disabled={isSubmitting}
-                    maxLength={200}
-                    aria-invalid={Boolean(error)}
-                    className={`mt-2 ${inputClassName}`}
-                  />
+                  <div className="relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={updateField(setPassword)}
+                      autoComplete="current-password"
+                      disabled={isSubmitting}
+                      maxLength={200}
+                      aria-invalid={Boolean(error)}
+                      className={`mt-2 ${inputClassName}`}
+                      style={{ paddingRight: '2.5rem' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-muted hover:text-brand focus:outline-none focus:ring-2 focus:ring-brand/15 disabled:cursor-not-allowed"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                    </button>
+                  </div>
                 </div>
 
                 <Button

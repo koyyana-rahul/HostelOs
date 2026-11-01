@@ -73,7 +73,10 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET, "/api/v1/auth/csrf").permitAll()
 				.requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
 				.requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/auth/register/owner").permitAll()
 				.requestMatchers(HttpMethod.POST, "/api/v1/auth/logout").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/v1/public/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/listings/*/enquiries").authenticated()
 				.requestMatchers(HttpMethod.GET, "/api/v1/auth/me").authenticated()
 				.requestMatchers(HttpMethod.GET, "/api/v1/auth/me/memberships").authenticated()
 				.requestMatchers("/api/v1/auth/**").denyAll()
@@ -144,7 +147,9 @@ public class SecurityConfig {
 				return false;
 			}
 			String path = request.getRequestURI().substring(request.getContextPath().length());
-			if ("POST".equals(method) && ("/api/v1/auth/login".equals(path) || "/api/v1/auth/register".equals(path))) {
+			if ("POST".equals(method) && ("/api/v1/auth/login".equals(path)
+					|| "/api/v1/auth/register".equals(path)
+					|| "/api/v1/auth/register/owner".equals(path))) {
 				return true;
 			}
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

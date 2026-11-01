@@ -15,12 +15,19 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@hookform/resolvers": "^7.0.0",
     "@reduxjs/toolkit": "^2.13.0",
+    "i18next": "^26.5.12",
+    "leaflet": "^1.9.4",
     "lucide-react": "^1.63.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "react-hook-form": "^7.91.0",
+    "react-i18next": "^17.1.9",
+    "react-leaflet": "^5.0.0",
     "react-redux": "^9.3.1",
-    "react-router-dom": "^7.18.5"
+    "react-router-dom": "^7.18.5",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

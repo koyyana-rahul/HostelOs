@@ -41,7 +41,7 @@ class OrganizationMigrationTests {
 			assertThat(userId).isPositive();
 
 			// Insert valid membership
-			long memberId = insertMembership(connection, orgId, userId, "ORG_ADMIN", "ACTIVE");
+			long memberId = insertMembership(connection, orgId, userId, "ORGANIZATION_ADMIN", "ACTIVE");
 			assertThat(memberId).isPositive();
 
 			// Reject duplicate slug

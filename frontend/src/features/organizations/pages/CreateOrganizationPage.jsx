@@ -4,9 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Brand } from '../../../components/layout/Brand.jsx'
 import { Button } from '../../../components/ui/Button.jsx'
 import { Card } from '../../../components/ui/Card.jsx'
-import { useCreateOrganizationMutation } from '../api/organizationApi.js'
+import { organizationApi, useCreateOrganizationMutation } from '../api/organizationApi.js'
 import { useAppDispatch } from '../../../hooks/useAppDispatch.js'
-import { authApi } from '../../auth/api/authApi.js'
 import { setCurrentOrganization } from '../organizationSlice.js'
 
 const inputClassName =
@@ -76,11 +75,17 @@ export default function CreateOrganizationPage() {
 
     try {
       const result = await createOrganization({ name: trimmedName, slug: trimmedSlug }).unwrap()
-      dispatch(authApi.util.invalidateTags(['Membership', { type: 'Organization', id: 'LIST' }]))
+      dispatch(
+        organizationApi.util.invalidateTags([
+          'Membership',
+          { type: 'Organization', id: 'LIST' },
+          { type: 'Organization', id: 'MINE' },
+        ]),
+      )
       if (result?.id) {
         dispatch(setCurrentOrganization(result.id))
       }
-      navigate('/app', { replace: true })
+      navigate('/app/overview', { replace: true })
     } catch (err) {
       if (err?.status === 409) {
         setError('An organization with this slug already exists.')
@@ -108,7 +113,8 @@ export default function CreateOrganizationPage() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand">Create organization</p>
           <h1 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-ink">New organization</h1>
           <p className="mt-2 text-sm leading-6 text-muted">
-            Create an organization to manage properties, staff, and operations.
+            Create an organization to manage properties, listings, enquiries, and
+            your public presence.
           </p>
         </div>
 

@@ -15,7 +15,10 @@ import {
 
 describe('finalized role contract', () => {
   it('renders exactly the platform, organization, and staff role names', async () => {
+    stubFetch()
+
     renderApp({
+      route: '/foundation',
       user: {
         ...authenticatedUser,
         roles: ['PLATFORM_ADMIN', 'ORGANIZATION_ADMIN', 'STAFF'],
@@ -24,7 +27,7 @@ describe('finalized role contract', () => {
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const roles = screen.getByRole('list', {
@@ -46,11 +49,13 @@ describe('finalized role contract', () => {
   })
 
   it('does not derive navigation or actions from the STAFF role', async () => {
-    renderApp({ user: staffUser })
+    stubFetch()
+
+    renderApp({ route: '/foundation', user: staffUser })
 
     await screen.findByRole('heading', {
       level: 1,
-      name: /welcome to hostelos/i,
+      name: /a clear base for every module/i,
     })
 
     const navigation = screen.getByRole('navigation', { name: /primary/i })
@@ -69,6 +74,7 @@ describe('finalized role contract', () => {
     stubFetch(
       jsonResponse(csrfPayload),
       jsonResponse(staffUserPayload),
+      jsonResponse(staffUserPayload),
     )
     const user = userEvent.setup()
 
@@ -84,15 +90,17 @@ describe('finalized role contract', () => {
     )
     await user.click(screen.getByRole('button', { name: /^sign in$/i }))
 
-    expect(
+expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /welcome to hostelos/i,
+        name: /find hostels and pgs/i,
       }),
     ).toBeInTheDocument()
-    expect(screen.getByText(staffUserPayload.displayName)).toBeInTheDocument()
-    expect(screen.getByText('STAFF')).toBeInTheDocument()
-    expect(screen.queryByText('PLATFORM_ADMIN')).not.toBeInTheDocument()
-    expect(screen.queryByText('ORGANIZATION_ADMIN')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /get started/i }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /platform|dashboard/i }),
+    ).not.toBeInTheDocument()
   })
 })

@@ -78,7 +78,7 @@ class MembershipManagementServiceTests {
 
 		adminUser = createUser("admin-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		adminMembership = membershipRepository.save(new OrganizationMembership(
-				testOrg, adminUser, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				testOrg, adminUser, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		authenticateAs(adminUser);
 	}
@@ -128,14 +128,14 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("A2: Add valid active user as ORG_ADMIN")
+	@DisplayName("A2: Add valid active user as ORGANIZATION_ADMIN")
 	void addMember_Success_Admin() {
 		UserAccount target = createUser("target-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
-		AddMemberRequest request = new AddMemberRequest(target.getLoginIdentifier(), OrgRole.ORG_ADMIN);
+		AddMemberRequest request = new AddMemberRequest(target.getLoginIdentifier(), OrgRole.ORGANIZATION_ADMIN);
 
 		MembershipResponse response = membershipService.addMember(testOrg.getId(), request);
 
-		assertThat(response.orgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(response.orgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 		assertThat(membershipRepository.countActiveAdmins(testOrg.getId())).isEqualTo(2L);
 	}
 
@@ -241,7 +241,7 @@ class MembershipManagementServiceTests {
 
 		assertThatThrownBy(() -> membershipService.addMember(testOrg.getId(), request))
 				.isInstanceOf(OrganizationAccessDeniedException.class)
-				.hasMessageContaining("Caller does not hold ORG_ADMIN");
+				.hasMessageContaining("Caller does not hold ORGANIZATION_ADMIN");
 	}
 
 	@Test
@@ -317,25 +317,25 @@ class MembershipManagementServiceTests {
 	// ==========================================
 
 	@Test
-	@DisplayName("B1: Promote ORG_STAFF to ORG_ADMIN")
+	@DisplayName("B1: Promote ORG_STAFF to ORGANIZATION_ADMIN")
 	void changeRole_PromoteStaffToAdmin_Success() {
 		UserAccount target = createUser("staff-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member = membershipRepository.save(new OrganizationMembership(
 				testOrg, target, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE));
 
 		MembershipResponse response = membershipService.changeRole(
-				testOrg.getId(), member.getId(), new ChangeMemberRoleRequest(OrgRole.ORG_ADMIN));
+				testOrg.getId(), member.getId(), new ChangeMemberRoleRequest(OrgRole.ORGANIZATION_ADMIN));
 
-		assertThat(response.orgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(response.orgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 		assertThat(membershipRepository.countActiveAdmins(testOrg.getId())).isEqualTo(2L);
 	}
 
 	@Test
-	@DisplayName("B2: Demote ORG_ADMIN to ORG_STAFF when 2 admins exist")
+	@DisplayName("B2: Demote ORGANIZATION_ADMIN to ORG_STAFF when 2 admins exist")
 	void changeRole_DemoteAdminWhenMultipleAdmins_Success() {
 		UserAccount secondAdmin = createUser("admin2-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member2 = membershipRepository.save(new OrganizationMembership(
-				testOrg, secondAdmin, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				testOrg, secondAdmin, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		MembershipResponse response = membershipService.changeRole(
 				testOrg.getId(), member2.getId(), new ChangeMemberRoleRequest(OrgRole.ORG_STAFF));
@@ -345,7 +345,7 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("B3: Demote sole remaining ORG_ADMIN throws LastAdminProtectionException")
+	@DisplayName("B3: Demote sole remaining ORGANIZATION_ADMIN throws LastAdminProtectionException")
 	void changeRole_DemoteSoleAdmin_ThrowsLastAdminProtectionException() {
 		assertThatThrownBy(() -> membershipService.changeRole(
 				testOrg.getId(), adminMembership.getId(), new ChangeMemberRoleRequest(OrgRole.ORG_STAFF)))
@@ -353,7 +353,7 @@ class MembershipManagementServiceTests {
 				.hasMessageContaining("Cannot remove or demote the last active administrator");
 
 		OrganizationMembership reloaded = membershipRepository.findById(adminMembership.getId()).orElseThrow();
-		assertThat(reloaded.getOrgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(reloaded.getOrgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 	}
 
 	@Test
@@ -364,7 +364,7 @@ class MembershipManagementServiceTests {
 				testOrg, target, OrgRole.ORG_STAFF, MembershipStatus.SUSPENDED));
 
 		assertThatThrownBy(() -> membershipService.changeRole(
-				testOrg.getId(), member.getId(), new ChangeMemberRoleRequest(OrgRole.ORG_ADMIN)))
+				testOrg.getId(), member.getId(), new ChangeMemberRoleRequest(OrgRole.ORGANIZATION_ADMIN)))
 				.isInstanceOf(InvalidMembershipTransitionException.class)
 				.hasMessageContaining("Cannot change role of non-active membership");
 	}
@@ -377,7 +377,7 @@ class MembershipManagementServiceTests {
 				testOrg, target, OrgRole.ORG_STAFF, MembershipStatus.REVOKED));
 
 		assertThatThrownBy(() -> membershipService.changeRole(
-				testOrg.getId(), member.getId(), new ChangeMemberRoleRequest(OrgRole.ORG_ADMIN)))
+				testOrg.getId(), member.getId(), new ChangeMemberRoleRequest(OrgRole.ORGANIZATION_ADMIN)))
 				.isInstanceOf(InvalidMembershipTransitionException.class)
 				.hasMessageContaining("Cannot change role of non-active membership");
 	}
@@ -400,12 +400,12 @@ class MembershipManagementServiceTests {
 				otherOrg, target, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE));
 
 		assertThatThrownBy(() -> membershipService.changeRole(
-				testOrg.getId(), otherMember.getId(), new ChangeMemberRoleRequest(OrgRole.ORG_ADMIN)))
+				testOrg.getId(), otherMember.getId(), new ChangeMemberRoleRequest(OrgRole.ORGANIZATION_ADMIN)))
 				.isInstanceOf(MembershipNotFoundException.class);
 	}
 
 	@Test
-	@DisplayName("B8: Caller is not active ORG_ADMIN throws OrganizationAccessDeniedException")
+	@DisplayName("B8: Caller is not active ORGANIZATION_ADMIN throws OrganizationAccessDeniedException")
 	void changeRole_CallerStaff_ThrowsOrganizationAccessDeniedException() {
 		UserAccount staffUser = createUser("staff-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership staffMember = membershipRepository.save(new OrganizationMembership(
@@ -444,11 +444,11 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("C2: Suspend ACTIVE ORG_ADMIN when 2 admins exist")
+	@DisplayName("C2: Suspend ACTIVE ORGANIZATION_ADMIN when 2 admins exist")
 	void suspendMembership_AdminWhenMultipleAdmins_Success() {
 		UserAccount secondAdmin = createUser("admin2-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member2 = membershipRepository.save(new OrganizationMembership(
-				testOrg, secondAdmin, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				testOrg, secondAdmin, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		MembershipResponse response = membershipService.suspendMembership(testOrg.getId(), member2.getId());
 
@@ -457,7 +457,7 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("C3: Suspend sole remaining active ORG_ADMIN throws LastAdminProtectionException")
+	@DisplayName("C3: Suspend sole remaining active ORGANIZATION_ADMIN throws LastAdminProtectionException")
 	void suspendMembership_SoleAdmin_ThrowsLastAdminProtectionException() {
 		assertThatThrownBy(() -> membershipService.suspendMembership(testOrg.getId(), adminMembership.getId()))
 				.isInstanceOf(LastAdminProtectionException.class);
@@ -498,7 +498,7 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("C7: Caller is not active ORG_ADMIN throws OrganizationAccessDeniedException")
+	@DisplayName("C7: Caller is not active ORGANIZATION_ADMIN throws OrganizationAccessDeniedException")
 	void suspendMembership_CallerNotAdmin_ThrowsOrganizationAccessDeniedException() {
 		UserAccount staffUser = createUser("staff-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		membershipRepository.save(new OrganizationMembership(testOrg, staffUser, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE));
@@ -534,11 +534,11 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("D2: Revoke ACTIVE ORG_ADMIN when 2 admins exist")
+	@DisplayName("D2: Revoke ACTIVE ORGANIZATION_ADMIN when 2 admins exist")
 	void revokeMembership_AdminWhenMultipleAdmins_Success() {
 		UserAccount secondAdmin = createUser("admin2-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member2 = membershipRepository.save(new OrganizationMembership(
-				testOrg, secondAdmin, OrgRole.ORG_ADMIN, MembershipStatus.ACTIVE));
+				testOrg, secondAdmin, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.ACTIVE));
 
 		MembershipResponse response = membershipService.revokeMembership(testOrg.getId(), member2.getId());
 
@@ -547,7 +547,7 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("D3: Revoke sole remaining active ORG_ADMIN throws LastAdminProtectionException")
+	@DisplayName("D3: Revoke sole remaining active ORGANIZATION_ADMIN throws LastAdminProtectionException")
 	void revokeMembership_SoleAdmin_ThrowsLastAdminProtectionException() {
 		assertThatThrownBy(() -> membershipService.revokeMembership(testOrg.getId(), adminMembership.getId()))
 				.isInstanceOf(LastAdminProtectionException.class);
@@ -557,11 +557,11 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("D4: Revoke SUSPENDED ORG_ADMIN succeeds without admin count check")
+	@DisplayName("D4: Revoke SUSPENDED ORGANIZATION_ADMIN succeeds without admin count check")
 	void revokeMembership_SuspendedAdmin_Success() {
 		UserAccount target = createUser("user-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member = membershipRepository.save(new OrganizationMembership(
-				testOrg, target, OrgRole.ORG_ADMIN, MembershipStatus.SUSPENDED));
+				testOrg, target, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.SUSPENDED));
 
 		MembershipResponse response = membershipService.revokeMembership(testOrg.getId(), member.getId());
 
@@ -588,7 +588,7 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("D7: Caller is not active ORG_ADMIN throws OrganizationAccessDeniedException")
+	@DisplayName("D7: Caller is not active ORGANIZATION_ADMIN throws OrganizationAccessDeniedException")
 	void revokeMembership_CallerNotAdmin_ThrowsOrganizationAccessDeniedException() {
 		UserAccount staffUser = createUser("staff-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		membershipRepository.save(new OrganizationMembership(testOrg, staffUser, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE));
@@ -614,7 +614,7 @@ class MembershipManagementServiceTests {
 	void reactivateMembership_Suspended_Success() {
 		UserAccount target = createUser("user-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member = membershipRepository.save(new OrganizationMembership(
-				testOrg, target, OrgRole.ORG_ADMIN, MembershipStatus.SUSPENDED));
+				testOrg, target, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.SUSPENDED));
 
 		MembershipResponse response = membershipService.reactivateMembership(
 				testOrg.getId(), member.getId(), new ReactivateMemberRequest(OrgRole.ORG_STAFF));
@@ -628,17 +628,17 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("E2: Reactivate REVOKED membership as ORG_ADMIN")
+	@DisplayName("E2: Reactivate REVOKED membership as ORGANIZATION_ADMIN")
 	void reactivateMembership_Revoked_Success() {
 		UserAccount target = createUser("user-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member = membershipRepository.save(new OrganizationMembership(
 				testOrg, target, OrgRole.ORG_STAFF, MembershipStatus.REVOKED));
 
 		MembershipResponse response = membershipService.reactivateMembership(
-				testOrg.getId(), member.getId(), new ReactivateMemberRequest(OrgRole.ORG_ADMIN));
+				testOrg.getId(), member.getId(), new ReactivateMemberRequest(OrgRole.ORGANIZATION_ADMIN));
 
 		assertThat(response.status()).isEqualTo(MembershipStatus.ACTIVE);
-		assertThat(response.orgRole()).isEqualTo(OrgRole.ORG_ADMIN);
+		assertThat(response.orgRole()).isEqualTo(OrgRole.ORGANIZATION_ADMIN);
 		assertThat(membershipRepository.countActiveAdmins(testOrg.getId())).isEqualTo(2L);
 	}
 
@@ -647,7 +647,7 @@ class MembershipManagementServiceTests {
 	void reactivateMembership_RevokedWithRoleChange_Success() {
 		UserAccount target = createUser("user-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		OrganizationMembership member = membershipRepository.save(new OrganizationMembership(
-				testOrg, target, OrgRole.ORG_ADMIN, MembershipStatus.REVOKED));
+				testOrg, target, OrgRole.ORGANIZATION_ADMIN, MembershipStatus.REVOKED));
 
 		MembershipResponse response = membershipService.reactivateMembership(
 				testOrg.getId(), member.getId(), new ReactivateMemberRequest(OrgRole.ORG_STAFF));
@@ -660,7 +660,7 @@ class MembershipManagementServiceTests {
 	@DisplayName("E4: Reactivate already ACTIVE membership throws InvalidMembershipTransitionException")
 	void reactivateMembership_AlreadyActive_ThrowsInvalidMembershipTransitionException() {
 		assertThatThrownBy(() -> membershipService.reactivateMembership(
-				testOrg.getId(), adminMembership.getId(), new ReactivateMemberRequest(OrgRole.ORG_ADMIN)))
+				testOrg.getId(), adminMembership.getId(), new ReactivateMemberRequest(OrgRole.ORGANIZATION_ADMIN)))
 				.isInstanceOf(InvalidMembershipTransitionException.class)
 				.hasMessageContaining("Membership is already active");
 	}
@@ -669,7 +669,7 @@ class MembershipManagementServiceTests {
 	@DisplayName("E5: Target membership does not exist throws MembershipNotFoundException")
 	void reactivateMembership_NotFound_ThrowsMembershipNotFoundException() {
 		assertThatThrownBy(() -> membershipService.reactivateMembership(
-				testOrg.getId(), 999999L, new ReactivateMemberRequest(OrgRole.ORG_ADMIN)))
+				testOrg.getId(), 999999L, new ReactivateMemberRequest(OrgRole.ORGANIZATION_ADMIN)))
 				.isInstanceOf(MembershipNotFoundException.class);
 	}
 
@@ -686,7 +686,7 @@ class MembershipManagementServiceTests {
 	}
 
 	@Test
-	@DisplayName("E7: Caller is not active ORG_ADMIN throws OrganizationAccessDeniedException")
+	@DisplayName("E7: Caller is not active ORGANIZATION_ADMIN throws OrganizationAccessDeniedException")
 	void reactivateMembership_CallerNotAdmin_ThrowsOrganizationAccessDeniedException() {
 		UserAccount staffUser = createUser("staff-" + System.nanoTime() + "@example.com", AccountStatus.ACTIVE);
 		membershipRepository.save(new OrganizationMembership(testOrg, staffUser, OrgRole.ORG_STAFF, MembershipStatus.ACTIVE));

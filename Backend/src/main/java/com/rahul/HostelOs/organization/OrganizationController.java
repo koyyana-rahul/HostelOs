@@ -7,6 +7,7 @@ import com.rahul.HostelOs.organization.dto.CreateOrganizationRequest;
 import com.rahul.HostelOs.organization.dto.MembershipResponse;
 import com.rahul.HostelOs.organization.dto.OrganizationResponse;
 import com.rahul.HostelOs.organization.dto.ReactivateMemberRequest;
+import com.rahul.HostelOs.organization.dto.UpdateOrganizationRequest;
 import com.rahul.HostelOs.organization.exception.OrganizationAccessDeniedException;
 import com.rahul.HostelOs.organization.exception.OrganizationNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,12 +15,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,16 +42,19 @@ public class OrganizationController {
 	private final OrganizationRepository organizationRepository;
 	private final OrganizationMembershipRepository membershipRepository;
 	private final MembershipManagementService membershipManagementService;
+	private final OrganizationOwnershipService ownershipService;
 
 	public OrganizationController(
 			OrganizationProvisioningService provisioningService,
 			OrganizationRepository organizationRepository,
 			OrganizationMembershipRepository membershipRepository,
-			MembershipManagementService membershipManagementService) {
+			MembershipManagementService membershipManagementService,
+			OrganizationOwnershipService ownershipService) {
 		this.provisioningService = provisioningService;
 		this.organizationRepository = organizationRepository;
 		this.membershipRepository = membershipRepository;
 		this.membershipManagementService = membershipManagementService;
+		this.ownershipService = ownershipService;
 	}
 
 	@Operation(summary = "Create a new organization")
@@ -57,10 +64,19 @@ public class OrganizationController {
 	@ApiResponse(responseCode = "409", description = "Duplicate organization slug")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@PreAuthorize("hasRole('ORGANIZATION_ADMIN') or hasRole('PLATFORM_ADMIN')")
 	public OrganizationResponse createOrganization(
 			@Valid @RequestBody CreateOrganizationRequest request,
 			@AuthenticationPrincipal HostelOsPrincipal principal) {
 		return provisioningService.provisionOrganization(request, principal.getUserId());
+	}
+
+	@Operation(summary = "List organizations owned by the current user")
+	@ApiResponse(responseCode = "200", description = "Owned organizations returned")
+	@ApiResponse(responseCode = "401", description = "Authentication required")
+	@GetMapping("/mine")
+	public List<OrganizationResponse> listMyOrganizations(@AuthenticationPrincipal HostelOsPrincipal principal) {
+		return ownershipService.listOwnedOrganizations(principal.getUserId());
 	}
 
 	@Operation(summary = "List accessible organizations for the current user")
@@ -68,10 +84,29 @@ public class OrganizationController {
 	@ApiResponse(responseCode = "401", description = "Authentication required")
 	@GetMapping
 	public List<OrganizationResponse> listOrganizations(@AuthenticationPrincipal HostelOsPrincipal principal) {
+		Map<Long, OrganizationResponse> organizations = new LinkedHashMap<>();
+		ownershipService.listOwnedOrganizations(principal.getUserId())
+				.forEach(org -> organizations.put(org.id(), org));
 		List<OrganizationMembership> memberships = membershipRepository.findByUserIdAndStatus(principal.getUserId(), MembershipStatus.ACTIVE);
-		return memberships.stream()
+		memberships.stream()
 				.map(m -> OrganizationResponse.from(m.getOrganization()))
-				.toList();
+				.forEach(org -> organizations.putIfAbsent(org.id(), org));
+		return List.copyOf(organizations.values());
+	}
+
+	@Operation(summary = "Update organization settings")
+	@ApiResponse(responseCode = "200", description = "Organization updated")
+	@ApiResponse(responseCode = "400", description = "Invalid request")
+	@ApiResponse(responseCode = "401", description = "Authentication required")
+	@ApiResponse(responseCode = "403", description = "Access denied")
+	@ApiResponse(responseCode = "404", description = "Organization not found")
+	@PatchMapping("/{organizationId}")
+	@PreAuthorize("@orgAuth.canAccessOrg(#organizationId, T(com.rahul.HostelOs.organization.OrgRole).ORGANIZATION_ADMIN)")
+	public OrganizationResponse updateOrganization(
+			@PathVariable Long organizationId,
+			@Valid @RequestBody UpdateOrganizationRequest request,
+			@AuthenticationPrincipal HostelOsPrincipal principal) {
+		return ownershipService.updateOrganization(organizationId, request, principal.getUserId());
 	}
 
 	@Operation(summary = "Get organization details")

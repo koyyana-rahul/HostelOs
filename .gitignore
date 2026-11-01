@@ -27,6 +27,7 @@ pnpm-debug.log*
 
 # Temporary test output
 **/tmp_test_output.txt
+**/vitest-junit.xml
 *.tmp
 *.temp
 

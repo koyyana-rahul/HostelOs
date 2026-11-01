@@ -1,0 +1,319 @@
+import { useState, useCallback } from 'react'
+import { AlertCircle, LoaderCircle, MapPin, Globe } from 'lucide-react'
+import { Badge } from '../../../components/ui/Badge.jsx'
+import { Button } from '../../../components/ui/Button.jsx'
+import { Modal } from '../../../components/ui/Modal.jsx'
+import { useTranslation } from 'react-i18next'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+
+const inputClassName =
+  'h-11 w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink transition-colors placeholder:text-muted/70 hover:border-brand/30 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15 disabled:cursor-not-allowed disabled:bg-canvas disabled:text-muted'
+
+const countryOptions = [
+  { value: 'IN', label: 'India' },
+  { value: 'US', label: 'United States' },
+  { value: 'GB', label: 'United Kingdom' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'AU', label: 'Australia' },
+  { value: 'DE', label: 'Germany' },
+  { value: 'FR', label: 'France' },
+  { value: 'JP', label: 'Japan' },
+  { value: 'SG', label: 'Singapore' },
+  { value: 'AE', label: 'UAE' },
+]
+
+const indiaStates = [
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+  'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+  'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
+  'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+  'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+]
+
+const countryStateMap = {
+  IN: indiaStates,
+  US: ['California', 'Texas', 'New York', 'Florida', 'Illinois', 'Pennsylvania', 'Ohio', 'Georgia', 'North Carolina', 'Michigan'],
+  GB: ['England', 'Scotland', 'Wales', 'Northern Ireland'],
+  CA: ['Ontario', 'Quebec', 'British Columbia', 'Alberta'],
+  AU: ['New South Wales', 'Victoria', 'Queensland', 'Western Australia'],
+  DE: ['Baden-Württemberg', 'Bavaria', 'Berlin', 'Brandenburg'],
+  FR: ['Île-de-France', 'Bourgogne-Franche-Comté', 'Bretagne', 'Centre-Val de Loire'],
+  JP: ['Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita'],
+  SG: ['Central', 'North', 'South', 'East', 'West'],
+  AE: ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Fujairah', 'Ras Al Khaimah', 'Umm Al Quwain'],
+}
+
+function getStatesForCountry(countryCode: string): string[] {
+  return countryStateMap[countryCode] || []
+}
+
+export function PropertyFormModal({ open, organizationId, property, onClose }) {
+  const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation()
+  const [updateProperty, { isLoading: isUpdating }] = useUpdatePropertyMutation()
+
+  const isEditing = !!property
+  const isLoading = isCreating || isUpdating
+  const { t } = useTranslation()
+
+  const defaultCountry = property?.country || 'IN'
+  const defaultState = property?.state || (countryStateMap[defaultCountry]?.[0] || '')
+  const defaultCity = property?.city || ''
+  const defaultAddressLine1 = property?.addressLine1 || ''
+  const defaultAddressLine2 = property?.addressLine2 || ''
+  const defaultPostalCode = property?.postalCode || ''
+  const defaultTimezone = property?.timezone || 'Asia/Kolkata'
+  const defaultLatitude = property?.latitude != null ? Number(property.latitude) : 12.9719
+  const defaultLongitude = property?.longitude != null ? Number(property.longitude) : 77.5937
+
+  const [country, setCountry] = useState(defaultCountry)
+  const [state, setState] = useState(defaultState)
+  const [city, setCity] = useState(defaultCity)
+  const [addressLine1, setAddressLine1State] = useState(defaultAddressLine1)
+  const [addressLine2, setAddressLine2State] = useState(defaultAddressLine2)
+  const [postalCode, setPostalCodeState] = useState(defaultPostalCode)
+  const [timezone, setTimezoneState] = useState(defaultTimezone)
+  const [latitude, setLatitudeState] = useState(defaultLatitude)
+  const [longitude, setLongitudeState] = useState(defaultLongitude)
+  const [states, setStates] = useState(getStatesForCountry(country))
+
+  const onCountryChange = useCallback((value: string) => {
+    setCountry(value)
+    setStates(getStatesForCountry(value))
+    setState(getStatesForCountry(value)?.[0] || '')
+  }, [])
+
+  const onStateChange = useCallback((value: string) => setState(value), [])
+
+  const locationSchema = yup.object({
+    name: yup.string().required(t('validation.required')).max(120, t('validation.max_length', { defaultMessage: 'Must not exceed 120 characters' })),
+    code: yup.string().required(t('validation.required')).min(2, t('validation.min_length', { defaultMessage: 'Must be at least 2 characters' })).max(30, t('validation.max_length', { defaultMessage: 'Must not exceed 30 characters' })).matches(/^[A-Za-z0-9_-]{2,30}$/, t('validation.pattern_invalid', { defaultMessage: 'Invalid code format' })),
+    city: yup.string().required(t('validation.required')).max(100, t('validation.max_length', { defaultMessage: 'Must not exceed 100 characters' })),
+    state: yup.string().required(t('validation.required')).max(100, t('validation.max_length', { defaultMessage: 'Must not exceed 100 characters' })),
+    addressLine1: yup.string().max(200, t('validation.max_length', { defaultMessage: 'Must not exceed 200 characters' })),
+    addressLine2: yup.string().max(200, t('validation.max_length', { defaultMessage: 'Must not exceed 200 characters' })),
+    postalCode: yup.string().max(20, t('validation.max_length', { defaultMessage: 'Must not exceed 20 characters' })),
+    country: yup.string().required(t('validation.required')).max(100, t('validation.max_length', { defaultMessage: 'Must not exceed 100 characters' })),
+    timezone: yup.string().required(t('validation.required')).max(50, t('validation.max_length', { defaultMessage: 'Must not exceed 50 characters' })),
+    latitude: yup.number().min(-90, t('validation.min_value', { defaultMessage: 'Must be at least -90' })).max(90, t('validation.max_value', { defaultMessage: 'Must not exceed 90' })),
+    longitude: yup.number().min(-180, t('validation.min_value', { defaultMessage: 'Must be at least -180' })).max(180, t('validation.max_value', { defaultMessage: 'Must not exceed 180' })),
+  })
+
+  const form = useForm({
+    resolver: yupResolver(locationSchema),
+    defaultValues: {
+      name: property?.name || '',
+      code: property?.code || '',
+      city: defaultCity,
+      state: defaultState,
+      addressLine1: defaultAddressLine1,
+      addressLine2: defaultAddressLine2,
+      postalCode: defaultPostalCode,
+      country: defaultCountry,
+      timezone: defaultTimezone,
+      latitude: defaultLatitude,
+      longitude: defaultLongitude,
+    },
+  })
+
+  const onFinish = async (values: any) => {
+    setError(null)
+    try {
+      if (isEditing) {
+        await updateProperty({
+          organizationId,
+          propertyId: property!.id,
+          name: values.name,
+          addressLine1: values.addressLine1,
+          addressLine2: values.addressLine2,
+          city: values.city,
+          state: values.state,
+          postalCode: values.postalCode,
+          country: values.country,
+          timezone: values.timezone,
+          latitude: values.latitude,
+          longitude: values.longitude,
+        }).unwrap()
+      } else {
+        await createProperty({
+          organizationId,
+          name: values.name,
+          code: values.code,
+          addressLine1: values.addressLine1,
+          addressLine2: values.addressLine2,
+          city: values.city,
+          state: values.state,
+          postalCode: values.postalCode,
+          country: values.country,
+          timezone: values.timezone,
+          latitude: values.latitude,
+          longitude: values.longitude,
+        }).unwrap()
+      }
+      onClose()
+    } catch (requestError: any) {
+      setError(requestError?.data?.message || 'Could not save the property. Check the details and try again.')
+    }
+  }
+
+  return (
+    <Modal
+      open={open}
+      title={isEditing ? 'Edit property' : 'Create property'}
+      description={
+        isEditing
+          ? 'Update the property details for your organization.'
+          : 'Add a new hostel or PG property to your organization.'
+      }
+      onClose={onClose}
+    >
+      <form {...form.register()} onSubmit={form.handleSubmit(onFinish)} className="space-y-6">
+        {error && (
+          <div
+            role="alert"
+            className="flex items-start gap-2.5 rounded-xl border border-danger/15 bg-danger-soft/60 p-3"
+          >
+            <AlertCircle className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true" />
+            <p className="text-sm text-ink">{error}</p>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <label className="block">
+            <span className="text-sm font-medium text-ink">{t('fields.name')}</span>
+            <input
+              {...form.register('name')}
+              required
+              maxLength={120}
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.name', { defaultMessage: 'Green Valley Hostel' })}
+            />
+          </label>
+          {isEditing ? null : (
+            <label className="block">
+              <span className="text-sm font-medium text-ink">{t('fields.code')}</span>
+              <input
+                {...form.register('code')}
+                required
+                maxLength={30}
+                className={`mt-2 ${inputClassName}`}
+                placeholder={t('placeholders.code', { defaultMessage: 'GVH-01' })}
+              />
+            </label>
+          )}
+          <label className="block sm:col-span-2">
+            <span className="text-sm font-medium text-ink">{t('fields.country')}</span>
+            <select
+              {...form.register('country')}
+              onChange={(e) => onCountryChange(e.target.value)}
+              className={`mt-2 ${inputClassName}`}
+            >
+              <option value="" disabled>{t('fields.select_country')}</option>
+              {countryOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block sm:col-span-2">
+            <span className="text-sm font-medium text-ink">{t('fields.state')}</span>
+            <select
+              {...form.register('state')}
+              onChange={(e) => onStateChange(e.target.value)}
+              className={`mt-2 ${inputClassName}`}
+            >
+              <option value="" disabled>{t('fields.select_state')}</option>
+              {states.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-ink">{t('fields.city')}</span>
+            <input
+              {...form.register('city')}
+              required
+              maxLength={100}
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.city', { defaultMessage: 'Bengaluru' })}
+            />
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-ink">{t('fields.address_line_1')}</span>
+            <input
+              {...form.register('addressLine1')}
+              maxLength={200}
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.address_line_1', { defaultMessage: 'Plot 42, North Campus Road' })}
+            />
+          </label>
+          <label className="block sm:col-span-2">
+            <span className="text-sm font-medium text-ink">{t('fields.address_line_2')}</span>
+            <input
+              {...form.register('addressLine2')}
+              maxLength={200}
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.address_line_2', { defaultMessage: 'Near University Gate' })}
+            />
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-ink">{t('fields.postal_code')}</span>
+            <input
+              {...form.register('postalCode')}
+              maxLength={20}
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.postal_code', { defaultMessage: '560001' })}
+            />
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-ink">{t('fields.timezone')}</span>
+            <input
+              {...form.register('timezone')}
+              maxLength={50}
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.timezone', { defaultMessage: 'Asia/Kolkata' })}
+            />
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-ink">{t('fields.latitude')}</span>
+            <input
+              {...form.register('latitude')}
+              type="number"
+              step="any"
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.latitude', { defaultMessage: '12.9719' })}
+            />
+            <small className="text-xs text-muted ml-1">{t('info.lat_lon_note', { defaultMessage: '(decimal degrees)' })}</small>
+          </label>
+          <label className="block">
+            <span className="text-sm font-medium text-ink">{t('fields.longitude')}</span>
+            <input
+              {...form.register('longitude')}
+              type="number"
+              step="any"
+              className={`mt-2 ${inputClassName}`}
+              placeholder={t('placeholders.longitude', { defaultMessage: '77.5937' })}
+            />
+            <small className="text-xs text-muted ml-1">{t('info.lat_lon_note', { defaultMessage: '(decimal degrees)' })}</small>
+          </label>
+        </div>
+
+        <div className="mt-6 flex items-center justify-end gap-2">
+          <Button type="button" variant="secondary" onClick={onClose}>
+            {t('action.cancel')}
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+            ) : null}
+            {isEditing ? t('action.save_changes') : t('action.create_property')}
+          </Button>
+        </div>
+      </form>
+    </Modal>
+  )
+}

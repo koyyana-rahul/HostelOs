@@ -1,0 +1,50 @@
+
+> hostelos-frontend@0.1.1 build
+> vite build
+
+[36mvite v8.3.5 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 2049 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.91 kB │ gzip:   0.44 kB
+dist/assets/index-BKttrC3N.css                      39.48 kB │ gzip:   7.34 kB
+dist/assets/cn-hZG6twJP.js                           0.06 kB │ gzip:   0.08 kB
+dist/assets/useDocumentTitle-3b0eRI-0.js             0.20 kB │ gzip:   0.18 kB
+dist/assets/circle-check-CWdg6JCG.js                 0.25 kB │ gzip:   0.21 kB
+dist/assets/lock-keyhole-CRO2N_CS.js                 0.29 kB │ gzip:   0.24 kB
+dist/assets/circle-alert-DhCmeM6P.js                 0.31 kB │ gzip:   0.22 kB
+dist/assets/refresh-cw-yrfpAFZQ.js                   0.36 kB │ gzip:   0.25 kB
+dist/assets/HomeRedirectPage-B7ujenyd.js             0.42 kB │ gzip:   0.30 kB
+dist/assets/construction-BvAzuoBY.js                 0.45 kB │ gzip:   0.28 kB
+dist/assets/OrgOperationsPage-BO6SvdC8.js            0.86 kB │ gzip:   0.41 kB
+dist/assets/OrgSettingsPage-BDC2M5P9.js              0.86 kB │ gzip:   0.41 kB
+dist/assets/AboutPage-Xy-QeaMg.js                    0.89 kB │ gzip:   0.47 kB
+dist/assets/OrgStaffPage-BKrv1E6U.js                 0.92 kB │ gzip:   0.45 kB
+dist/assets/AccessDenied-Bhp1KxMQ.js                 0.95 kB │ gzip:   0.52 kB
+dist/assets/ContactPage-B7QdWxvX.js                  0.95 kB │ gzip:   0.47 kB
+dist/assets/platformApi-D9pRB2dG.js                  1.07 kB │ gzip:   0.46 kB
+dist/assets/NotFoundPage-DdJCL4NZ.js                 1.08 kB │ gzip:   0.56 kB
+dist/assets/DiscoverPage-DaFiIgaU.js                 1.08 kB │ gzip:   0.52 kB
+dist/assets/FeaturesPage-Fni6SvOF.js                 1.41 kB │ gzip:   0.67 kB
+dist/assets/organizationApi-CBA1Cr85.js              1.46 kB │ gzip:   0.71 kB
+dist/assets/PlatformPlaceholderPage-D6mjaqJA.js      1.72 kB │ gzip:   0.71 kB
+dist/assets/ForOwnersPage-BsC10i6H.js                1.79 kB │ gzip:   0.66 kB
+dist/assets/propertyApi-C10lSqsq.js                  2.27 kB │ gzip:   0.83 kB
+dist/assets/HomePage-_qnmdmzj.js                     2.80 kB │ gzip:   0.95 kB
+dist/assets/PlatformUsersPage-WwV3Kqqq.js            3.01 kB │ gzip:   1.15 kB
+dist/assets/createLucideIcon-CnXaYwbe.js             3.07 kB │ gzip:   1.47 kB
+dist/assets/OrgOverviewPage-Bb6tJ6Si.js              3.52 kB │ gzip:   1.03 kB
+dist/assets/OnboardingPage-rSXBvYij.js               3.58 kB │ gzip:   1.11 kB
+dist/assets/PlatformOrganizationsPage-Of8RKveI.js    3.91 kB │ gzip:   1.43 kB
+dist/assets/CreateOrganizationPage-Di6wOwAw.js       4.10 kB │ gzip:   1.70 kB
+dist/assets/PlatformDashboardPage-D2RwXYhM.js        4.79 kB │ gzip:   0.99 kB
+dist/assets/SystemPage-Dey9mRV7.js                   7.57 kB │ gzip:   2.33 kB
+dist/assets/RegisterPage-CIZ38Lka.js                 7.64 kB │ gzip:   2.62 kB
+dist/assets/LoginPage-CfG838_n.js                    7.85 kB │ gzip:   2.88 kB
+dist/assets/react-DvXU6kJ2.js                        8.41 kB │ gzip:   3.23 kB
+dist/assets/FoundationPage-ChkRkXLD.js               8.57 kB │ gzip:   2.45 kB
+dist/assets/OrgPropertiesPage-DfCDXETO.js            8.93 kB │ gzip:   2.76 kB
+dist/assets/index-DJC_Bkn3.js                      418.00 kB │ gzip: 132.16 kB
+
+[32m✓ built in 1.92s[39m

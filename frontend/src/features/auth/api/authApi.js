@@ -31,6 +31,16 @@ export const authApi = baseApi.injectEndpoints({
         },
       }),
     }),
+    registerOwner: builder.mutation({
+      query: ({ loginIdentifier, displayName, password, csrf }) => ({
+        url: '/v1/auth/register/owner',
+        method: 'POST',
+        body: { loginIdentifier, displayName, password },
+        headers: {
+          [csrf.headerName]: csrf.token,
+        },
+      }),
+    }),
     logout: builder.mutation({
       query: (csrf) => ({
         url: '/v1/auth/logout',
@@ -55,6 +65,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useRegisterOwnerMutation,
   useGetMembershipsQuery,
   useLazyGetMembershipsQuery,
 } = authApi
