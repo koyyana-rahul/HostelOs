@@ -9,7 +9,8 @@ import { useDocumentTitle } from '../../../hooks/useDocumentTitle.js'
 import { useAppSelector } from '../../../hooks/useAppSelector.js'
 import { selectCurrentUser } from '../../auth/authSlice.js'
 import { hasCustomerRole } from '../../auth/lib/roleResolver.js'
-import { csrfRequest } from '../../../services/api/csrfRequest.js'
+import { useCreateEnquiryMutation } from '../../enquiries/api/enquiryApi.js'
+import { useGetPublicListingQuery } from '../../listings/api/listingApi.js'
 import { formatMoney, titleCase } from '../../../utils/format.js'
 import { ListingImageGallery } from '../components/ListingImageGallery.jsx'
 
@@ -51,6 +52,7 @@ export default function ListingDetailsPage() {
   const { listingId } = useParams()
   const currentUser = useAppSelector(selectCurrentUser)
   const canEnquire = hasCustomerRole(currentUser)
+  const [createEnquiry, { isLoading: isSubmitting }] = useCreateEnquiryMutation()
   const {
     data: listing,
     isLoading,
@@ -59,6 +61,12 @@ export default function ListingDetailsPage() {
   } = useGetPublicListingQuery(listingId, { skip: !listingId })
   const [message, setMessage] = useState('')
   const [formError, setFormError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const [customerName, setCustomerName] = useState(currentUser?.displayName ?? '')
+  const [customerEmail, setCustomerEmail] = useState(
+    currentUser?.loginIdentifier ?? '',
+  )
+  const [customerPhone, setCustomerPhone] = useState('')
 
   useDocumentTitle(listing?.title ?? 'Listing details')
 
@@ -76,19 +84,13 @@ export default function ListingDetailsPage() {
     setSuccess(false)
 
     try {
-      await csrfRequest(
-        `/v1/listings/${listing.id}/enquiries`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            customerName: customerName.trim(),
-            customerEmail: customerEmail.trim(),
-            customerPhone: customerPhone.trim(),
-            message: message.trim(),
-          }),
-        },
-        dispatch,
-      )
+      await createEnquiry({
+        listingId: listing.id,
+        customerName: customerName.trim(),
+        customerEmail: customerEmail.trim(),
+        customerPhone: customerPhone.trim(),
+        message: message.trim(),
+      }).unwrap()
       setMessage('')
       setSuccess(true)
     } catch (requestError) {

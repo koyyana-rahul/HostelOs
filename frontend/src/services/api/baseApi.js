@@ -33,6 +33,7 @@ export const baseApi = createApi({
     'Enquiry',
     'Dashboard',
     'PropertyMedia',
+    'Customer',
   ],
   endpoints: () => ({}),
 })

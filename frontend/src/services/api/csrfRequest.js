@@ -1,4 +1,5 @@
 import { authApi } from '../../features/auth/api/authApi.js'
+import { sessionCleared } from '../../features/auth/authSlice.js'
 import { env } from '../../lib/env.js'
 
 export async function csrfRequest(path, init, dispatch) {
@@ -18,6 +19,9 @@ export async function csrfRequest(path, init, dispatch) {
 
   if (!response.ok) {
     const body = await response.json().catch(() => ({}))
+    if (response.status === 401) {
+      dispatch(sessionCleared())
+    }
     const error = new Error(
       body?.message || `Request failed with status ${response.status}`,
     )

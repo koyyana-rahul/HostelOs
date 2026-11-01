@@ -61,7 +61,12 @@ export default function MyEnquiriesPage() {
               <Card className="p-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="text-sm font-semibold text-ink">
-                    {enquiry.listingTitle}
+                    <Link
+                      to={`/my-enquiries/${enquiry.id}`}
+                      className="hover:text-brand hover:underline"
+                    >
+                      {enquiry.listingTitle}
+                    </Link>
                   </p>
                   <span className="text-xs text-muted">
                     {titleCase(enquiry.status || 'NEW')}

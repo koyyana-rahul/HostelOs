@@ -79,6 +79,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.POST, "/api/v1/listings/*/enquiries").authenticated()
 				.requestMatchers(HttpMethod.GET, "/api/v1/auth/me").authenticated()
 				.requestMatchers(HttpMethod.GET, "/api/v1/auth/me/memberships").authenticated()
+				.requestMatchers("/api/v1/customers/**").authenticated()
 				.requestMatchers("/api/v1/auth/**").denyAll()
 						.requestMatchers(
 								"/actuator/health",
